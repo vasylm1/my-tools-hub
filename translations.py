@@ -8,7 +8,15 @@ translations = {
         "aboutText2": "I help launch products, create marketing assets, and improve content quality using Power BI, Excel, SAP, and Power Platform.",
         "aboutText3": "I speak Ukrainian, Polish, English, and German. I’m learning Spanish and Chinese. I enjoy working in international teams.",
         "aboutText4": "In my free time, I love to travel, read, explore tech, stay active, and organize events.",
-        "linkedinText": "LinkedIn Profile"
+        "linkedinText": "LinkedIn Profile",
+        "title": "QR Code Generator",
+        "text": "Text or URL:",
+        "placeholder": "Enter something...",
+        "style": "Design Style:",
+        "color1": "Color 1",
+        "color2": "Color 2",
+        "button": "Generate QR Code",
+        "download": "Download QR Code"
     },
     "pl": {
         "toolsTab": "🧰 Narzędzia",
@@ -19,7 +27,15 @@ translations = {
         "aboutText2": "Pomagam we wprowadzaniu produktów na rynek, tworzę materiały marketingowe i poprawiam jakość treści.",
         "aboutText3": "Mówię po ukraińsku, polsku, angielsku i niemiecku. Uczę się też hiszpańskiego i chińskiego.",
         "aboutText4": "Po pracy lubię podróżować, czytać, eksplorować technologie i organizować wydarzenia.",
-        "linkedinText": "Profil LinkedIn"
+        "linkedinText": "Profil LinkedIn",
+        "title": "Generator kodów QR",
+        "text": "Tekst lub URL:",
+        "placeholder": "Wpisz tekst lub URL...",
+        "style": "Styl projektu:",
+        "color1": "Kolor 1",
+        "color2": "Kolor 2",
+        "button": "Wygeneruj kod QR",
+        "download": "Pobierz kod QR"
     },
     "de": {
         "toolsTab": "🧰 Werkzeuge",
@@ -30,7 +46,15 @@ translations = {
         "aboutText2": "Ich unterstütze Produkteinführungen, erstelle Marketingmaterialien und verbessere Inhalte.",
         "aboutText3": "Ich spreche Ukrainisch, Polnisch, Englisch und Deutsch. Ich lerne Spanisch und Chinesisch.",
         "aboutText4": "In meiner Freizeit reise ich, lese, entdecke Technik und organisiere gerne Events.",
-        "linkedinText": "LinkedIn-Profil"
+        "linkedinText": "LinkedIn-Profil",
+        "title": "QR-Code Generator",
+        "text": "Text oder URL:",
+        "placeholder": "Text oder URL eingeben...",
+        "style": "Design-Stil:",
+        "color1": "Farbe 1",
+        "color2": "Farbe 2",
+        "button": "QR-Code generieren",
+        "download": "QR-Code herunterladen"
     },
     "uk": {
         "toolsTab": "🧰 Інструменти",
@@ -41,18 +65,15 @@ translations = {
         "aboutText2": "Допомагаю з запуском продуктів, створенням маркетинг-матеріалів і покращенням контенту.",
         "aboutText3": "Говорю українською, польською, англійською та німецькою. Вивчаю іспанську і китайську.",
         "aboutText4": "У вільний час люблю подорожі, книги, технології та організацію подій.",
-        "linkedinText": "Профіль LinkedIn"
-    },
-    "es": {
-        "toolsTab": "🧰 Herramientas",
-        "aboutTab": "👤 Sobre mí",
-        "selectTool": "Selecciona una herramienta:",
-        "aboutTitle": "Sobre mí",
-        "aboutText1": "Soy profesional de marketing con experiencia en administración, soporte técnico y marketing de productos.",
-        "aboutText2": "Ayudo en lanzamientos, creo activos de marketing y mejoro el contenido.",
-        "aboutText3": "Hablo ucraniano, polaco, inglés y alemán. Aprendo chino y español.",
-        "aboutText4": "Me encanta viajar, leer, explorar tecnología y organizar eventos.",
-        "linkedinText": "Perfil de LinkedIn"
+        "linkedinText": "Профіль LinkedIn",
+        "title": "Генератор QR-кодів",
+        "text": "Текст або посилання:",
+        "placeholder": "Введіть текст або URL...",
+        "style": "Стиль оформлення:",
+        "color1": "Колір 1",
+        "color2": "Колір 2",
+        "button": "Згенерувати QR-код",
+        "download": "Завантажити QR-код"
     },
     "zh": {
         "toolsTab": "🧰 工具",
@@ -63,6 +84,14 @@ translations = {
         "aboutText2": "我参与产品发布、创建营销材料并提升内容质量。",
         "aboutText3": "我会说乌克兰语、波兰语、英语和德语，还在学中文和西班牙语。",
         "aboutText4": "业余时间我喜欢旅行、阅读、探索科技和组织活动。",
-        "linkedinText": "LinkedIn 个人资料"
+        "linkedinText": "LinkedIn 个人资料",
+        "title": "二维码生成器",
+        "text": "文字或网址：",
+        "placeholder": "输入文本或网址...",
+        "style": "设计样式：",
+        "color1": "颜色 1",
+        "color2": "颜色 2",
+        "button": "生成二维码",
+        "download": "下载二维码"
     }
 }
