@@ -3,9 +3,10 @@ import os
 import importlib.util
 from translations import translations
 
+# 🛠 Налаштування сторінки
 st.set_page_config(page_title="🛠️ My Tools Hub", layout="wide")
 
-# 🎨 Стилі
+# 🎨 Вбудовані стилі
 st.markdown("""
 <style>
 :root {
@@ -45,35 +46,37 @@ html, body, [class*="css"] {
 </style>
 """, unsafe_allow_html=True)
 
-# 🌍 Мова через назву
-lang_name = st.sidebar.selectbox("🌐 Language / Мова", list(translations.keys()))
-t = translations[lang_name]
+# 🌍 Мова
+lang = st.sidebar.selectbox("🌐 Language / Мова", list(translations.keys()))
+t = translations[lang]
 
-# 🧾 Про мене як роздільний Expander
-with st.sidebar.expander(f"👤 {t['aboutTitle']}"):
-    for i in range(1, 5):
-        st.markdown(f"<p>{t[f'aboutText{i}']}</p>", unsafe_allow_html=True)
-    st.markdown(f"""
-    <a class="social-link" href="https://www.linkedin.com/in/vasyl-madei-399488247/" target="_blank">
-      🔗 {t["linkedinText"]}
-    </a>
-    """, unsafe_allow_html=True)
-
-# 🧰 Список тулів
+# 📁 Один комбінований selectbox: About + Tools
 services_dir = os.path.join(os.path.dirname(__file__), "services")
 if not os.path.exists(services_dir):
     os.makedirs(services_dir)
 
 tools = [f for f in os.listdir(services_dir) if f.endswith(".py")]
-selected = st.sidebar.selectbox("🛠 " + t["selectTool"], tools)
+options = [t["aboutTab"]] + tools
+selected = st.sidebar.selectbox("🧰 " + t["selectTool"], options)
 
 st.title("🛠️ My Tools Hub")
 
-# 📦 Імпорт та запуск обраного інструмента
-module_name = selected.replace(".py", "")
-file_path = os.path.join(services_dir, selected)
-spec = importlib.util.spec_from_file_location("tool_module", file_path)
-tool_module = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(tool_module)
-if hasattr(tool_module, "run"):
-    tool_module.run(lang_name)
+# 👤 Окрема сторінка для "Про мене"
+if selected == t["aboutTab"]:
+    st.title(t["aboutTitle"])
+    st.write("---")
+    for i in range(1, 5):
+        st.markdown(f"<p style='font-size:1.1rem'>{t[f'aboutText{i}']}</p>", unsafe_allow_html=True)
+    st.markdown(f"""
+    <a class="social-link" href="https://www.linkedin.com/in/vasyl-madei-399488247/" target="_blank">
+      🔗 {t["linkedinText"]}
+    </a>
+    """, unsafe_allow_html=True)
+else:
+    module_name = selected.replace(".py", "")
+    file_path = os.path.join(services_dir, selected)
+    spec = importlib.util.spec_from_file_location("tool_module", file_path)
+    tool_module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(tool_module)
+    if hasattr(tool_module, "run"):
+        tool_module.run(lang)
