@@ -27,7 +27,15 @@ translations = {
 "vcard_button": "Generate vCard & QR",
 "vcard_required": "Name, phone, and email are required.",
 "vcard_download": "Download vCard",
-"vcard_qr_caption": "QR Code"
+"vcard_qr_caption": "QR Code",
+        "ical_title": "XLS to iCal Converter",
+"ical_instructions": "1. Download our Excel template or use your own file\n2. Make sure your file has the following columns:\nStart Date, End Date, Event Title, Description, Location\n3. Upload your Excel file\n4. Convert and download your calendar file (.ics)",
+"ical_upload": "Select your Excel file:",
+"ical_preview": "Template Preview",
+"ical_convert": "Convert to ICS",
+"ical_download": "Download ICS Calendar",
+"ical_template": "Download Excel Template",
+"ical_error": "Error processing file: "
 },
     "pl": {
         "toolsTab": "🧰 Narzędzia",
@@ -57,7 +65,15 @@ translations = {
 "vcard_button": "Generuj vCard i QR",
 "vcard_required": "Imię, telefon i email są wymagane.",
 "vcard_download": "Pobierz vCard",
-"vcard_qr_caption": "Kod QR"
+"vcard_qr_caption": "Kod QR",
+        "ical_title": "Konwerter XLS na iCal",
+"ical_instructions": "1. Pobierz nasz szablon Excela lub użyj własnego pliku\n2. Upewnij się, że Twój plik zawiera kolumny:\nStart Date, End Date, Event Title, Description, Location\n3. Prześlij swój plik Excela\n4. Konwertuj i pobierz plik kalendarza (.ics)",
+"ical_upload": "Wybierz plik Excela:",
+"ical_preview": "Podgląd szablonu",
+"ical_convert": "Konwertuj do ICS",
+"ical_download": "Pobierz kalendarz ICS",
+"ical_template": "Pobierz szablon Excela",
+"ical_error": "Błąd przetwarzania pliku: "
     },
     "de": {
         "toolsTab": "🧰 Werkzeuge",
@@ -87,7 +103,15 @@ translations = {
 "vcard_button": "vCard & QR generieren",
 "vcard_required": "Name, Telefonnummer und E-Mail sind erforderlich.",
 "vcard_download": "vCard herunterladen",
-"vcard_qr_caption": "QR-Code"
+"vcard_qr_caption": "QR-Code",
+        "ical_title": "XLS zu iCal Konverter",
+"ical_instructions": "1. Laden Sie unsere Excel-Vorlage herunter oder verwenden Sie Ihre eigene Datei\n2. Stellen Sie sicher, dass Ihre Datei die folgenden Spalten enthält:\nStart Date, End Date, Event Title, Description, Location\n3. Laden Sie Ihre Excel-Datei hoch\n4. Konvertieren und laden Sie Ihre Kalenderdatei (.ics) herunter",
+"ical_upload": "Wählen Sie Ihre Excel-Datei:",
+"ical_preview": "Vorschau der Vorlage",
+"ical_convert": "In ICS konvertieren",
+"ical_download": "ICS-Kalender herunterladen",
+"ical_template": "Excel-Vorlage herunterladen",
+"ical_error": "Fehler bei der Verarbeitung der Datei: "
     },
     "uk": {
         "toolsTab": "🧰 Інструменти",
@@ -117,7 +141,15 @@ translations = {
 "vcard_button": "Згенерувати vCard і QR",
 "vcard_required": "Ім’я, телефон та email обов’язкові.",
 "vcard_download": "Завантажити vCard",
-"vcard_qr_caption": "QR-код"
+"vcard_qr_caption": "QR-код",
+        "ical_title": "Конвертер XLS у iCal",
+"ical_instructions": "1. Завантажте наш шаблон Excel або використовуйте власний файл\n2. Переконайтеся, що файл містить такі стовпці:\nStart Date, End Date, Event Title, Description, Location\n3. Завантажте файл Excel\n4. Конвертуйте та завантажте файл календаря (.ics)",
+"ical_upload": "Оберіть файл Excel:",
+"ical_preview": "Попередній перегляд шаблону",
+"ical_convert": "Конвертувати в ICS",
+"ical_download": "Завантажити календар ICS",
+"ical_template": "Завантажити шаблон Excel",
+"ical_error": "Помилка обробки файлу: "
     },
     "zh": {
         "toolsTab": "🧰 工具",
@@ -147,6 +179,14 @@ translations = {
 "vcard_button": "生成 vCard 和二维码",
 "vcard_required": "姓名、电话和电子邮件为必填项。",
 "vcard_download": "下载 vCard",
-"vcard_qr_caption": "二维码"
+"vcard_qr_caption": "二维码",
+        "ical_title": "XLS 转 iCal 转换器",
+"ical_instructions": "1. 下载我们的 Excel 模板或使用您自己的文件\n2. 确保文件包含以下列：\nStart Date, End Date, Event Title, Description, Location\n3. 上传您的 Excel 文件\n4. 转换并下载您的日历文件 (.ics)",
+"ical_upload": "选择您的 Excel 文件：",
+"ical_preview": "模板预览",
+"ical_convert": "转换为 ICS",
+"ical_download": "下载 ICS 日历",
+"ical_template": "下载 Excel 模板",
+"ical_error": "处理文件时出错："
     }
 }
