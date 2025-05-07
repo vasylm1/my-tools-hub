@@ -50,7 +50,20 @@ translations = {
 "md_formats_title": "Supported Formats",
 "md_created_by": "Created with ❤️",
 "md_help": "Select a file to convert to Markdown",
-"md_help_url": "Enter a YouTube URL to convert its transcript to Markdown"
+"md_help_url": "Enter a YouTube URL to convert its transcript to Markdown",
+        "fileconv_title": "Universal File Converter",
+"fileconv_upload": "Upload a file:",
+"fileconv_conversion_type": "Select conversion type:",
+"fileconv_language": "Language for text-to-speech (PDF → MP3):",
+"fileconv_convert_button": "Convert",
+"fileconv_success": "Conversion successful!",
+"fileconv_download_image": "Download converted image",
+"fileconv_mp3_success": "MP3 file created successfully!",
+"fileconv_download_mp3": "Download MP3",
+"fileconv_download_epub": "Download EPUB",
+"fileconv_download_mobi": "Download MOBI",
+"fileconv_download_pdf": "Download PDF",
+"fileconv_error": "Error during conversion:"
 },
     "Polski": {
         "toolsTab": "🧰 Narzędzia",
@@ -103,7 +116,20 @@ translations = {
 "md_formats_title": "Obsługiwane formaty",
 "md_created_by": "Stworzone z ❤️",
 "md_help": "Wybierz plik do konwersji na Markdown",
-"md_help_url": "Wprowadź link do YouTube, aby przekształcić jego transkrypcję na Markdown"
+"md_help_url": "Wprowadź link do YouTube, aby przekształcić jego transkrypcję na Markdown",
+        "fileconv_title": "Uniwersalny konwerter plików",
+"fileconv_upload": "Prześlij plik:",
+"fileconv_conversion_type": "Wybierz typ konwersji:",
+"fileconv_language": "Język do syntezy mowy (PDF → MP3):",
+"fileconv_convert_button": "Konwertuj",
+"fileconv_success": "Konwersja zakończona pomyślnie!",
+"fileconv_download_image": "Pobierz przekształcony obraz",
+"fileconv_mp3_success": "Plik MP3 został utworzony!",
+"fileconv_download_mp3": "Pobierz MP3",
+"fileconv_download_epub": "Pobierz EPUB",
+"fileconv_download_mobi": "Pobierz MOBI",
+"fileconv_download_pdf": "Pobierz PDF",
+"fileconv_error": "Błąd podczas konwersji:"
     },
     "Deutsch": {
         "toolsTab": "🧰 Werkzeuge",
@@ -156,7 +182,20 @@ translations = {
 "md_formats_title": "Unterstützte Formate",
 "md_created_by": "Erstellt mit ❤️",
 "md_help": "Wählen Sie eine Datei zur Konvertierung in Markdown",
-"md_help_url": "Geben Sie eine YouTube-URL ein, um das Transkript in Markdown umzuwandeln"
+"md_help_url": "Geben Sie eine YouTube-URL ein, um das Transkript in Markdown umzuwandeln",
+        "fileconv_title": "Universeller Dateikonverter",
+"fileconv_upload": "Datei hochladen:",
+"fileconv_conversion_type": "Konvertierungstyp auswählen:",
+"fileconv_language": "Sprache für Sprachausgabe (PDF → MP3):",
+"fileconv_convert_button": "Konvertieren",
+"fileconv_success": "Konvertierung erfolgreich!",
+"fileconv_download_image": "Konvertiertes Bild herunterladen",
+"fileconv_mp3_success": "MP3-Datei erfolgreich erstellt!",
+"fileconv_download_mp3": "MP3 herunterladen",
+"fileconv_download_epub": "EPUB herunterladen",
+"fileconv_download_mobi": "MOBI herunterladen",
+"fileconv_download_pdf": "PDF herunterladen",
+"fileconv_error": "Fehler bei der Konvertierung:"
     },
     "Українська": {
         "toolsTab": "🧰 Інструменти",
@@ -209,7 +248,20 @@ translations = {
 "md_formats_title": "Підтримувані формати",
 "md_created_by": "Створено з ❤️",
 "md_help": "Виберіть файл для конвертації у Markdown",
-"md_help_url": "Введіть посилання на YouTube, щоб перетворити його транскрипт у Markdown"
+"md_help_url": "Введіть посилання на YouTube, щоб перетворити його транскрипт у Markdown",
+        "fileconv_title": "Універсальний конвертер файлів",
+"fileconv_upload": "Завантажте файл:",
+"fileconv_conversion_type": "Оберіть тип конвертації:",
+"fileconv_language": "Мова для озвучення (PDF → MP3):",
+"fileconv_convert_button": "Конвертувати",
+"fileconv_success": "Конвертацію успішно завершено!",
+"fileconv_download_image": "Завантажити зображення",
+"fileconv_mp3_success": "Файл MP3 успішно створено!",
+"fileconv_download_mp3": "Завантажити MP3",
+"fileconv_download_epub": "Завантажити EPUB",
+"fileconv_download_mobi": "Завантажити MOBI",
+"fileconv_download_pdf": "Завантажити PDF",
+"fileconv_error": "Помилка під час конвертації:"
     },
     "中文": {
         "toolsTab": "🧰 工具",
@@ -262,7 +314,19 @@ translations = {
 "md_formats_title": "支持的格式",
 "md_created_by": "用 ❤️ 创建",
 "md_help": "选择要转换为 Markdown 的文件",
-"md_help_url": "输入 YouTube 链接以将其字幕转换为 Markdown"
-
+"md_help_url": "输入 YouTube 链接以将其字幕转换为 Markdown",
+        "fileconv_title": "通用文件转换器",
+"fileconv_upload": "上传文件：",
+"fileconv_conversion_type": "选择转换类型：",
+"fileconv_language": "语音朗读语言（PDF → MP3）：",
+"fileconv_convert_button": "转换",
+"fileconv_success": "转换成功！",
+"fileconv_download_image": "下载转换后的图片",
+"fileconv_mp3_success": "MP3 文件创建成功！",
+"fileconv_download_mp3": "下载 MP3",
+"fileconv_download_epub": "下载 EPUB",
+"fileconv_download_mobi": "下载 MOBI",
+"fileconv_download_pdf": "下载 PDF",
+"fileconv_error": "转换过程中出错："
     }
 }
