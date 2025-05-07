@@ -58,6 +58,8 @@ st.title("🛠️ My Tools Hub")
 # 📁 ІНСТРУМЕНТИ
 if section == t["toolsTab"]:
     services_dir = os.path.join(os.path.dirname(__file__), "services")
+    if not os.path.exists(services_dir):
+        os.makedirs(services_dir)
     tools = [f[:-3] for f in os.listdir(services_dir) if f.endswith(".py")]
 
     selected_tool = st.selectbox(t["selectTool"], tools)
@@ -67,6 +69,10 @@ if section == t["toolsTab"]:
         spec = importlib.util.spec_from_file_location("tool_module", file_path)
         tool_module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(tool_module)
+
+        # якщо інструмент має функцію run(), передаємо lang
+        if hasattr(tool_module, "run"):
+            tool_module.run(lang)
 
 # 👤 ПРО МЕНЕ
 elif section == t["aboutTab"]:
