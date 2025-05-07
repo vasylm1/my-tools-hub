@@ -1,19 +1,18 @@
 import streamlit as st
 import os
+import importlib.util
 from translations import translations
 
-# ⬛️ Настройки сторінки
+# 🛠 Налаштування сторінки
 st.set_page_config(page_title="🛠️ My Tools Hub", layout="wide")
 
-# 🎨 Вставка стилів напряму
+# 🎨 Вбудовані стилі
 st.markdown("""
 <style>
 :root {
   --primary: #4361ee;
-  --secondary: #3f37c9;
   --accent: #4895ef;
-  --light: #f8f9fa;
-  --dark: #212529;
+  --secondary: #3f37c9;
 }
 html, body, [class*="css"] {
   font-family: 'Segoe UI', sans-serif;
@@ -47,33 +46,30 @@ html, body, [class*="css"] {
 </style>
 """, unsafe_allow_html=True)
 
-# 🌐 Мовний вибір
-lang = st.sidebar.selectbox("🌍 Language / Мова", list(translations.keys()))
+# 🌍 Мова
+lang = st.sidebar.selectbox("🌐 Language / Мова", list(translations.keys()))
 t = translations[lang]
 
-# 📂 Вкладки: Інструменти або Про мене
-tab = st.sidebar.radio("📁", [t["toolsTab"], t["aboutTab"]])
+# 🗂 Вкладки
+section = st.sidebar.radio("📁", [t["toolsTab"], t["aboutTab"]])
 
-# Заголовок
 st.title("🛠️ My Tools Hub")
 
-# 🧰 Інструменти
-if tab == t["toolsTab"]:
-    st.subheader(t["selectTool"])
-    tools = [f for f in os.listdir("services") if f.endswith(".py")]
+# 📁 ІНСТРУМЕНТИ
+if section == t["toolsTab"]:
+    services_dir = os.path.join(os.path.dirname(__file__), "services")
+    tools = [f[:-3] for f in os.listdir(services_dir) if f.endswith(".py")]
 
-    for tool in tools:
-        name = tool.replace(".py", "").replace("_", " ").title()
-        st.markdown(f"""
-        <div style='margin-bottom: 1rem;'>
-          <a href="/{tool}" target="_self">
-            <button class="tool-button">🔧 {name}</button>
-          </a>
-        </div>
-        """, unsafe_allow_html=True)
+    selected_tool = st.selectbox(t["selectTool"], tools)
 
-# 👤 Про мене
-elif tab == t["aboutTab"]:
+    if selected_tool:
+        file_path = os.path.join(services_dir, f"{selected_tool}.py")
+        spec = importlib.util.spec_from_file_location("tool_module", file_path)
+        tool_module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(tool_module)
+
+# 👤 ПРО МЕНЕ
+elif section == t["aboutTab"]:
     st.subheader(t["aboutTitle"])
     for i in range(1, 5):
         st.markdown(f"<p>{t[f'aboutText{i}']}</p>", unsafe_allow_html=True)
