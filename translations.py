@@ -1,7 +1,7 @@
 translations = {
     "en": {
         "toolsTab": "🧰 Tools",
-        "aboutTab": "👤 About",
+        "aboutTab": "👤 About Me",
         "selectTool": "Select a tool:",
         "aboutTitle": "About Me",
         "aboutText1": "I'm a marketing professional with experience in office administration, tech support, and product marketing. I hold a Bachelor's in Marketing and am pursuing a Master's.",
@@ -16,8 +16,19 @@ translations = {
         "color1": "Color 1",
         "color2": "Color 2",
         "button": "Generate QR Code",
-        "download": "Download QR Code"
-    },
+        "download": "Download QR Code",
+        "vcard_title": "vCard Generator",
+"vcard_name": "Full Name",
+"vcard_phone": "Phone",
+"vcard_email": "Email",
+"vcard_company": "Company",
+"vcard_website": "Website",
+"vcard_address": "Address",
+"vcard_button": "Generate vCard & QR",
+"vcard_required": "Name, phone, and email are required.",
+"vcard_download": "Download vCard",
+"vcard_qr_caption": "QR Code"
+},
     "pl": {
         "toolsTab": "🧰 Narzędzia",
         "aboutTab": "👤 O mnie",
@@ -35,7 +46,18 @@ translations = {
         "color1": "Kolor 1",
         "color2": "Kolor 2",
         "button": "Wygeneruj kod QR",
-        "download": "Pobierz kod QR"
+        "download": "Pobierz kod QR",
+        "vcard_title": "Generator wizytówek",
+"vcard_name": "Pełne imię i nazwisko",
+"vcard_phone": "Telefon",
+"vcard_email": "Email",
+"vcard_company": "Firma",
+"vcard_website": "Strona internetowa",
+"vcard_address": "Adres",
+"vcard_button": "Generuj vCard i QR",
+"vcard_required": "Imię, telefon i email są wymagane.",
+"vcard_download": "Pobierz vCard",
+"vcard_qr_caption": "Kod QR"
     },
     "de": {
         "toolsTab": "🧰 Werkzeuge",
@@ -54,7 +76,18 @@ translations = {
         "color1": "Farbe 1",
         "color2": "Farbe 2",
         "button": "QR-Code generieren",
-        "download": "QR-Code herunterladen"
+        "download": "QR-Code herunterladen",
+        "vcard_title": "vCard Generator",
+"vcard_name": "Vollständiger Name",
+"vcard_phone": "Telefon",
+"vcard_email": "E-Mail",
+"vcard_company": "Firma",
+"vcard_website": "Webseite",
+"vcard_address": "Adresse",
+"vcard_button": "vCard & QR generieren",
+"vcard_required": "Name, Telefonnummer und E-Mail sind erforderlich.",
+"vcard_download": "vCard herunterladen",
+"vcard_qr_caption": "QR-Code"
     },
     "uk": {
         "toolsTab": "🧰 Інструменти",
@@ -73,7 +106,18 @@ translations = {
         "color1": "Колір 1",
         "color2": "Колір 2",
         "button": "Згенерувати QR-код",
-        "download": "Завантажити QR-код"
+        "download": "Завантажити QR-код",
+        "vcard_title": "Генератор візиток",
+"vcard_name": "Повне ім'я",
+"vcard_phone": "Телефон",
+"vcard_email": "Електронна пошта",
+"vcard_company": "Компанія",
+"vcard_website": "Вебсайт",
+"vcard_address": "Адреса",
+"vcard_button": "Згенерувати vCard і QR",
+"vcard_required": "Ім’я, телефон та email обов’язкові.",
+"vcard_download": "Завантажити vCard",
+"vcard_qr_caption": "QR-код"
     },
     "zh": {
         "toolsTab": "🧰 工具",
@@ -92,6 +136,17 @@ translations = {
         "color1": "颜色 1",
         "color2": "颜色 2",
         "button": "生成二维码",
-        "download": "下载二维码"
+        "download": "下载二维码",
+        "vcard_title": "电子名片生成器",
+"vcard_name": "姓名",
+"vcard_phone": "电话",
+"vcard_email": "电子邮件",
+"vcard_company": "公司",
+"vcard_website": "网站",
+"vcard_address": "地址",
+"vcard_button": "生成 vCard 和二维码",
+"vcard_required": "姓名、电话和电子邮件为必填项。",
+"vcard_download": "下载 vCard",
+"vcard_qr_caption": "二维码"
     }
 }
