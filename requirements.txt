@@ -3,3 +3,4 @@ qrcode
 pillow
 xlsxwriter
 openpyxl
+markitdown[all]
