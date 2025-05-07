@@ -50,7 +50,7 @@ html, body, [class*="css"] {
 lang = st.sidebar.selectbox("🌐 Language / Мова", list(translations.keys()))
 t = translations[lang]
 
-# 📁 Інструменти
+# 📁 Читаємо всі тули
 services_dir = os.path.join(os.path.dirname(__file__), "services")
 if not os.path.exists(services_dir):
     os.makedirs(services_dir)
@@ -58,9 +58,20 @@ if not os.path.exists(services_dir):
 tools = [f for f in os.listdir(services_dir) if f.endswith(".py")]
 selected = st.sidebar.selectbox("🧰 " + t["selectTool"], tools)
 
+# 🔍 Секція про мене після selectbox
+with st.sidebar.expander(t["aboutTab"], expanded=True):
+    st.subheader(t["aboutTitle"])
+    for i in range(1, 5):
+        st.markdown(f"<p>{t[f'aboutText{i}']}</p>", unsafe_allow_html=True)
+    st.markdown(f"""
+    <a class="social-link" href="https://www.linkedin.com/in/vasyl-madei-399488247/" target="_blank">
+      🔗 {t["linkedinText"]}
+    </a>
+    """, unsafe_allow_html=True)
+
+# 🔧  тул
 st.title("🛠️ My Tools Hub")
 
-# 🔧 Відображення інструменту
 module_name = selected.replace(".py", "")
 file_path = os.path.join(services_dir, selected)
 spec = importlib.util.spec_from_file_location("tool_module", file_path)
@@ -68,23 +79,3 @@ tool_module = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(tool_module)
 if hasattr(tool_module, "run"):
     tool_module.run(lang)
-
-# 👤 Блок "Про мене" внизу сторінки
-st.markdown("""
----
-### 👤 {about_title}
-<p style='font-size:1.1rem'>{about1}</p>
-<p style='font-size:1.1rem'>{about2}</p>
-<p style='font-size:1.1rem'>{about3}</p>
-<p style='font-size:1.1rem'>{about4}</p>
-<a class="social-link" href="https://www.linkedin.com/in/vasyl-madei-399488247/" target="_blank">
-  🔗 {linkedin}
-</a>
-""".format(
-    about_title=t["aboutTitle"],
-    about1=t["aboutText1"],
-    about2=t["aboutText2"],
-    about3=t["aboutText3"],
-    about4=t["aboutText4"],
-    linkedin=t["linkedinText"]
-), unsafe_allow_html=True)
