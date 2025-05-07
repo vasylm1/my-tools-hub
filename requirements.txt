@@ -9,4 +9,3 @@ gTTS
 PyPDF2
 ebooklib
 fpdf
-calibri
