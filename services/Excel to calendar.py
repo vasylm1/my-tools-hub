@@ -45,15 +45,15 @@ def get_template_file():
 def run(lang):
     st.markdown("### 📅 XLS to iCal Converter")
 
-    with st.expander("📘 How to use"):
-        st.markdown("""
-        1. Download our Excel template or use your own file  
-        2. Make sure your file has the following columns:  
-        `Start Date`, `End Date`, `Event Title`, `Description`, `Location`  
-        3. Upload your Excel file  
-        4. Convert and download your calendar file (.ics)
-        """)
-        st.download_button("📥 Download Excel Template", get_template_file(), file_name="Calendar_Template.xlsx")
+    st.markdown("#### 📘 How to use")
+    st.markdown("""
+    1. Download our Excel template or use your own file  
+    2. Make sure your file has the following columns:  
+    `Start Date`, `End Date`, `Event Title`, `Description`, `Location`  
+    3. Upload your Excel file  
+    4. Convert and download your calendar file (.ics)
+    """)
+    st.download_button("📥 Download Excel Template", get_template_file(), file_name="Calendar_Template.xlsx")
 
     uploaded_file = st.file_uploader("Select your Excel file:", type=["xls", "xlsx"])
 
