@@ -54,7 +54,7 @@ def get_template_file():
     return output.getvalue()
 
 def run(lang):
-    t = translations.get(lang, translations["en"])
+    t = translations.get(lang) or translations["en"]
 
     st.markdown(f"### 📅 {t['ical_title']}")
 
