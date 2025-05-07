@@ -28,14 +28,18 @@ def run(lang):
         width, height = img.size
 
         if style == "gradient":
-            gradient = Image.new("RGBA", (width, height), color=0)
+            gradient = Image.new("RGBA", (width, height), "white")
             draw = ImageDraw.Draw(gradient)
             for y in range(height):
-                r = int(int(color1[1:3], 16) * (1 - y / height) + int(color2[1:3], 16) * (y / height))
-                g = int(int(color1[3:5], 16) * (1 - y / height) + int(color2[3:5], 16) * (y / height))
-                b = int(int(color1[5:7], 16) * (1 - y / height) + int(color2[5:7], 16) * (y / height))
+                ratio = y / height
+                r = int(int(color1[1:3], 16) * (1 - ratio) + int(color2[1:3], 16) * ratio)
+                g = int(int(color1[3:5], 16) * (1 - ratio) + int(color2[3:5], 16) * ratio)
+                b = int(int(color1[5:7], 16) * (1 - ratio) + int(color2[5:7], 16) * ratio)
                 draw.line([(0, y), (width, y)], fill=(r, g, b, 255))
-            img = Image.alpha_composite(Image.new("RGBA", img.size, "white"), Image.composite(gradient, img, img))
+
+            # Маска чорних пікселів
+            bw = img.convert("L").point(lambda x: 0 if x > 128 else 255)
+            img = Image.composite(gradient, Image.new("RGBA", img.size, "white"), bw)
 
         elif style == "solid":
             img = img.convert("RGBA")
