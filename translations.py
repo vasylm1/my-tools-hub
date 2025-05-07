@@ -1,5 +1,5 @@
 translations = {
-    "en": {
+    "English": {
         "toolsTab": "🧰 Tools",
         "aboutTab": "👤 About Me",
         "selectTool": "Select a tool:",
@@ -37,7 +37,7 @@ translations = {
 "ical_template": "Download Excel Template",
 "ical_error": "Error processing file: "
 },
-    "pl": {
+    "Polski": {
         "toolsTab": "🧰 Narzędzia",
         "aboutTab": "👤 O mnie",
         "selectTool": "Wybierz narzędzie:",
@@ -75,7 +75,7 @@ translations = {
 "ical_template": "Pobierz szablon Excela",
 "ical_error": "Błąd przetwarzania pliku: "
     },
-    "de": {
+    "Deutsch": {
         "toolsTab": "🧰 Werkzeuge",
         "aboutTab": "👤 Über mich",
         "selectTool": "Wähle ein Tool:",
@@ -113,7 +113,7 @@ translations = {
 "ical_template": "Excel-Vorlage herunterladen",
 "ical_error": "Fehler bei der Verarbeitung der Datei: "
     },
-    "uk": {
+    "Українська": {
         "toolsTab": "🧰 Інструменти",
         "aboutTab": "👤 Про мене",
         "selectTool": "Оберіть інструмент:",
@@ -151,7 +151,7 @@ translations = {
 "ical_template": "Завантажити шаблон Excel",
 "ical_error": "Помилка обробки файлу: "
     },
-    "zh": {
+    "中文": {
         "toolsTab": "🧰 工具",
         "aboutTab": "👤 关于我",
         "selectTool": "请选择工具：",
