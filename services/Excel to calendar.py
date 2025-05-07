@@ -3,12 +3,12 @@ import streamlit as st
 import pandas as pd
 from io import BytesIO
 from datetime import datetime
+from translations import translations  # Переконайся, що translations імпортуються правильно
 
 def format_date(dt):
     if pd.isna(dt):
         return ""
     if isinstance(dt, float):
-        # Excel serial date
         dt = pd.to_datetime("1899-12-30") + pd.to_timedelta(dt, unit="D")
     elif isinstance(dt, str):
         try:
@@ -54,29 +54,23 @@ def get_template_file():
     return output.getvalue()
 
 def run(lang):
-    st.markdown("### 📅 XLS to iCal Converter")
+    t = translations.get(lang, translations["en"])
 
-    # Always visible instruction
-    st.markdown("""
-    #### 📘 How to use
-    1. Download our Excel template or use your own file  
-    2. Make sure your file has the following columns:  
-       `Start Date`, `End Date`, `Event Title`, `Description`, `Location`  
-    3. Upload your Excel file  
-    4. Convert and download your calendar file (.ics)
-    """)
-    st.download_button("📥 Download Excel Template", get_template_file(), file_name="Calendar_Template.xlsx")
+    st.markdown(f"### 📅 {t['ical_title']}")
 
-    uploaded_file = st.file_uploader("Select your Excel file:", type=["xls", "xlsx"])
+    st.markdown(f"#### 📘 {t['ical_instructions']}")
+    st.download_button(f"📥 {t['ical_template']}", get_template_file(), file_name="Calendar_Template.xlsx")
+
+    uploaded_file = st.file_uploader(t["ical_upload"], type=["xls", "xlsx"])
 
     if uploaded_file:
         try:
             df = pd.read_excel(uploaded_file)
-            st.markdown("### 📊 Template Preview")
+            st.markdown(f"### 📊 {t['ical_preview']}")
             st.dataframe(df)
 
-            if st.button("🔁 Convert to ICS"):
+            if st.button(f"🔁 {t['ical_convert']}"):
                 ics_content = generate_ics(df)
-                st.download_button("📤 Download ICS Calendar", data=ics_content, file_name="calendar.ics", mime="text/calendar")
+                st.download_button(f"📤 {t['ical_download']}", data=ics_content, file_name="calendar.ics", mime="text/calendar")
         except Exception as e:
-            st.error(f"Error processing file: {e}")
+            st.error(t["ical_error"] + str(e))
