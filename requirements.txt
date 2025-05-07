@@ -4,3 +4,8 @@ pillow
 xlsxwriter
 openpyxl
 markitdown[all]
+pydub
+gTTS
+PyPDF2
+ebooklib
+fpdf
