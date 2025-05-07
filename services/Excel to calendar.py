@@ -8,7 +8,18 @@ def format_date(dt):
     if pd.isna(dt):
         return ""
     if isinstance(dt, float):
+        # Excel serial date
         dt = pd.to_datetime("1899-12-30") + pd.to_timedelta(dt, unit="D")
+    elif isinstance(dt, str):
+        try:
+            dt = pd.to_datetime(dt)
+        except Exception:
+            return ""
+    elif not isinstance(dt, pd.Timestamp):
+        try:
+            dt = pd.to_datetime(dt)
+        except Exception:
+            return ""
     return dt.strftime("%Y%m%dT%H%M%S")
 
 def generate_ics(df):
@@ -45,11 +56,12 @@ def get_template_file():
 def run(lang):
     st.markdown("### 📅 XLS to iCal Converter")
 
-    st.markdown("#### 📘 How to use")
+    # Always visible instruction
     st.markdown("""
+    #### 📘 How to use
     1. Download our Excel template or use your own file  
     2. Make sure your file has the following columns:  
-    `Start Date`, `End Date`, `Event Title`, `Description`, `Location`  
+       `Start Date`, `End Date`, `Event Title`, `Description`, `Location`  
     3. Upload your Excel file  
     4. Convert and download your calendar file (.ics)
     """)
