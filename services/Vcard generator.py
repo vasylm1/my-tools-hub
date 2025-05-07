@@ -7,6 +7,19 @@ from translations import translations
 def run(lang):
     t = translations[lang]
 
+    # Додати переклади в translations.py:
+    # "vcard_title": "vCard Generator",
+    # "vcard_name": "Full Name",
+    # "vcard_phone": "Phone",
+    # "vcard_email": "Email",
+    # "vcard_company": "Company",
+    # "vcard_website": "Website",
+    # "vcard_address": "Address",
+    # "vcard_button": "Generate vCard & QR",
+    # "vcard_required": "Name, phone, and email are required.",
+    # "vcard_download": "Download vCard",
+    # "vcard_qr_caption": "QR Code"
+
     st.markdown(f"<h2 style='text-align:center'>📇 {t['vcard_title']}</h2>", unsafe_allow_html=True)
 
     name = st.text_input(t["vcard_name"], placeholder="John Doe")
@@ -38,12 +51,3 @@ def run(lang):
         qr_buf = BytesIO()
         qr.save(qr_buf, format="PNG")
         st.image(qr_buf.getvalue(), caption=t["vcard_qr_caption"], width=200)
-
-        # Share links
-        encoded_msg = f"{name} contact info:\n{phone}\n{email}"
-        whatsapp_url = f"https://api.whatsapp.com/send?text={encoded_msg.replace(' ', '%20')}"
-        email_url = f"mailto:?subject=Contact Card for {name}&body={encoded_msg.replace(' ', '%20')}"
-
-        col1, col2 = st.columns(2)
-        col1.markdown(f"[🔗 WhatsApp]({whatsapp_url})", unsafe_allow_html=True)
-        col2.markdown(f"[✉️ Email]({email_url})", unsafe_allow_html=True)
