@@ -3,10 +3,9 @@ import os
 import importlib.util
 from translations import translations
 
-# 🛠 Налаштування сторінки
 st.set_page_config(page_title="🛠️ My Tools Hub", layout="wide")
 
-# 🎨 Вбудовані стилі
+# 🎨 Стилі
 st.markdown("""
 <style>
 :root {
@@ -46,23 +45,12 @@ html, body, [class*="css"] {
 </style>
 """, unsafe_allow_html=True)
 
-# 🌍 Мова
-lang = st.sidebar.selectbox("🌐 Language / Мова", list(translations.keys()))
-t = translations[lang]
+# 🌍 Мова через назву
+lang_name = st.sidebar.selectbox("🌐 Language / Мова", list(translations.keys()))
+t = translations[lang_name]
 
-# 📁 Один комбінований selectbox: About + Tools
-services_dir = os.path.join(os.path.dirname(__file__), "services")
-if not os.path.exists(services_dir):
-    os.makedirs(services_dir)
-
-tools = [f for f in os.listdir(services_dir) if f.endswith(".py")]
-options = [t["aboutTab"]] + tools
-selected = st.sidebar.selectbox("🧰 " + t["selectTool"], options)
-
-st.title("🛠️ My Tools Hub")
-
-if selected == t["aboutTab"]:
-    st.subheader(t["aboutTitle"])
+# 🧾 Про мене як роздільний Expander
+with st.sidebar.expander(f"👤 {t['aboutTitle']}"):
     for i in range(1, 5):
         st.markdown(f"<p>{t[f'aboutText{i}']}</p>", unsafe_allow_html=True)
     st.markdown(f"""
@@ -70,11 +58,22 @@ if selected == t["aboutTab"]:
       🔗 {t["linkedinText"]}
     </a>
     """, unsafe_allow_html=True)
-else:
-    module_name = selected.replace(".py", "")
-    file_path = os.path.join(services_dir, selected)
-    spec = importlib.util.spec_from_file_location("tool_module", file_path)
-    tool_module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(tool_module)
-    if hasattr(tool_module, "run"):
-        tool_module.run(lang)
+
+# 🧰 Список тулів
+services_dir = os.path.join(os.path.dirname(__file__), "services")
+if not os.path.exists(services_dir):
+    os.makedirs(services_dir)
+
+tools = [f for f in os.listdir(services_dir) if f.endswith(".py")]
+selected = st.sidebar.selectbox("🛠 " + t["selectTool"], tools)
+
+st.title("🛠️ My Tools Hub")
+
+# 📦 Імпорт та запуск обраного інструмента
+module_name = selected.replace(".py", "")
+file_path = os.path.join(services_dir, selected)
+spec = importlib.util.spec_from_file_location("tool_module", file_path)
+tool_module = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(tool_module)
+if hasattr(tool_module, "run"):
+    tool_module.run(lang_name)
