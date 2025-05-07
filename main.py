@@ -50,32 +50,18 @@ html, body, [class*="css"] {
 lang = st.sidebar.selectbox("🌐 Language / Мова", list(translations.keys()))
 t = translations[lang]
 
-# 🗂 Вкладки
-section = st.sidebar.radio("📁", [t["toolsTab"], t["aboutTab"]])
+# 📁 Один комбінований selectbox: About + Tools
+services_dir = os.path.join(os.path.dirname(__file__), "services")
+if not os.path.exists(services_dir):
+    os.makedirs(services_dir)
+
+tools = [f for f in os.listdir(services_dir) if f.endswith(".py")]
+options = [t["aboutTab"]] + tools
+selected = st.sidebar.selectbox("🧰 " + t["selectTool"], options)
 
 st.title("🛠️ My Tools Hub")
 
-# 📁 ІНСТРУМЕНТИ
-if section == t["toolsTab"]:
-    services_dir = os.path.join(os.path.dirname(__file__), "services")
-    if not os.path.exists(services_dir):
-        os.makedirs(services_dir)
-    tools = [f[:-3] for f in os.listdir(services_dir) if f.endswith(".py")]
-
-    selected_tool = st.selectbox(t["selectTool"], tools)
-
-    if selected_tool:
-        file_path = os.path.join(services_dir, f"{selected_tool}.py")
-        spec = importlib.util.spec_from_file_location("tool_module", file_path)
-        tool_module = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(tool_module)
-
-        # якщо інструмент має функцію run(), передаємо lang
-        if hasattr(tool_module, "run"):
-            tool_module.run(lang)
-
-# 👤 ПРО МЕНЕ
-elif section == t["aboutTab"]:
+if selected == t["aboutTab"]:
     st.subheader(t["aboutTitle"])
     for i in range(1, 5):
         st.markdown(f"<p>{t[f'aboutText{i}']}</p>", unsafe_allow_html=True)
@@ -84,3 +70,11 @@ elif section == t["aboutTab"]:
       🔗 {t["linkedinText"]}
     </a>
     """, unsafe_allow_html=True)
+else:
+    module_name = selected.replace(".py", "")
+    file_path = os.path.join(services_dir, selected)
+    spec = importlib.util.spec_from_file_location("tool_module", file_path)
+    tool_module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(tool_module)
+    if hasattr(tool_module, "run"):
+        tool_module.run(lang)
