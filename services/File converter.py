@@ -13,7 +13,7 @@ from translations import translations
 
 # 📁 Universal File Converter UI and logic
 def run(lang):
-    t = translations.get(lang, translations["en"])
+    t = translations.get(lang, translations["English"])
     st.title(t["fileconv_title"])
 
     # 🔽 File uploader
