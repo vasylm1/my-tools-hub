@@ -8,7 +8,7 @@ translations = {
 "aboutText2": "I lead and support product launches, manage marketing asset development, oversee product portfolio, and enhance content quality using Power BI, Excel, SAP, and Power Platform. My approach blends strategy and data-driven execution.",
 "aboutText3": "I speak Ukrainian, Russian, Polish, English, and German, and I'm learning Spanish and Chinese. I thrive in international and cross-functional environments where communication and teamwork matter.",
 "aboutText4": "Beyond work, I enjoy travel, technology, lifelong learning, and organizing events.",
-       linkedinText": "LinkedIn Profile",
+       "linkedinText": "LinkedIn Profile",
          "title": "QR Code Generator",
         "text": "Text or URL:",
         "placeholder": "Enter something...",
