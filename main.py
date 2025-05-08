@@ -45,11 +45,9 @@ html, body, [class*="css"] {
 }
 </style>
 """, unsafe_allow_html=True)
-
-# 🌍 Мова
+#мова
 lang = st.sidebar.selectbox("🌐 Language / Мова", list(translations.keys()))
-t = translations[lang]
-
+t = translations.get(lang, translations["English"])
 # 📁 Читаємо всі тули
 services_dir = os.path.join(os.path.dirname(__file__), "services")
 if not os.path.exists(services_dir):
