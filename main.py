@@ -46,7 +46,7 @@ html, body, [class*="css"] {
 </style>
 """, unsafe_allow_html=True)
 #мова
-lang = st.sidebar.selectbox("🌐 Language / Мова", list(translations.keys()))
+lang = st.sidebar.selectbox("🌐 Language / Мова / Język / Sprache / 语言", list(translations.keys()))
 t = translations.get(lang, translations["English"])
 # 📁 Читаємо всі тули
 services_dir = os.path.join(os.path.dirname(__file__), "services")
