@@ -45,9 +45,9 @@ html, body, [class*="css"] {
 }
 </style>
 """, unsafe_allow_html=True)
-#мова
-lang = st.sidebar.selectbox("Language / Мова / Język / Sprache / 语言", list(translations.keys()))
-t = translations.get(lang, translations["English"])
+# English only
+t = translations["English"]
+lang = "English"
 # 📁 Читаємо всі тули
 services_dir = os.path.join(os.path.dirname(__file__), "services")
 if not os.path.exists(services_dir):
@@ -57,7 +57,7 @@ tools = [f for f in os.listdir(services_dir) if f.endswith(".py")]
 selected = st.sidebar.selectbox("🧰 " + t["selectTool"], tools)
 
 # 🔍 Секція про мене після selectbox
-with st.sidebar.expander(t["aboutTab"], expanded=True):
+with st.sidebar.expander(t["aboutTab"], expanded=False):
     st.subheader(t["aboutTitle"])
     for i in range(1, 5):
         st.markdown(f"<p>{t[f'aboutText{i}']}</p>", unsafe_allow_html=True)
