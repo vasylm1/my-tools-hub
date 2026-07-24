@@ -1,14 +1,14 @@
 # Core app
-streamlit>=1.58.0,<2.0
+streamlit>=1.60.0,<2.0
 
 # Data / spreadsheets
-pandas>=3.0.3,<4.0
+pandas>=3.0.5,<4.0
 openpyxl>=3.1.5,<4.0
 XlsxWriter>=3.2.9,<4.0
 
 # QR codes & images
 qrcode>=8.2,<9.0
-pillow>=12.2.0,<13.0
+pillow>=12.3.0,<13.0
 
 # Document conversion
 # Only the extras the MD tool actually uses (drops heavy audio/Azure extras
@@ -18,12 +18,12 @@ PyPDF2==3.0.1
 # Markdown -> HTML tool
 markdown>=3.10.2,<4.0
 # HTML -> Markdown tool
-markdownify>=1.2.2,<2.0
+markdownify>=1.2.3,<2.0
 
 # Charts, SQL formatting, sample data
-matplotlib>=3.10.9,<4.0
+matplotlib>=3.11.1,<4.0
 sqlparse>=0.5.5,<0.6
-Faker>=40.19.1,<41
+Faker>=40.36.0,<41
 
 # PDF documents (resume, certificate, labels, watermark) and EPUB
 fpdf2>=2.8.7,<3.0
