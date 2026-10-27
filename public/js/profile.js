@@ -17,24 +17,37 @@ export const profile = {
     { icon: 'linechart', title: 'Data and automation', text: 'Power BI, Power Automate, Power Apps, SQL and SAP data governance, plus n8n for the repetitive parts.' },
     { icon: 'code', title: 'Small software', text: 'Converters, generators and dashboards that do one job well and keep your data on your device.' },
   ],
+  // Figures shown as highlights on the About page (from the current role at Signify).
+  impact: [
+    { value: '13', label: 'product families' },
+    { value: '18', label: 'European countries' },
+    { value: '1,000+', label: 'report users across Europe' },
+    { value: '15', label: 'product training sessions' },
+  ],
   experience: [
-    { role: 'Product Marketeer', org: 'Signify', place: 'Warsaw', period: 'Feb 2025 to present', points: [
-      'Develop and run product marketing strategy for an assigned portfolio across European markets.',
-      'Manage the full portfolio, including market introductions, inventory planning and QxP financial planning.',
-      'Build Power Platform solutions that streamline reporting, and lead sales and margin management.',
-      'Train regional teams across Europe on products.',
+    { role: 'Product Marketing Manager', org: 'Signify (formerly Philips Lighting)', place: 'Warsaw', period: 'Feb 2025 to present', points: [
+      'Manage portfolio strategy and lifecycle execution for 13 product families across 18 European countries within a multi-million-euro portfolio.',
+      'Coordinate 3 to 4 product launches per year, inventory requirements, quarterly financial planning, and sales and margin performance with regional market teams.',
+      'Delivered 2 Power Apps and 7 Power BI reports for a Europe-wide user base of 1,000+, saving up to 10 hours of manual work per week.',
+      'Developed an AI-assisted product-benchmarking tool and delivered 15 product-training sessions across European markets.',
+      'Led the “Excellent Adventure” team in developing a suite of internal process-improvement tools, advancing to the Global Final of Signify’s SEC innovation competition.',
     ] },
-    { role: 'Product Marketing Intern', org: 'Signify', place: 'Warsaw', period: 'Dec 2023 to Jan 2025', points: [
-      'Designed and deployed Power Automate, Power Apps, Power BI and SharePoint solutions that automate workflows.',
-      'Managed SAP data governance, benchmarked products and kept website content accurate.',
-      'Created training materials, newsletters and certifications, and analysed sales and margin.',
-      'Built and maintained an internal product wiki used for team training.',
+    { role: 'CEE Product Marketing Intern', org: 'Signify (formerly Philips Lighting)', place: 'Warsaw', period: 'Dec 2023 to Jan 2025', points: [
+      'Built Power Platform solutions for workflow and reporting automation using Power Apps, Power Automate, Power BI and SharePoint.',
+      'Maintained SAP product data and supported product benchmarking, website content quality, and sales and margin analysis.',
+      'Introduced an AI-assisted document translation workflow and rebuilt the internal product wiki from the ground up.',
+      'Created training materials, newsletters and product certifications to support regional sales enablement.',
     ] },
-    { role: 'Office Assistant', org: 'Samsic Poland for P&G', place: 'Warsaw', period: 'Sep 2022 to Oct 2023', points: [
-      'Built performance reports in Excel with Power Query and VBA for leadership.',
-      'Supported executives and streamlined office operations with Microsoft 365.',
+    { role: 'Office Support', org: 'SAMSIC Polska', place: 'Warsaw Metropolitan Area', period: 'Sep 2022 to Oct 2023', note: 'Employed by Samsic Poland, contracted to Procter & Gamble (P&G).', points: [
+      'Built dynamic performance reports using Excel (Power Query, VBA) for leadership visibility.',
+      'Assisted executives with administrative workflows and optimised operations using Microsoft 365.',
+      'Resolved technical issues with office equipment, minimising downtime across the office.',
     ] },
-    { role: 'Printer Technician', org: 'Best Black', place: 'Warsaw', period: 'Jan 2021 to Jun 2022', points: [] },
+    { role: 'Printer Servicer', org: '', place: 'Warsaw, Poland', period: 'Jan 2021 to Jun 2022', points: [
+      'Diagnosed and troubleshot printer issues.',
+      'Repaired and replaced printer components as needed.',
+      'Installed and configured printers for use on various networks and systems.',
+    ] },
   ],
   education: [
     { title: 'Master’s, Marketing Business Management', org: 'VIZJA University (AEH), Warsaw', period: '2025 to 2027' },
@@ -50,10 +63,10 @@ export const profile = {
   ],
   projects: [
     { name: 'My Tools Hub', text: 'This site: 43 private tools for writing, data, documents and images.', href: 'https://github.com/vasylm1/my-tools-hub' },
+    { name: 'Markdown Reader', text: 'A free Markdown viewer and editor for Windows, macOS, Linux and the web.', href: 'https://markdown-reader-editor.netlify.app' },
+    { name: 'Image2BI', text: 'Turns images into Power BI-ready assets in your browser, with Data URI optimisation and batch XLSX export.', href: 'https://custom-card-generator-1.netlify.app' },
     { name: 'University Schedule Converter', text: 'A multilingual Excel-to-ICS tool with drag and drop (English, Polish, Ukrainian).' },
-    { name: 'GrineGóra Heritage Website', text: 'A multilingual community website with a Shopify store, built on Netlify and automated with n8n.' },
     { name: 'AI-powered personal finance system', text: 'A self-hosted tracker with expense logging, AI categorisation, SQL sync and AI-written reports by email.' },
-    { name: 'Markdown Reader', text: 'A privacy-focused reader and editor for Markdown notes.' },
     { name: 'Homelab dashboard', text: 'A physical and web dashboard for a self-hosted home server.' },
   ],
   languages: [

@@ -19,6 +19,7 @@ Text, data, documents, images and QR codes. No uploads, no accounts, works offli
 ## Why you will like it
 
 - **Your files stay yours.** Everything is processed by your browser. Nothing you type, open or drop in is uploaded, so you can safely use it on contracts, customer lists and unreleased designs.
+- **Made for real jobs.** The landing page groups tools by what you are trying to do (marketing and sales, data and reporting, developers and admins, everyday documents) and shows three of them working in a live, looping preview.
 - **Fast, and works offline.** Open it once and every tool keeps working without a connection. There is no framework and no build step, so tools load on demand and open instantly.
 - **Speaks your language.** English, Polish, German, Ukrainian and Simplified Chinese, switchable at any time.
 - **Built for everyone.** Keyboard friendly, visible focus, light and dark themes, readable at 400% zoom, and checked against WCAG 2.1 AA with automated tests.

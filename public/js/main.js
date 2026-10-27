@@ -4,7 +4,7 @@ import { icon } from './core/icons.js';
 import { mountTool } from './core/runner.js';
 import { CATEGORIES, TOOLS, byId, searchTools } from './registry.js';
 import { profile, legal } from './profile.js';
-import { encodeQr, drawQr } from './lib/qr.js';
+import { heroWindow as buildHero } from './hero.js';
 import { applyStaticTranslations, countText, initLocale, setLocale, t as tr } from './i18n.js';
 
 const main = $('#main');
@@ -15,7 +15,6 @@ const themeBtn = $('#theme-btn');
 const localeSelect = $('#locale-select');
 const BASE_TITLE = 'My Tools Hub';
 const NETLIFY_PRIVACY = 'https://www.netlify.com/privacy/';
-const GITHUB = 'https://github.com/vasylm1/my-tools-hub';
 const moduleCache = new Map();
 const isMac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
 let teardown = null;
@@ -46,7 +45,6 @@ themeBtn.addEventListener('click', () => {
   document.documentElement.dataset.theme = next;
   try { localStorage.setItem('mth-theme', next); } catch { /* storage blocked */ }
   paintThemeIcon();
-  if (parseRoute().view === 'landing') paintHeroQr();
 });
 
 function openMenu(open) {
@@ -98,57 +96,49 @@ const toolCard = (t) => h('a', { class: 'tool-card', href: `#/${t.id}` },
 
 /* ------------------------------------------------------------ landing */
 
-let heroQr = null;
-function paintHeroQr() {
-  if (!heroQr || !heroQr.isConnected) return;
-  const css = getComputedStyle(document.documentElement);
-  drawQr(heroQr, encodeQr(GITHUB, 'M'), { scale: 4, quietZone: 2, fg: css.getPropertyValue('--ink').trim() || '#fff', bg: css.getPropertyValue('--surface').trim() || '#111' });
-}
-
-function heroWindow() {
-  const tok = (cls, text) => h('span', { class: cls }, text);
-  const line = (...kids) => h('div', { class: 'code-line' }, ...kids);
-  heroQr = h('canvas', { class: 'mock-qr', width: 10, height: 10, 'aria-hidden': 'true' });
-  queueMicrotask(paintHeroQr);
-  const picks = ['qr-code', 'json-formatter', 'image-resizer', 'spreadsheet-cleaner', 'resume-builder', 'text-diff'].map((id) => byId[id]);
-  return h('div', { class: 'mock', 'aria-hidden': 'true' },
-    h('div', { class: 'mock-bar' }, h('i'), h('i'), h('i'), h('span', {}, 'My Tools Hub')),
-    h('div', { class: 'mock-body' },
-      h('div', { class: 'mock-side' }, ...picks.map((t, i) => h('div', { class: `mock-item${i === 1 ? ' on' : ''}` }, icon(t.icon, 15), h('span', {}, t.name)))),
-      h('div', { class: 'mock-main' },
-        h('div', { class: 'mock-head' }, h('strong', {}, tr('JSON formatter')), h('span', {}, tr('Format, minify and validate'))),
-        h('div', { class: 'mock-code' },
-          line(tok('p', '{')),
-          line('  ', tok('k', '"tool"'), tok('p', ': '), tok('s', '"qr-code"'), tok('p', ',')),
-          line('  ', tok('k', '"private"'), tok('p', ': '), tok('b', 'true'), tok('p', ',')),
-          line('  ', tok('k', '"uploads"'), tok('p', ': '), tok('n', '0'), tok('p', ',')),
-          line('  ', tok('k', '"works_offline"'), tok('p', ': '), tok('b', 'true')),
-          line(tok('p', '}'))),
-        h('div', { class: 'mock-valid' }, icon('check', 14), tr('Valid JSON.'))),
-      h('div', { class: 'mock-aside' }, heroQr, h('span', {}, 'QR code'))));
-}
+const heroWindow = () => buildHero({ tr, byId });
 
 function renderLanding() {
   setTitle('');
-  const featured = ['qr-code', 'json-formatter', 'image-resizer', 'spreadsheet-cleaner', 'resume-builder', 'images-to-pdf'].map((id) => byId[id]);
   const principles = [
     ['lock', 'Private by design', 'Files and text stay on your device. Self-hosted Umami counts page visits; there are no uploads or accounts.'],
     ['wifioff', 'Works offline', 'Open it once and every tool keeps working without a connection.'],
     ['zap', 'Fast and plain', 'No frameworks and no build step. Tools load on demand and open instantly.'],
     ['code', 'Open source', 'Plain HTML, CSS and JavaScript that you can read, audit and run yourself.'],
   ];
+  const cases = [
+    ['Marketing and sales', 'Launch faster with assets you can build yourself.', ['qr-code', 'newsletter-builder', 'email-signature', 'sell-sheet']],
+    ['Data and reporting', 'Turn messy tables into something you can trust.', ['spreadsheet-cleaner', 'chart-maker', 'data-anonymizer', 'excel-to-calendar']],
+    ['Developers and admins', 'Check, format and compare without opening an IDE.', ['json-formatter', 'sql-formatter', 'text-diff', 'power-automate-checker']],
+    ['Everyday documents', 'Handle files without uploading them anywhere.', ['images-to-pdf', 'image-resizer', 'resume-builder', 'office-to-markdown']],
+  ];
+  const steps = [
+    ['Pick a tool', 'Use the search in the toolbar or browse the groups. Every tool has an example you can load in one click.'],
+    ['Add your text or files', 'Everything is processed in your browser, so nothing leaves your device.'],
+    ['Copy or download the result', 'Save a file, copy the text, or print to PDF. No account, and nothing added to your files.'],
+  ];
+  const trust = ['No sign-up', 'Nothing is uploaded', 'Works offline', 'Five languages'];
   main.replaceChildren(
     h('section', { class: 'hero' },
       h('div', { class: 'wrap hero-in' },
-        h('h1', {}, tr('Small tools, built with care.')),
-        h('p', { class: 'lead' }, tr('Format, convert, generate and clean without uploading a single file. A private toolbox for writing, data, documents and images.')),
+        h('h1', {}, tr('Get the small jobs done. Keep your files private.')),
+        h('p', { class: 'lead' }, tr('Tools for the everyday jobs that eat your afternoon: cleaning a spreadsheet, shrinking a logo, building a QR code, formatting JSON. Nothing is uploaded and nothing needs an account.')),
         h('div', { class: 'cta-row' },
-          h('a', { class: 'btn primary lg', href: '#/tools' }, tr('Browse all tools')),
+          h('a', { class: 'btn primary lg', href: '#/tools' }, tr('Open the toolbox')),
           h('a', { class: 'btn lg', href: '#/about' }, tr('About me')),
           h('span', { class: 'hint-keys' }, tr('or press '), h('kbd', {}, isMac ? 'Cmd K' : 'Ctrl K'), tr(' to search'))),
+        h('ul', { class: 'trust' }, ...trust.map((label) => h('li', {}, icon('check', 15), tr(label)))),
         heroWindow())),
     h('section', { class: 'wrap section' },
-      h('div', { class: 'principles' }, ...principles.map(([ic, title, text]) => h('div', { class: 'principle' }, icon(ic, 20), h('h2', {}, tr(title)), h('p', {}, tr(text))))),
+      h('div', { class: 'section-head' }, h('h2', {}, tr('Built for the jobs you actually have')), h('p', {}, tr('Pick a starting point. Each tool has a one-click example.'))),
+      h('div', { class: 'cases' }, ...cases.map(([title, blurb, ids]) => h('div', { class: 'case' },
+        h('div', { class: 'case-text' }, h('h3', {}, tr(title)), h('p', {}, tr(blurb))),
+        h('div', { class: 'case-tools' }, ...ids.map((id) => h('a', { class: 'pill', href: `#/${id}` }, icon(byId[id].icon, 15), tr(byId[id].name)))))))),
+    h('section', { class: 'wrap section' },
+      h('div', { class: 'section-head' }, h('h2', {}, tr('How it works'))),
+      h('ol', { class: 'steps' }, ...steps.map(([title, text], i) => h('li', {}, h('span', { class: 'step-n', 'aria-hidden': 'true' }, String(i + 1)), h('h3', {}, tr(title)), h('p', {}, tr(text)))))),
+    h('section', { class: 'wrap section' },
+      h('div', { class: 'principles' }, ...principles.map(([ic, title, text]) => h('div', { class: 'principle' }, icon(ic, 20), h('h2', {}, tr(title)), h('p', {}, tr(text)))))),
     h('section', { class: 'wrap section' },
       h('div', { class: 'section-head' }, h('h2', {}, tr('Everything in one place')), h('p', {}, `${countText('tool', TOOLS.length)} · ${countText('group', CATEGORIES.length)}`)),
       h('div', { class: 'cat-list' }, ...CATEGORIES.map((c) => h('a', { class: 'cat-row', href: `#/tools?cat=${c.id}` },
@@ -157,13 +147,14 @@ function renderLanding() {
         h('span', { class: 'cat-count' }, countText('tool', count(c.id))),
         icon('chevron', 16, 'cat-go'))))),
     h('section', { class: 'wrap section' },
-      h('div', { class: 'section-head' }, h('h2', {}, tr('Good places to start')), h('a', { class: 'link', href: '#/tools' }, tr('See all tools'))),
-      h('div', { class: 'card-grid' }, ...featured.map(toolCard))),
-    h('section', { class: 'wrap section' },
       h('div', { class: 'maker' },
         portrait(),
         h('div', { class: 'maker-text' }, h('h2', {}, tr('Made by {name}', { name: profile.name })), h('p', {}, tr(profile.headline))),
-        h('a', { class: 'btn', href: '#/about' }, tr('About me'))))));
+        h('a', { class: 'btn', href: '#/about' }, tr('About me')))),
+    h('section', { class: 'wrap section' },
+      h('div', { class: 'cta-band' },
+        h('div', {}, h('h2', {}, tr('Your next small job takes seconds.')), h('p', {}, tr('Open the toolbox and try any tool with its built-in example.'))),
+        h('a', { class: 'btn primary lg', href: '#/tools' }, tr('Browse all {count} tools', { count: TOOLS.length })))));
 }
 
 /* ----------------------------------------------------------- catalogue */
@@ -237,7 +228,7 @@ function renderAbout() {
   }, icon(link.icon, 16), tr(link.label)));
   const experience = p.experience.map((item) => h('li', {},
     h('span', { class: 'when' }, tr(item.period)),
-    h('div', {}, h('h3', {}, tr(item.role)), h('p', { class: 'where' }, `${item.org}, ${tr(item.place)}`),
+    h('div', {}, h('h3', {}, tr(item.role)), h('p', { class: 'where' }, [item.org, tr(item.place)].filter(Boolean).join(', ')), item.note ? h('p', { class: 'where note' }, tr(item.note)) : null,
       item.points.length ? h('ul', {}, ...item.points.map((text) => h('li', {}, tr(text)))) : null)));
   const education = p.education.map((item) => h('li', {},
     h('span', { class: 'when' }, tr(item.period)),
@@ -257,6 +248,8 @@ function renderAbout() {
       h('div', { class: 'prose' }, ...p.summary.map((text) => h('p', {}, tr(text)))),
       h('aside', { class: 'glance', 'aria-label': tr('Languages') }, h('h2', {}, tr('Languages')),
         h('dl', {}, ...p.languages.flatMap((language) => [h('dt', {}, tr(language.name)), h('dd', {}, language.level)])))),
+    h('section', { class: 'about-section' }, h('h2', {}, tr('Impact at a glance')),
+      h('dl', { class: 'impact' }, ...p.impact.map((stat) => h('div', {}, h('dt', {}, tr(stat.label)), h('dd', {}, stat.value))))),
     h('section', { class: 'about-section' }, h('h2', {}, tr('What I do')),
       h('div', { class: 'focus-grid' }, ...p.focus.map((item) => h('div', { class: 'focus' },
         h('span', { class: 'tile' }, icon(item.icon, 18)), h('h3', {}, tr(item.title)), h('p', {}, tr(item.text)))))),

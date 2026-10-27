@@ -14,6 +14,8 @@ const SHELL = [
   '/js/core/icons.js',
   '/js/core/image.js',
   '/js/core/runner.js',
+  '/js/hero.js',
+  '/js/i18n-marketing.js',
   '/js/i18n.js',
   '/js/lib/bmp.js',
   '/js/lib/csv.js',

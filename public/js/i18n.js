@@ -1,4 +1,6 @@
 // Central UI translations. English is the source text; add each new phrase here.
+import { marketingPhrases } from './i18n-marketing.js';
+
 const LOCALES = [
   { id: 'en', tag: 'en', name: 'English' },
   { id: 'pl', tag: 'pl', name: 'Polski' },
@@ -366,8 +368,6 @@ const phrases = {
   'This site: 43 private tools for writing, data, documents and images.': ['Ta strona: 43 narzędzia dbające o prywatność, przydatne przy pracy z tekstem, danymi, dokumentami i obrazami.', 'Diese Website: 43 datenschutzfreundliche Tools für Texte, Daten, Dokumente und Bilder.', 'Цей сайт: 43 інструменти, що дбають про приватність і допомагають працювати з текстами, даними, документами та зображеннями.', '本网站提供 43 种注重隐私的工具，可用于处理文本、数据、文档和图片。'],
   'University Schedule Converter': ['Konwerter planu zajęć', 'Universitäts-Stundenplan-Konverter', 'Конвертер університетського розкладу', '大学课表转换器'],
   'A multilingual Excel-to-ICS tool with drag and drop (English, Polish, Ukrainian).': ['Wielojęzyczne narzędzie do konwersji Excela na ICS z obsługą przeciągania (angielski, polski, ukraiński).', 'Mehrsprachiges Excel-zu-ICS-Werkzeug mit Drag-and-drop (Englisch, Polnisch, Ukrainisch).', 'Багатомовний інструмент для перетворення Excel на ICS із перетягуванням файлів (англійська, польська, українська).', '支持拖放的多语言 Excel 转 ICS 工具（英语、波兰语、乌克兰语）。'],
-  'GrineGóra Heritage Website': ['Strona dziedzictwa GrineGóra', 'GrineGóra-Kulturerbe-Website', 'Сайт культурної спадщини GrineGóra', 'GrineGóra 文化遗产网站'],
-  'A multilingual community website with a Shopify store, built on Netlify and automated with n8n.': ['Wielojęzyczna strona społecznościowa ze sklepem Shopify, zbudowana na Netlify i zautomatyzowana w n8n.', 'Mehrsprachige Community-Website mit Shopify-Shop, auf Netlify aufgebaut und mit n8n automatisiert.', 'Багатомовний сайт спільноти з магазином Shopify, розміщений на Netlify та автоматизований за допомогою n8n.', '基于 Netlify 构建并由 n8n 自动化的多语言社区网站，内含 Shopify 商店。'],
   'AI-powered personal finance system': ['Osobisty system finansowy wspierany przez AI', 'KI-gestütztes persönliches Finanzsystem', 'Персональна фінансова система з підтримкою ШІ', 'AI 驱动的个人财务系统'],
   'A self-hosted tracker with expense logging, AI categorisation, SQL sync and AI-written reports by email.': ['Aplikacja do zarządzania wydatkami, którą hostuję na własnym serwerze. Zapisuje wydatki, kategoryzuje je z pomocą AI, synchronizuje dane z SQL i wysyła raporty przygotowane przez AI.', 'Eine von mir selbst gehostete App zur Verwaltung von Ausgaben. Sie erfasst Ausgaben, ordnet sie mit KI Kategorien zu, synchronisiert Daten mit SQL und versendet KI-generierte Berichte per E-Mail.', 'Додаток для обліку витрат, який я розміщую на власному сервері. Він записує витрати, розподіляє їх за категоріями за допомогою ШІ, синхронізує дані з SQL і надсилає звіти, створені ШІ.', '由我自行托管的支出管理工具，支持记录支出、使用 AI 分类、同步 SQL 数据，并通过邮件发送 AI 生成的报告。'],
   'Markdown Reader': ['Czytnik Markdown', 'Markdown-Reader', 'Переглядач Markdown', 'Markdown 阅读器'],
@@ -627,6 +627,8 @@ const phrases = {
   'Images to PDF': ['Obrazy do PDF', 'Bilder zu PDF', 'Зображення у PDF', '图片转 PDF'],
   'Combine multiple images into one PDF (A4, Letter or fit-to-image).': ['Połącz wiele obrazów w jeden plik PDF (A4, Letter lub dopasowany do obrazu).', 'Führe mehrere Bilder zu einer PDF-Datei zusammen (A4, Letter oder bildfüllend).', 'Об’єднуйте зображення в один PDF (A4, Letter або за розміром зображення).', '将多张图片合并为一个 PDF（A4、Letter 或适配图片尺寸）。'],
 };
+
+for (const [key, value] of Object.entries(marketingPhrases)) if (!(key in phrases)) phrases[key] = value;
 
 const knownLocale = (id) => LOCALES.some((item) => item.id === id);
 let active = 'en';
