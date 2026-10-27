@@ -36,7 +36,7 @@ for (const [name, mod] of modules) {
   for (const id of Object.keys(mod?.tools || {})) if (!ids.has(id)) fail(`js/tools/${name}.js defines unregistered tool ${id}`);
 }
 
-// Only open-er-api.com may be contacted; no inline handlers or remote scripts in the HTML.
+// Only open-er-api.com may be contacted (github.com appears only in outbound links); no inline handlers or remote scripts in the HTML.
 async function* walk(dir) {
   for (const e of await readdir(dir, { withFileTypes: true })) {
     const p = path.join(dir, e.name);
@@ -49,10 +49,13 @@ for await (const file of walk(pub)) {
   const rel = path.relative(pub, file);
   for (const m of text.matchAll(/https?:\/\/[^\s'"`)<>]+/g)) {
     const host = new URL(m[0]).hostname;
-    const ok = ['open.er-api.com', 'www.w3.org', 'purl.org', 'www.idpf.org', 'www.daisy.org', 'example.com', 'example.org', 'example.net', 'schemas.openxmlformats.org', 'claude.com'].includes(host)
+    const ok = ['open.er-api.com', 'www.w3.org', 'purl.org', 'www.idpf.org', 'www.daisy.org', 'example.com', 'example.org', 'example.net', 'schemas.openxmlformats.org', 'claude.com', 'github.com'].includes(host)
       || host.endsWith('.example.com') || host === 'localhost';
     if (!ok) fail(`${rel}: unexpected external URL ${m[0]}`);
   }
+  // Design rule: icons are SVG. No emoji or pictographic symbols in the interface (copyright and trademark signs are fine).
+  const glyph = text.replace(/[\u00A9\u00AE\u2122]/g, '').match(/[\p{Extended_Pictographic}\uFE0F]/u);
+  if (glyph && !/icons\.js$/.test(file)) fail(`${rel}: emoji or pictographic symbol ${glyph[0]} (use an SVG icon)`);
   if (/\.html$/.test(file) && /\son[a-z]+\s*=\s*["']/.test(text)) fail(`${rel}: inline event handler (blocked by CSP)`);
   if (/\.js$/.test(file) && /\beval\s*\(|new Function\s*\(|\.innerHTML\s*=/.test(text)) fail(`${rel}: eval / new Function / innerHTML assignment`);
 }

@@ -4,6 +4,7 @@
 //            image | images | textfile | file | email | url
 // Common: id, label, value, hint, placeholder, half (two-per-row), show(values) -> bool
 import { h, formatBytes, toast } from './dom.js';
+import { icon } from './icons.js';
 import { loadImageFile } from './image.js';
 import { parseCSV, toCSV } from '../lib/csv.js';
 
@@ -23,7 +24,7 @@ function fillSelect(select, options) {
 function dropzone({ multiple, accept, onFiles, label }) {
   const input = h('input', { type: 'file', accept, multiple, class: 'sr-only', tabindex: -1 });
   const zone = h('div', { class: 'dropzone', tabindex: 0, role: 'button', 'aria-label': label },
-    h('span', { class: 'dz-icon', 'aria-hidden': 'true' }, '⬆'),
+    h('span', { class: 'dz-icon', 'aria-hidden': 'true' }, icon('upload', 20)),
     h('span', { class: 'dz-text' }, label),
     input);
   const open = () => input.click();
@@ -108,8 +109,8 @@ export function buildField(spec) {
           h('img', { src: it.thumb, alt: '', width: 36, height: 36 }),
           h('span', { class: 'fl-name' }, it.name),
           h('span', { class: 'fl-size muted' }, `${it.width}×${it.height}`),
-          multiple && h('button', { type: 'button', class: 'mini', 'aria-label': `Move ${it.name} up`, disabled: i === 0, onclick: () => { [items[i - 1], items[i]] = [items[i], items[i - 1]]; render(); emit(root); } }, '↑'),
-          h('button', { type: 'button', class: 'mini', 'aria-label': `Remove ${it.name}`, onclick: () => { items.splice(i, 1); render(); emit(root); } }, '✕'))));
+          multiple && h('button', { type: 'button', class: 'mini', 'aria-label': `Move ${it.name} up`, disabled: i === 0, onclick: () => { [items[i - 1], items[i]] = [items[i], items[i - 1]]; render(); emit(root); } }, icon('arrowup', 14)),
+          h('button', { type: 'button', class: 'mini', 'aria-label': `Remove ${it.name}`, onclick: () => { items.splice(i, 1); render(); emit(root); } }, icon('x', 14)))));
       };
       const root = h('div', { class: 'image-field', id });
       const zone = dropzone({
@@ -150,7 +151,7 @@ export function buildField(spec) {
       const area = h('textarea', { id, rows: spec.rows || 8, placeholder: spec.placeholder || '', spellcheck: false });
       area.value = spec.value ?? '';
       const input = h('input', { type: 'file', accept: spec.accept || '.csv,.tsv,.txt,.xlsx', class: 'sr-only', tabindex: -1 });
-      const btn = h('button', { type: 'button', class: 'btn small', onclick: () => input.click() }, '📂 Open file…');
+      const btn = h('button', { type: 'button', class: 'btn small', onclick: () => input.click() }, icon('folderopen', 15), h('span', {}, 'Open file'));
       const note = h('span', { class: 'muted small-text' });
       input.addEventListener('change', async () => {
         const file = input.files[0];

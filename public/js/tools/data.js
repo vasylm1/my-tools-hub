@@ -127,7 +127,7 @@ function drawChart({ type, title, labels, values, color, seriesName }) {
 export const tools = {
   'spreadsheet-cleaner': {
     live: false,
-    runLabel: '🧹 Clean',
+    runLabel: 'Clean',
     fields: [
       dataField({ id: 'data', rows: 10 }),
       { id: 'trim', type: 'checkbox', label: 'Trim whitespace in cells', value: true },
@@ -167,7 +167,7 @@ export const tools = {
 
   'email-list-validator': {
     live: false,
-    runLabel: '✅ Validate',
+    runLabel: 'Validate',
     fields: [
       dataField(),
       { id: 'col', type: 'select', label: 'Column with email addresses', options: [['0', '(no data yet)']], optionsFor: columnOptions() },
@@ -195,7 +195,7 @@ export const tools = {
 
   'data-anonymizer': {
     live: false,
-    runLabel: '🕵️ Anonymise',
+    runLabel: 'Anonymise',
     fields: [
       dataField(),
       { id: 'emails', type: 'checkbox', label: 'Mask email addresses (a***@domain)', value: true },
@@ -237,7 +237,7 @@ export const tools = {
     const fieldChecks = Object.entries(FIELDS).map(([id, label]) => ({ id: `f_${id}`, type: 'checkbox', label, half: true, value: ['name', 'email', 'company'].includes(id) }));
     return {
       live: false,
-      runLabel: '🎲 Generate',
+      runLabel: 'Generate',
       fields: [
         { id: 'locale', type: 'select', label: 'Locale', options: Object.entries(LOCALES).map(([k, v]) => [k, v.label]) },
         { id: 'rows', type: 'range', label: 'Rows', min: 5, max: 500, value: 50 },

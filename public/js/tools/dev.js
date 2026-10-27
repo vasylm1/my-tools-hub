@@ -1,5 +1,6 @@
 // Developer & utility tools.
 import { h } from '../core/dom.js';
+import { icon } from '../core/icons.js';
 import { validateJson, JsonError, sortKeysDeep, jsonToRows } from '../lib/json.js';
 import { toCSV } from '../lib/csv.js';
 import { checkFlow } from '../lib/pa.js';
@@ -76,7 +77,7 @@ export const tools = {
       const errors = findings.filter((f) => f.level === 'error');
       const warnings = findings.filter((f) => f.level === 'warning');
       const list = h('div', { class: 'results' }, ...findings.map((f) => h('div', { class: `finding ${f.level}` },
-        h('strong', {}, f.level === 'error' ? '✖' : '⚠'), h('span', {}, f.message),
+        icon(f.level === 'error' ? 'xcircle' : 'alert', 16), h('span', {}, f.message),
         h('code', {}, f.line ? `${f.path} · line ${f.line}, column ${f.column}` : f.path))));
       const res = {
         stats: [['Errors', errors.length], ['Warnings', warnings.length]],
@@ -108,7 +109,7 @@ export const tools = {
       { id: 'html', type: 'textfile', label: 'HTML', rows: 12, accept: '.html,.htm,.txt', placeholder: '<h1>Hello</h1>' },
       { id: 'width', type: 'select', label: 'Preview width', options: [['', 'Fit to panel'], ['375', 'Phone · 375 px'], ['768', 'Tablet · 768 px'], ['1280', 'Desktop · 1280 px']] },
     ],
-    example: { html: '<!doctype html><html><body style="font-family:sans-serif;padding:1rem"><h1>Hello 👋</h1><p>This is a <b>sandboxed</b> preview.</p><script>alert("never runs")</script></body></html>' },
+    example: { html: '<!doctype html><html><body style="font-family:sans-serif;padding:1rem"><h1>Hello</h1><p>This is a <b>sandboxed</b> preview.</p><script>alert("never runs")</script></body></html>' },
     run({ html, width }) {
       if (!html.trim()) return { empty: 'Paste or open some HTML to preview it.' };
       return {

@@ -20,6 +20,7 @@
 //   sections: [ result, ... ]           several of the above, stacked
 import { h, append, debounce, download, copyText, toast, escapeHtml } from './dom.js';
 import { buildField } from './form.js';
+import { icon } from './icons.js';
 import { canvasToBlob, EXT } from './image.js';
 import { createZip } from '../lib/zip.js';
 
@@ -86,20 +87,23 @@ export async function renderResult(container, result) {
   container.replaceChildren(frag);
 }
 
+const withIcon = (name, text) => [icon(name, 15), h('span', {}, text)];
+
 function copyBtn(getText, label = 'Copy') {
-  return h('button', { type: 'button', class: 'btn small', onclick: () => copyText(getText()) }, `⧉ ${label}`);
+  return h('button', { type: 'button', class: 'btn small', onclick: () => copyText(getText()) }, ...withIcon('copy', label));
 }
 
 function fileBtn(label, name, data, mime) {
-  return h('button', { type: 'button', class: 'btn small', onclick: () => download(name, data, mime) }, `⬇ ${label}`);
+  return h('button', { type: 'button', class: 'btn small', onclick: () => download(name, data, mime) }, ...withIcon('download', label));
 }
 
 async function renderPart(into, r) {
-  if (r.error) into.append(h('div', { class: 'msg error', role: 'alert' }, r.error));
+  if (r.error) into.append(h('div', { class: 'msg error', role: 'alert' }, icon('xcircle', 16), h('span', {}, r.error)));
   if (r.empty) into.append(h('p', { class: 'empty' }, r.empty));
   if (r.notice) {
     const n = typeof r.notice === 'string' ? { kind: 'info', text: r.notice } : r.notice;
-    into.append(h('div', { class: `msg ${n.kind || 'info'}` }, n.text));
+    const ic = { ok: 'checkcircle', warn: 'alert', info: 'info', error: 'xcircle' }[n.kind || 'info'] || 'info';
+    into.append(h('div', { class: `msg ${n.kind || 'info'}` }, icon(ic, 16), h('span', {}, n.text)));
   }
   if (r.stats) {
     into.append(h('dl', { class: 'stats' }, ...r.stats.map(([k, v]) => h('div', {}, h('dt', {}, k), h('dd', {}, String(v))))));
@@ -158,8 +162,8 @@ async function canvasBlock({ canvas, filename = 'image', formats = ['png', 'jpeg
     h('div', { class: 'canvas-wrap' }, canvas),
     h('p', { class: 'muted small-text' }, `${canvas.width} × ${canvas.height} px`),
     h('div', { class: 'actions' },
-      ...formats.map((f) => h('button', { type: 'button', class: 'btn small', onclick: () => save(f) }, `⬇ ${f.toUpperCase()}`)),
-      h('button', { type: 'button', class: 'btn small', onclick: copyImage }, '⧉ Copy image')));
+      ...formats.map((f) => h('button', { type: 'button', class: 'btn small', onclick: () => save(f) }, ...withIcon('download', f.toUpperCase()))),
+      h('button', { type: 'button', class: 'btn small', onclick: copyImage }, ...withIcon('copy', 'Copy image'))));
 }
 
 function htmlBlock({ value, filename = 'document.html', pageWidth, print, rich, title = 'Preview', width }) {
@@ -182,7 +186,7 @@ function htmlBlock({ value, filename = 'document.html', pageWidth, print, rich, 
   ro.observe(holder);
   return h('div', { class: 'block' }, holder,
     h('div', { class: 'actions' },
-      print && h('button', { type: 'button', class: 'btn small primary', onclick: () => { frame.contentWindow.focus(); frame.contentWindow.print(); } }, '🖨 Print / Save as PDF'),
+      print && h('button', { type: 'button', class: 'btn small primary', onclick: () => { frame.contentWindow.focus(); frame.contentWindow.print(); } }, ...withIcon('printer', 'Print / Save as PDF')),
       rich && h('button', {
         type: 'button', class: 'btn small primary', onclick: async () => {
           try {
@@ -190,21 +194,21 @@ function htmlBlock({ value, filename = 'document.html', pageWidth, print, rich, 
             toast('Copied. Paste it into your email settings.');
           } catch { toast('Rich copy is not available here. Use Copy HTML instead.', 'error'); }
         },
-      }, '⧉ Copy formatted'),
+      }, ...withIcon('copy', 'Copy formatted')),
       copyBtn(() => value, 'Copy HTML'),
       fileBtn(`Download ${filename}`, filename, value, 'text/html;charset=utf-8')));
 }
 
 function downloadsBlock(files) {
   const toBlob = (f) => (f.data instanceof Blob ? f.data : new Blob([f.data], { type: f.mime || 'application/octet-stream' }));
-  const buttons = files.map((f) => h('button', { type: 'button', class: 'btn small', onclick: () => download(f.name, toBlob(f), f.mime) }, `⬇ ${f.label || f.name}`));
+  const buttons = files.map((f) => h('button', { type: 'button', class: 'btn small', onclick: () => download(f.name, toBlob(f), f.mime) }, ...withIcon('download', f.label || f.name)));
   const zipBtn = files.length > 1 && h('button', {
     type: 'button', class: 'btn small primary', onclick: async () => {
       const entries = [];
       for (const f of files) entries.push({ name: f.name, data: new Uint8Array(await toBlob(f).arrayBuffer()) });
       download('files.zip', createZip(entries), 'application/zip');
     },
-  }, `⬇ All ${files.length} files (ZIP)`);
+  }, ...withIcon('download', `All ${files.length} files (ZIP)`));
   return h('div', { class: 'block' }, h('div', { class: 'actions wrap' }, zipBtn, ...buttons));
 }
 

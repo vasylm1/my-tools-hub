@@ -5,9 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>My Tools Hub</title>
   <meta name="description" content="40+ small, private tools that run entirely in your browser: QR codes, JSON, images, PDFs, spreadsheets, writing helpers and more. No uploads, no accounts.">
-  <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" content="#f5f1ea" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#14181b" media="(prefers-color-scheme: dark)">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#08090a">
   <meta property="og:title" content="My Tools Hub">
   <meta property="og:description" content="40+ private, in-browser tools. Nothing is uploaded.">
   <meta property="og:type" content="website">
@@ -22,16 +21,21 @@
   <a class="skip" href="#main">Skip to content</a>
 
   <header class="topbar">
-    <button class="icon-btn menu-btn" id="menu-btn" type="button" aria-label="Open tool list" aria-expanded="false" aria-controls="sidebar">☰</button>
-    <a class="brand" href="#/" aria-label="My Tools Hub, home">
-      <span class="brand-mark" aria-hidden="true">⌘</span>
-      <span class="brand-name">My Tools Hub</span>
-    </a>
-    <div class="search">
-      <label class="sr-only" for="search">Search tools</label>
-      <input id="search" type="search" placeholder="Search tools   ( / )" autocomplete="off" spellcheck="false">
+    <div class="topbar-in">
+      <button class="icon-btn menu-btn" id="menu-btn" type="button" aria-label="Open tool list" aria-expanded="false" aria-controls="sidebar"></button>
+      <a class="brand" href="#/" aria-label="My Tools Hub, home">
+        <svg class="brand-mark" viewBox="0 0 64 64" width="26" height="26" aria-hidden="true"><rect width="64" height="64" rx="15" fill="currentColor"/><g fill="#fff"><rect x="14" y="14" width="16" height="16" rx="4"/><rect x="34" y="14" width="16" height="16" rx="4" opacity=".6"/><rect x="14" y="34" width="16" height="16" rx="4" opacity=".6"/><rect x="34" y="34" width="16" height="16" rx="4"/></g></svg>
+        <span class="brand-name">My Tools Hub</span>
+      </a>
+      <nav class="topnav" aria-label="Main">
+        <a href="#/tools" data-nav="tools">Tools</a>
+        <a href="#/about" data-nav="about">About</a>
+      </nav>
+      <button class="search-trigger" id="palette-btn" type="button" aria-label="Search tools" aria-haspopup="dialog">
+        <span class="st-icon"></span><span class="st-text">Search tools</span><kbd id="palette-kbd">Ctrl K</kbd>
+      </button>
+      <button class="icon-btn" id="theme-btn" type="button" aria-label="Switch colour theme" title="Switch colour theme"></button>
     </div>
-    <button class="icon-btn" id="theme-btn" type="button" aria-label="Switch colour theme" title="Switch colour theme">◐</button>
   </header>
 
   <div class="shell">
@@ -41,8 +45,10 @@
   </div>
 
   <footer class="footer">
-    <span>Runs 100% in your browser. Your files and text are never uploaded.</span>
-    <a href="#/about">About &amp; privacy</a>
+    <div class="footer-in">
+      <span>My Tools Hub. Everything runs in your browser; your files are never uploaded.</span>
+      <nav aria-label="Footer"><a href="#/tools">Tools</a><a href="#/about">About</a><a href="#/privacy">Privacy</a></nav>
+    </div>
   </footer>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
