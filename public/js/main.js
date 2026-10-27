@@ -31,7 +31,6 @@ localeSelect.addEventListener('change', () => {
   applyStaticTranslations();
   closeSearch();
   route();
-  paintSearch();
 });
 
 /* ------------------------------------------------------------- chrome */
@@ -325,6 +324,7 @@ function renderNotFound(id) {
 }
 
 async function route() {
+  closeSearch();
   const { id, params, view } = parseRoute();
   teardown?.(); teardown = null;
   openMenu(false);
@@ -343,7 +343,6 @@ addEventListener('hashchange', route);
 
 const searchInput = $('#search');
 const searchList = $('#search-results');
-const FEATURED = ['qr-code', 'json-formatter', 'image-resizer', 'spreadsheet-cleaner', 'resume-builder', 'images-to-pdf'];
 $('#search-kbd').textContent = isMac ? 'Cmd K' : 'Ctrl K';
 $('#search-icon').append(icon('search', 15));
 let hits = [];
@@ -352,7 +351,7 @@ let active = -1;
 function searchHits(q) {
   const pages = [['tools', 'All tools', 'layers'], ['about', 'About', 'user'], ['privacy', 'Privacy', 'lock'], ['legal', 'Legal notice', 'info']]
     .filter(([, name]) => q && `${name} ${tr(name)}`.toLowerCase().includes(q)).map(([to, name, ic]) => ({ to: `#/${to}`, name: tr(name), ic, sub: tr('Page') }));
-  const tools = (q ? searchTools(q, tr) : FEATURED.map((id) => byId[id])).map((tool) => ({ to: `#/${tool.id}`, name: tr(tool.name), ic: tool.icon, sub: catName(tool.cat) }));
+  const tools = searchTools(q, tr).map((tool) => ({ to: `#/${tool.id}`, name: tr(tool.name), ic: tool.icon, sub: catName(tool.cat) }));
   return [...tools, ...pages].slice(0, 8);
 }
 
@@ -365,10 +364,10 @@ function closeSearch() {
 
 function paintSearch() {
   const q = searchInput.value.trim().toLowerCase();
+  if (!q) { closeSearch(); return; } // results appear only while typing: no suggestion list on focus, load or language change
   hits = searchHits(q);
-  active = hits.length && q ? 0 : -1;
+  active = hits.length ? 0 : -1;
   searchList.replaceChildren(...[
-    !q && h('p', { class: 'search-label' }, tr('Suggested')),
     ...(hits.length ? hits.map((it, i) => h('a', {
       href: it.to, id: `hit-${i}`, role: 'option', class: `hit${i === active ? ' on' : ''}`, 'aria-selected': String(i === active),
       onmousedown: (e) => e.preventDefault(), onclick: () => { closeSearch(); searchInput.blur(); },

@@ -402,7 +402,7 @@ caption { text-align: left; padding: 9px 12px; font-weight: 600; font-size: .86r
   .topbar-in { padding: 0 12px; gap: 6px; }
   .topnav { display: none; }
   .search { min-width: 0; }
-  .locale-select { width: 64px; max-width: 64px; }
+  .locale-select { width: 78px; max-width: 78px; padding-left: 6px; padding-right: 14px; font-size: .78rem; }
   .wrap { padding: 0 16px; }
   .section { padding: 64px 16px 0; }
   .principles { grid-template-columns: 1fr; }
