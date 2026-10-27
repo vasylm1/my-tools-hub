@@ -48,7 +48,7 @@ export const tools = {
       { id: 'text', type: 'textarea', label: 'Text', rows: 10, placeholder: 'Paste a post, article or caption…', spellcheck: true },
       { id: 'count', type: 'range', label: 'Number of keywords', min: 5, max: 30, value: 12 },
     ],
-    example: { text: 'Our new smart lighting range cuts energy use in offices by 40%. Smart controls, daylight sensors and open protocols make lighting retrofits simple. #sustainability #lighting' },
+    example: { text: 'Our new smart thermostat range cuts energy use in offices by 20%. Smart controls, room sensors and open protocols make retrofits simple. #sustainability #lighting' },
     run({ text, count }) {
       if (!text.trim()) return { empty: 'Paste some text to extract keywords and hashtags.' };
       const { found, top } = extractKeywords(text, count);

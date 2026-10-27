@@ -99,12 +99,12 @@ function fileBtn(label, name, data, mime) {
 }
 
 async function renderPart(into, r) {
-  if (r.error) into.append(h('div', { class: 'msg error', role: 'alert' }, icon('xcircle', 16), h('span', {}, tr(r.error))));
-  if (r.empty) into.append(h('p', { class: 'empty' }, tr(r.empty)));
+  if (r.error) into.append(h('div', { class: 'msg error', role: 'alert' }, icon('xcircle', 16), h('span', {}, tr(r.error, r.values))));
+  if (r.empty) into.append(h('p', { class: 'empty' }, tr(r.empty, r.values)));
   if (r.notice) {
     const n = typeof r.notice === 'string' ? { kind: 'info', text: r.notice } : r.notice;
     const ic = { ok: 'checkcircle', warn: 'alert', info: 'info', error: 'xcircle' }[n.kind || 'info'] || 'info';
-    into.append(h('div', { class: `msg ${n.kind || 'info'}` }, icon(ic, 16), h('span', {}, tr(n.text))));
+    into.append(h('div', { class: `msg ${n.kind || 'info'}` }, icon(ic, 16), h('span', {}, tr(n.text, n.values || r.values))));
   }
   if (r.stats) {
     into.append(h('dl', { class: 'stats' }, ...r.stats.map(([k, v]) => h('div', {}, h('dt', {}, tr(k)), h('dd', {}, String(v))))));
@@ -133,7 +133,7 @@ function textBlock(t) {
   return h('div', { class: 'block' },
     t.label && h('div', { class: 'block-head' }, h('strong', {}, windowText(t.label))),
     area,
-    h('div', { class: 'actions' }, copyBtn(() => t.value), t.filename && fileBtn(windowText(`Download ${t.filename}`), t.filename, t.value, t.mime || 'text/plain;charset=utf-8')));
+    h('div', { class: 'actions' }, copyBtn(() => t.value), t.filename && fileBtn(tr('Download {name}', { name: t.filename }), t.filename, t.value, t.mime || 'text/plain;charset=utf-8')));
 }
 
 function windowText(value) { return tr(value); }

@@ -7,7 +7,7 @@ import { buildXlsx } from '../lib/xlsx.js';
 import { buildIcs } from '../lib/ics.js';
 import { LOCALES, FIELDS, generateRows } from '../lib/fake.js';
 
-const SAMPLE_PEOPLE = 'Name,Email,Phone,City\nAnna Kowalska,anna.k@example.com,+48 600 123 456,Warszawa\n  Jan Nowak ,JAN@example.com,500-222-333,Kraków\nAnna Kowalska,anna.k@example.com,+48 600 123 456,Warszawa\n,,,\nPiotr Zieliński,not-an-email,22 555 66 77,Gdańsk\n';
+const SAMPLE_PEOPLE = 'Name,Email,Phone,City\nJane Doe,jane.doe@example.com,+1 555 0100,Springfield\n  Alex Example ,ALEX@example.com,555-0101,Riverton\nJane Doe,jane.doe@example.com,+1 555 0100,Springfield\n,,,\nSam Sample,not-an-email,555 0102,Lakeside\n';
 
 const columnOptions = (key = 'data') => (v) => {
   const { head } = readTable(v[key] || '');

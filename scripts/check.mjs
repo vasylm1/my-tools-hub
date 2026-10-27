@@ -65,10 +65,17 @@ const sw = await readFile(path.join(pub, 'sw.js'), 'utf8');
 const precached = new Set([...sw.matchAll(/'(\/[^']*)'/g)].map((m) => m[1]));
 for await (const file of walk(pub)) {
   const rel = `/${path.relative(pub, file)}`;
-  if (/\.(js|css)$/.test(rel) && rel !== '/sw.js' && !precached.has(rel)) fail(`sw.js SHELL is missing ${rel}`);
+  if (/\.(js|css)$/.test(rel) && rel !== '/sw.js' && !precached.has(rel)) fail(`sw.js SHELL is missing ${rel} (run: npm run precache)`);
 }
 for (const entry of precached) {
   if (entry !== '/' && !(await readFile(path.join(pub, entry)).then(() => true, () => false))) fail(`sw.js SHELL lists missing file ${entry}`);
+}
+
+// Marketing copy states the number of tools: keep it in step with the registry.
+for (const [file, pattern] of [['../README.md', /\*\*(\d+) private tools/], ['../public/js/profile.js', /This site: (\d+) private tools/], ['../public/index.html', /: (\d+) private tools/]]) {
+  const text = await readFile(path.join(pub, file), 'utf8');
+  const m = pattern.exec(text);
+  if (m && Number(m[1]) !== TOOLS.length) fail(`${path.basename(file)} says ${m[1]} tools but the registry has ${TOOLS.length}`);
 }
 
 if (problems.length) { console.error(`✖ ${problems.length} problem(s):\n- ${problems.join('\n- ')}`); process.exit(1); }

@@ -2,13 +2,14 @@
 import { h, escapeHtml as e, slug } from '../core/dom.js';
 import { readTable } from '../core/form.js';
 import { makeCanvas, ctx2d, FONT, readableOn, wrapLines, roundRect } from '../core/image.js';
-import { parseCSV } from '../lib/csv.js';
+import { parseCSV, toCSV } from '../lib/csv.js';
+import { buildUtmUrl, buildBatch } from '../lib/utm.js';
 import { readXlsx } from '../lib/xlsx.js';
 import { docxToMarkdown, pptxToMarkdown } from '../lib/office.js';
 import { htmlToMarkdown } from '../lib/html2md.js';
 import { buildEpub } from '../lib/epub.js';
 import { buildVcard } from '../lib/vcard.js';
-import { encodeQr, drawQr } from '../lib/qr.js';
+import { encodeQr, drawQr, qrToSvg } from '../lib/qr.js';
 import { safeUrl } from '../lib/md.js';
 import { createZip } from '../lib/zip.js';
 
@@ -74,11 +75,11 @@ export const tools = {
   'vcard-generator': {
     fields: [
       { id: 'mode', type: 'select', label: 'Mode', options: [['single', 'One contact'], ['batch', 'Many contacts from a spreadsheet']] },
-      ...[['name', 'Full name', 'Jane Doe'], ['title', 'Job title', 'Product Marketing Manager'], ['company', 'Company', 'ACME Corp'], ['phone', 'Phone', '+48 600 000 000'], ['email', 'Email', 'jane@example.com'], ['website', 'Website', 'https://example.com'], ['address', 'Address', '1 Main St, Warsaw, Poland']]
+      ...[['name', 'Full name', 'Jane Doe'], ['title', 'Job title', 'Operations Coordinator'], ['company', 'Company', 'ACME Corp'], ['phone', 'Phone', '+1 555 0100'], ['email', 'Email', 'jane@example.com'], ['website', 'Website', 'https://example.com'], ['address', 'Address', '1 Main Street, Springfield, USA']]
         .map(([id, label, placeholder]) => ({ id, type: 'text', label, placeholder, half: id !== 'address' && id !== 'name', show: (v) => v.mode === 'single' })),
       { id: 'data', type: 'textfile', label: 'Contacts (columns: Full Name, Phone, Email, Company, Website, Address)', rows: 8, show: (v) => v.mode === 'batch' },
     ],
-    example: { mode: 'single', name: 'Jane Doe', title: 'Product Marketing Manager', company: 'ACME Corp', phone: '+48 600 000 000', email: 'jane@example.com', website: 'https://example.com' },
+    example: { mode: 'single', name: 'Jane Doe', title: 'Operations Coordinator', company: 'ACME Corp', phone: '+1 555 0100', email: 'jane@example.com', website: 'https://example.com' },
     run(v) {
       if (v.mode === 'batch') {
         const t = readTable(v.data);
@@ -110,9 +111,9 @@ export const tools = {
   'email-signature': {
     fields: [
       { id: 'name', type: 'text', label: 'Name', value: 'Jane Doe', half: true },
-      { id: 'role', type: 'text', label: 'Job title', value: 'Product Marketing Manager', half: true },
+      { id: 'role', type: 'text', label: 'Job title', value: 'Operations Coordinator', half: true },
       { id: 'company', type: 'text', label: 'Company', value: 'ACME Corp', half: true },
-      { id: 'phone', type: 'text', label: 'Phone', value: '+48 600 000 000', half: true },
+      { id: 'phone', type: 'text', label: 'Phone', value: '+1 555 0100', half: true },
       { id: 'email', type: 'email', label: 'Email', value: 'jane@example.com', half: true },
       { id: 'web', type: 'url', label: 'Website', value: 'https://example.com', half: true },
       { id: 'photoUrl', type: 'url', label: 'Photo URL (recommended)', hint: 'Email clients load a hosted image reliably. An uploaded photo below is embedded instead.' },
@@ -215,15 +216,71 @@ ${v.ctaText ? `<tr><td style="padding:8px 32px 32px"><a href="${href(v.ctaUrl)}"
     },
   },
 
+  'utm-link-builder': (() => {
+    const single = (v) => v.mode === 'single';
+    const batch = (v) => v.mode === 'batch';
+    return {
+      fields: [
+        { id: 'mode', type: 'select', label: 'Mode', options: [['single', 'One link'], ['batch', 'Many links from a spreadsheet']] },
+        { id: 'url', type: 'url', label: 'Landing page link', placeholder: 'https://example.com/spring-sale', show: single },
+        { id: 'source', type: 'text', label: 'Source', placeholder: 'newsletter', hint: 'Where the visitor comes from, such as a newsletter, LinkedIn or Google.', half: true, show: single },
+        { id: 'medium', type: 'text', label: 'Medium', placeholder: 'email', hint: 'The type of channel, such as email, social or cpc.', half: true, show: single },
+        { id: 'campaign', type: 'text', label: 'Campaign name', placeholder: 'spring_sale', show: single },
+        { id: 'content', type: 'text', label: 'Content (optional)', placeholder: 'header_button', hint: 'Tells links in the same campaign apart, such as two buttons or two ads.', half: true, show: single },
+        { id: 'term', type: 'text', label: 'Keyword (optional)', placeholder: 'running shoes', half: true, show: single },
+        { id: 'cid', type: 'text', label: 'Campaign ID (optional)', placeholder: 'abc123', show: single },
+        { id: 'data', type: 'textfile', label: 'Links and campaign details', rows: 8, placeholder: 'link,source,medium,campaign,content', hint: 'The first row holds the column names: link, source, medium and campaign, and optionally id, term and content.', show: batch },
+        { id: 'lower', type: 'checkbox', label: 'Use lowercase (recommended)', value: true, half: true },
+        { id: 'space', type: 'select', label: 'Replace spaces with', options: [['-', 'Hyphen'], ['_', 'Underscore']], half: true },
+        { id: 'qr', type: 'checkbox', label: 'Add a QR code for the link', show: single },
+      ],
+      example: { mode: 'single', url: 'https://example.com/spring-sale', source: 'newsletter', medium: 'email', campaign: 'spring_sale', content: 'header_button', qr: true },
+      run(v) {
+        const opts = { lowercase: v.lower, space: v.space };
+        if (batch(v)) {
+          if (!v.data.trim()) return { empty: 'Paste your table, or open a CSV or Excel file.' };
+          let results;
+          try { results = buildBatch(v.data, opts); } catch (e) { return { error: e.message }; }
+          const built = results.filter((r) => r.url);
+          const note = (r) => r.error || r.warnings.join(' ');
+          const rows = results.map((r) => [r.row, r.url, note(r)]);
+          return { sections: [
+            { stats: [['Links built', built.length], ['Rows with problems', results.length - built.length]] },
+            { table: { head: ['Row', 'Campaign link', 'Notes'], rows } },
+            { text: { label: 'All links', value: built.map((r) => r.url).join('\n'), filename: 'campaign-links.txt', rows: 8 } },
+            { downloads: [{ name: 'campaign-links.csv', data: toCSV([['Row', 'Campaign link', 'Notes'], ...rows]), mime: 'text/csv;charset=utf-8', label: 'campaign-links.csv' }] },
+          ] };
+        }
+        if (!v.url.trim()) return { empty: 'Enter the link you want to track.' };
+        if (!v.source.trim() && !v.medium.trim() && !v.campaign.trim()) return { empty: 'Add a source, a medium and a campaign name.' };
+        let out;
+        try { out = buildUtmUrl(v.url, { source: v.source, medium: v.medium, campaign: v.campaign, id: v.cid, term: v.term, content: v.content }, opts); } catch (e) { return { error: e.message }; }
+        const sections = [
+          { text: { label: 'Campaign link', value: out.url, rows: 4 } },
+          { table: { caption: 'Added to the link', head: ['Parameter', 'Value'], rows: out.params } },
+          ...out.warnings.map((text) => ({ notice: { kind: 'warn', text } })),
+        ];
+        if (v.qr) {
+          try {
+            const symbol = encodeQr(out.url, 'M');
+            sections.push({ canvas: { canvas: drawQr(makeCanvas(1, 1), symbol, { scale: 8, quietZone: 4 }), filename: 'campaign-qr', formats: ['png'] } });
+            sections.push({ downloads: [{ name: 'campaign-qr.svg', data: qrToSvg(symbol, { scale: 8, quietZone: 4 }), mime: 'image/svg+xml', label: 'Vector SVG' }] });
+          } catch { sections.push({ notice: { kind: 'warn', text: 'This link is too long for a QR code.' } }); }
+        }
+        return { sections };
+      },
+    };
+  })(),
+
   'resume-builder': {
     fields: [
       { id: 'name', type: 'text', label: 'Full name', value: 'Jane Doe', half: true },
-      { id: 'title', type: 'text', label: 'Headline', value: 'Product Marketing Manager', half: true },
-      { id: 'contact', type: 'text', label: 'Contact (separate with |)', value: 'jane@example.com | +48 600 000 000 | Warsaw | linkedin.com/in/janedoe' },
-      { id: 'summary', type: 'textarea', label: 'Summary', rows: 3, value: 'Go-to-market specialist with 8 years of experience launching B2B products across Europe.' },
-      { id: 'experience', type: 'textarea', label: 'Experience', rows: 9, hint: 'One block per job, blank line between blocks. First line: Role | Company | Dates. Following lines: achievements.', value: 'Senior Product Marketing Manager | Acme Lighting | 2021 – now\nLed launch of 3 product families in 12 markets\nBuilt the sales enablement programme used by 400 reps\n\nMarketing Specialist | Globex | 2017 – 2021\nGrew qualified leads by 85% in two years' },
-      { id: 'education', type: 'textarea', label: 'Education', rows: 3, hint: 'Same format: Degree | School | Dates.', value: 'MSc Marketing Management | VIZJA University | 2024 – now' },
-      { id: 'skills', type: 'text', label: 'Skills (comma-separated)', value: 'Go-to-market, Power BI, SQL, Sales enablement, n8n' },
+      { id: 'title', type: 'text', label: 'Headline', value: 'Operations Coordinator', half: true },
+      { id: 'contact', type: 'text', label: 'Contact (separate with |)', value: 'jane@example.com | +1 555 0100 | Springfield | example.com/jane' },
+      { id: 'summary', type: 'textarea', label: 'Summary', rows: 3, value: 'Organised operations coordinator with six years of experience improving everyday processes for small teams.' },
+      { id: 'experience', type: 'textarea', label: 'Experience', rows: 9, hint: 'One block per job, blank line between blocks. First line: Role | Company | Dates. Following lines: achievements.', value: 'Operations Coordinator | Northwind Traders | 2021 – now\nCut order processing time by 30% with a new checklist\nTrained 12 new colleagues on the shared inventory system\n\nOffice Assistant | Contoso Ltd | 2018 – 2021\nOrganised travel and meetings for a team of 25' },
+      { id: 'education', type: 'textarea', label: 'Education', rows: 3, hint: 'Same format: Degree | School | Dates.', value: 'BA Business Studies | Example University | 2014 – 2018' },
+      { id: 'skills', type: 'text', label: 'Skills (comma-separated)', value: 'Scheduling, Spreadsheets, Customer service, Process improvement' },
       { id: 'accent', type: 'color', label: 'Accent colour', value: '#1a6b47' },
     ],
     run(v) {
@@ -241,13 +298,13 @@ ${v.skills.trim() ? `<h2>Skills</h2><p>${v.skills.split(',').map((s) => s.trim()
 
   'cover-letter': {
     fields: [
-      { id: 'sender', type: 'textarea', label: 'Your details (name, address, contact)', rows: 4, value: 'Jane Doe\n1 Main St, Warsaw\njane@example.com' },
+      { id: 'sender', type: 'textarea', label: 'Your details (name, address, contact)', rows: 4, value: 'Jane Doe\n1 Main Street, Springfield\njane@example.com' },
       { id: 'date', type: 'text', label: 'Date', value: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }), half: true },
-      { id: 'recipient', type: 'textarea', label: 'Recipient (name, company, address)', rows: 3, value: 'Hiring Manager\nGlobex Corporation' },
-      { id: 'subject', type: 'text', label: 'Subject', value: 'Application: Product Marketing Manager' },
+      { id: 'recipient', type: 'textarea', label: 'Recipient (name, company, address)', rows: 3, value: 'Hiring Manager\nContoso Ltd' },
+      { id: 'subject', type: 'text', label: 'Subject', value: 'Application: Operations Coordinator' },
       { id: 'salutation', type: 'text', label: 'Salutation', value: 'Dear Hiring Manager,', half: true },
       { id: 'closing', type: 'text', label: 'Closing', value: 'Kind regards,', half: true },
-      { id: 'body', type: 'textarea', label: 'Letter (blank line = new paragraph)', rows: 10, value: 'I am excited to apply for the Product Marketing Manager role at Globex.\n\nOver the last eight years I have launched products across Europe and built enablement programmes that sales teams actually use.\n\nI would welcome the chance to discuss how I can help.' },
+      { id: 'body', type: 'textarea', label: 'Letter (blank line = new paragraph)', rows: 10, value: 'I am excited to apply for the Operations Coordinator role at Contoso.\n\nOver the last six years I have organised schedules, suppliers and everyday processes so that small teams can focus on their real work.\n\nI would welcome the chance to discuss how I can help.' },
     ],
     run(v) {
       const css = `${A4_CSS('#1d2327')}.page{padding:25mm 25mm;font-size:14.5px;line-height:1.6}.sender{text-align:right;margin-bottom:20px}.subject{font-weight:700;margin:18px 0}`;

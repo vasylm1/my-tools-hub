@@ -6,6 +6,10 @@ import { extractPalette, paletteToCss } from '../lib/palette.js';
 import { encodeBmp, encodeIco } from '../lib/bmp.js';
 import { imagesToPdf } from '../lib/pdf.js';
 import { createZip } from '../lib/zip.js';
+import { decodeQrImage } from '../lib/qr-decode.js';
+import { classifyQrText } from '../lib/qr-content.js';
+import { parseColor, toHex, contrastRatio, grade, level, suggestForeground, over } from '../lib/contrast.js';
+import { t as tr } from '../i18n.js';
 
 const NEED_IMAGE = { empty: 'Add an image to get started.' };
 const img = (id = 'image', label = 'Image') => ({ id, type: 'image', label });
@@ -107,6 +111,97 @@ export const tools = {
         canvas: { canvas, filename: 'qr-code', formats: ['png', 'jpeg'] },
         downloads: [{ name: 'qr-code.svg', data: svg, mime: 'image/svg+xml', label: 'Vector SVG' }],
       };
+    },
+  },
+
+  'qr-decoder': {
+    fields: [img('image', 'Image with a QR code')],
+    async run({ image }) {
+      if (!image) return { empty: 'Add a picture, screenshot or photo that contains a QR code.' };
+      const k = Math.min(1, 2400 / Math.max(image.width, image.height));
+      const canvas = makeCanvas(image.width * k, image.height * k);
+      const c = ctx2d(canvas);
+      c.fillStyle = '#fff'; c.fillRect(0, 0, canvas.width, canvas.height);
+      c.drawImage(image.img, 0, 0, canvas.width, canvas.height);
+      let text = null;
+      let reader = 'Built-in reader';
+      let detail = null;
+      if ('BarcodeDetector' in globalThis) { // the browser's own scanner copes best with photos
+        try {
+          // Some browsers accept the call and never answer, so give it a short deadline and fall back to the built-in reader.
+          const found = await Promise.race([
+            new globalThis.BarcodeDetector({ formats: ['qr_code'] }).detect(canvas),
+            new Promise((resolve) => setTimeout(() => resolve([]), 2500)),
+          ]);
+          if (found.length && found[0].rawValue) { text = found[0].rawValue; reader = 'Browser scanner'; }
+        } catch { /* unsupported here: use the built-in reader */ }
+      }
+      if (text == null) {
+        try {
+          const r = decodeQrImage(c.getImageData(0, 0, canvas.width, canvas.height));
+          text = r.text; detail = r;
+        } catch { return { error: 'No QR code could be read in this image. Try a sharper or straighter picture, crop closer to the code, or use a larger image.' }; }
+      }
+      const info = classifyQrText(text);
+      const KINDS = { url: 'Web link', wifi: 'Wi-Fi network', vcard: 'Contact card', calendar: 'Calendar event', email: 'Email', phone: 'Phone number', sms: 'Text message', location: 'Location', text: 'Plain text' };
+      const sections = [{ stats: [['Content type', tr(KINDS[info.kind])], ['Reader', tr(reader)], ...(detail ? [['QR version', detail.version], ['Error correction', detail.ecc]] : [])] }, { text: { label: 'Decoded text', value: text, rows: 6 } }];
+      if (info.kind === 'url') {
+        let host = '';
+        try { host = new URL(info.url).hostname; } catch { /* shown as text only */ }
+        if (host) sections.push({ table: { head: [tr('Website'), tr('Link')], rows: [[host, info.url.length > 90 ? `${info.url.slice(0, 90)}…` : info.url]] } });
+        sections.push({ notice: { kind: 'warn', text: 'Check the address before you open it. A QR code can lead anywhere, and a sticker can be placed over the original.' } });
+        sections.push({ node: h('p', {}, h('a', { class: 'btn', href: info.url, target: '_blank', rel: 'noopener noreferrer' }, tr('Open link in a new tab'))) });
+      } else if (info.kind === 'wifi') {
+        const w = info.wifi;
+        sections.push({ table: { caption: 'Wi-Fi network', head: [tr('Setting'), tr('Value')], rows: [[tr('Network name'), w.ssid], [tr('Password'), w.password || '-'], [tr('Security'), w.security], [tr('Hidden network'), tr(w.hidden ? 'Yes' : 'No')]] } });
+      }
+      return { sections };
+    },
+  },
+
+  'color-contrast-checker': {
+    fields: [
+      { id: 'fg', type: 'color', label: 'Text colour', value: '#1a6b47', half: true },
+      { id: 'bg', type: 'color', label: 'Background colour', value: '#ffffff', half: true },
+      { id: 'palette', type: 'textarea', label: 'Compare a whole palette (optional)', rows: 5, placeholder: '#1a6b47\n#f4f5f7\n#0e1015', hint: 'One colour per line, as hex or rgb. You can paste the HEX list from Brand palette.' },
+    ],
+    example: { fg: '#767676', bg: '#ffffff', palette: '#1a6b47\n#ffffff\n#0e1015\n#e4572e\n#f2a900' },
+    run({ fg, bg, palette }) {
+      const f = parseColor(fg); const b = parseColor(bg);
+      if (!f || !b) return { empty: 'Pick a text colour and a background colour.' };
+      const ratio = contrastRatio(f, b);
+      const g = grade(ratio);
+      const pass = (ok) => tr(ok ? 'Pass' : 'Fail');
+      const sections = [
+        { stats: [['Contrast ratio', `${(Math.floor(ratio * 100) / 100).toFixed(2)} : 1`], ['Result', tr(level(ratio) === 'Fail' ? 'Fail' : level(ratio) === 'Large only' ? 'Large text only' : level(ratio))]] },
+        { table: { head: [tr('Requirement'), tr('Needed'), tr('Result')], rows: [
+          [tr('Normal text, level AA'), '4.5 : 1', pass(g.normalAA)], [tr('Normal text, level AAA'), '7 : 1', pass(g.normalAAA)],
+          [tr('Large text, level AA'), '3 : 1', pass(g.largeAA)], [tr('Large text, level AAA'), '4.5 : 1', pass(g.largeAAA)],
+          [tr('Graphics and interface parts, level AA'), '3 : 1', pass(g.ui)],
+        ] } },
+        { node: h('div', { class: 'contrast-sample', style: `background:${toHex(b)};color:${toHex(over(f, b))}` },
+          h('strong', {}, tr('Large sample text')), h('p', {}, tr('Normal sample text: the quick brown fox jumps over the lazy dog.'))) },
+      ];
+      if (!g.normalAA) {
+        const fix = suggestForeground(f, b, 4.5);
+        sections.push({ node: h('p', { class: 'muted' }, fix ? `${tr('Closest text colour that passes level AA:')} ${toHex(fix)} (${(Math.floor(contrastRatio(fix, b) * 100) / 100).toFixed(2)} : 1)` : tr('No text colour can reach level AA on this background.')) });
+      }
+      const colours = palette.split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
+      if (colours.length) {
+        const parsed = colours.map((l) => [l, parseColor(l)]);
+        const valid = parsed.filter(([, p]) => p).slice(0, 10).map(([, p]) => ({ ...p, hex: toHex(p) }));
+        if (parsed.some(([, p]) => !p)) sections.push({ notice: { kind: 'warn', text: 'Some lines were not valid colours and were skipped.' } });
+        if (valid.length >= 2) {
+          const cell = (x, y) => {
+            if (x === y) return '-';
+            const r = contrastRatio(x, { ...y, a: 1 });
+            const lv = level(r);
+            return `${(Math.floor(r * 10) / 10).toFixed(1)} ${tr(lv === 'Large only' ? 'Large text only' : lv)}`;
+          };
+          sections.push({ table: { caption: 'Text colour on background', head: [tr('Text colour'), ...valid.map((x) => x.hex)], rows: valid.map((x) => [x.hex, ...valid.map((y) => cell(x, y))]) } });
+        }
+      }
+      return { sections };
     },
   },
 
@@ -274,7 +369,7 @@ export const tools = {
       if (!colors.length) return { error: 'No visible pixels found in this image.' };
       const grid = h('div', { class: 'swatches' }, ...colors.map((k) => h('div', { class: 'swatch' }, h('i', { style: `background:${k.hex}` }), h('span', {}, k.hex.toUpperCase(), h('br'), `${Math.round(k.share * 100)}%`))));
       return {
-        node: grid,
+        node: h('div', {}, grid, h('p', { class: 'muted small-text' }, h('a', { href: '#/color-contrast-checker' }, tr('Check these colours for accessible contrast')))),
         text: [{ label: 'CSS variables', value: paletteToCss(colors), filename: 'palette.css', mime: 'text/css;charset=utf-8', rows: Math.min(14, colors.length + 3) }, { label: 'HEX list', value: colors.map((k) => k.hex).join(', '), rows: 2 }],
       };
     },

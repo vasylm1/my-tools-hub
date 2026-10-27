@@ -45,6 +45,7 @@ export const TOOLS = [
   T('docs', 'docs', 'persona-builder', 'users', 'Persona builder', 'Build a persona / ICP one-pager and export it as HTML or PDF.', 'marketing icp'),
   T('docs', 'docs', 'newsletter-builder', 'send', 'Newsletter builder', 'Build a responsive HTML email newsletter with a live preview.', 'email html'),
   T('docs', 'docs', 'sell-sheet', 'tag', 'Sell sheet', 'Build a product one-pager and export it as HTML or PDF.', 'product flyer one-pager'),
+  T('docs', 'docs', 'utm-link-builder', 'link', 'Campaign link builder', 'Add UTM tracking to links for Google Analytics and other tools, one at a time or from a spreadsheet, with an optional QR code.', 'utm campaign tracking ga4 marketing url source medium'),
   T('docs', 'docs', 'resume-builder', 'briefcase', 'Resume builder', 'Fill a form and print a clean CV as PDF.', 'cv'),
   T('docs', 'docs', 'cover-letter', 'letter', 'Cover letter', 'Generate a formatted cover letter and print it as PDF.', 'job application'),
   T('docs', 'docs', 'label-sheet', 'grid', 'Label sheet', 'Lay labels out on a printable A4 grid.', 'avery stickers print'),
@@ -52,11 +53,13 @@ export const TOOLS = [
 
   // Images & codes
   T('image', 'image', 'qr-code', 'qr', 'QR code', 'Create QR codes (single or batch) in solid or gradient style, as PNG or SVG.', 'barcode url wifi'),
+  T('image', 'image', 'qr-decoder', 'scan', 'QR code reader', 'Read a QR code from an image, screenshot or photo and see what it contains, without uploading it.', 'scan decode barcode wifi'),
   T('image', 'image', 'image-resizer', 'resize', 'Image resizer', 'Resize and compress images, or generate a complete favicon pack.', 'compress favicon ico'),
   T('image', 'image', 'image-watermark', 'droplet', 'Image watermark', 'Overlay a text or logo watermark with position, opacity and size.', 'logo stamp'),
   T('image', 'image', 'social-cropper', 'crop', 'Social cropper', 'Crop images to Instagram, Facebook, LinkedIn and X presets.', 'instagram linkedin'),
   T('image', 'image', 'meme-generator', 'smile', 'Meme generator', 'Add top and bottom captions to an image.', 'caption'),
   T('image', 'image', 'brand-palette', 'palette', 'Brand palette', 'Extract a dominant colour palette from an image and export it as CSS.', 'colors hex'),
+  T('image', 'image', 'color-contrast-checker', 'contrast', 'Colour contrast checker', 'Check text and background colours against WCAG contrast rules and get a passing suggestion.', 'accessibility wcag a11y color colour'),
   T('image', 'image', 'screenshot-beautifier', 'sparkles', 'Screenshot beautifier', 'Add a gradient background, padding, rounded corners and a shadow.', 'mockup'),
   T('image', 'image', 'browser-mockup', 'browser', 'Browser mockup', 'Wrap a screenshot in a browser-window frame.', 'screenshot frame'),
   T('image', 'image', 'device-mockup', 'phone', 'Device mockup', 'Place a screenshot into a phone or laptop frame.', 'iphone macbook'),

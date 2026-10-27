@@ -2,10 +2,10 @@
 
 # My Tools Hub
 
-**43 private tools that never leave your browser.**<br>
+**46 private tools that never leave your browser.**<br>
 Text, data, documents, images and QR codes. No uploads, no accounts, works offline.
 
-[**Open the live site**](https://my-tools-hub-app.netlify.app/) &nbsp;·&nbsp; [Browse the tools](#all-tools) &nbsp;·&nbsp; [Run it yourself](#run-locally)
+[**Open the live site**](https://my-tools-hub-app.netlify.app/) &nbsp;·&nbsp; [Browse the tools](#all-tools) &nbsp;·&nbsp; [Run it yourself](#run-it-yourself)
 
 [![CI](https://github.com/vasylm1/my-tools-hub/actions/workflows/ci.yml/badge.svg)](https://github.com/vasylm1/my-tools-hub/actions/workflows/ci.yml)
 ![No dependencies](https://img.shields.io/badge/runtime%20dependencies-0-1a6b47)
@@ -31,19 +31,23 @@ Text, data, documents, images and QR codes. No uploads, no accounts, works offli
 <table>
   <tr>
     <td width="50%"><img src="docs/screenshots/tool-qr-code.png" alt="QR code generator with a live preview and PNG and SVG downloads"><br><sub><b>QR codes</b> in solid or gradient style, single or batch, as PNG or SVG. Verified against an independent decoder.</sub></td>
-    <td width="50%"><img src="docs/screenshots/tool-json-formatter.png" alt="JSON formatter showing formatted output"><br><sub><b>JSON formatter</b> with exact line and column errors, key sorting and CSV export.</sub></td>
+    <td width="50%"><img src="docs/screenshots/tool-qr-decoder.png" alt="QR code reader showing the decoded link"><br><sub><b>QR code reader</b> finds a code in a screenshot or photo, even rotated, and tells you what is inside before you open it.</sub></td>
   </tr>
   <tr>
+    <td><img src="docs/screenshots/tool-utm-link-builder.png" alt="Campaign link builder with tracking parameters and a QR code"><br><sub><b>Campaign link builder</b> adds consistent UTM tags, one link at a time or from a spreadsheet, with an optional QR code.</sub></td>
+    <td><img src="docs/screenshots/tool-contrast-checker.png" alt="Colour contrast checker with a pass and fail table"><br><sub><b>Colour contrast checker</b> tests colours against WCAG and suggests the closest passing shade.</sub></td>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/tool-json-formatter.png" alt="JSON formatter showing formatted output"><br><sub><b>JSON formatter</b> with exact line and column errors, key sorting and CSV export.</sub></td>
     <td><img src="docs/screenshots/tool-resume-builder.png" alt="Resume builder with a live A4 preview"><br><sub><b>Resume builder</b> with a live A4 preview. Print or save as PDF in any alphabet.</sub></td>
+  </tr>
+  <tr>
     <td><img src="docs/screenshots/tool-screenshot-beautifier.png" alt="Screenshot beautifier adding a gradient background and shadow"><br><sub><b>Screenshot beautifier</b> adds a background, padding, rounded corners and a shadow. This repo's own screenshots were made with it.</sub></td>
+    <td><img src="docs/screenshots/catalogue.png" alt="Catalogue of all tools with group filters"><br><sub><b>One catalogue</b> for all 46 tools, with filters and instant search.</sub></td>
   </tr>
   <tr>
-    <td><img src="docs/screenshots/catalogue.png" alt="Catalogue of all tools with group filters"><br><sub><b>One catalogue</b> for all 43 tools, with filters and instant search.</sub></td>
-    <td><img src="docs/screenshots/polish.png" alt="The landing page in Polish"><br><sub><b>Five languages</b>, switchable at any time. Shown here in Polish.</sub></td>
-  </tr>
-  <tr>
+    <td><img src="docs/screenshots/ukrainian.png" alt="The landing page in Ukrainian"><br><sub><b>Five languages</b>, switchable at any time. Shown here in Ukrainian.</sub></td>
     <td><img src="docs/screenshots/light-text-diff.png" alt="Text diff tool in the light theme"><br><sub><b>Light and dark</b> themes that follow your system.</sub></td>
-    <td><img src="docs/screenshots/about.png" alt="About page"><br><sub><b>About</b>, privacy and legal pages written for EU requirements.</sub></td>
   </tr>
 </table>
 
@@ -126,9 +130,12 @@ The catalogue is defined in `public/js/registry.js`.
 - **Privacy.** See the in-app Privacy page for the full notice. No cookies are used; the theme and language choice are kept in local storage.
 - **Accessibility.** Targets WCAG 2.1 level AA. Every page and a sample of tools pass automated axe-core checks in both themes, and layouts reflow at 320 px. It has not had an independent audit.
 - **Security.** A strict Content-Security-Policy and other headers are set in `netlify.toml`. User-supplied HTML is previewed in a sandboxed frame with scripts disabled.
-- **Not included.** PDF to text, PDF watermark and YouTube transcripts need server-side code, so they are not part of this browser-only version.
 
-## Run locally
+## Run it yourself
+
+You can run the site on your own machine with Node.js or with Docker. Both serve the same files with the same security headers as the Netlify deployment.
+
+### With Node
 
 Requires Node.js 20 or newer (used only for the dev server and checks).
 
@@ -152,6 +159,21 @@ npm test               # node --test tests/
 mkdir -p /tmp/jsqr-scratch && (cd /tmp/jsqr-scratch && npm install jsqr)
 JSQR_PATH=/tmp/jsqr-scratch/node_modules/jsqr/dist/jsQR.js npm test
 ```
+
+### With Docker
+
+```sh
+docker compose up --build            # then open http://localhost:8080
+```
+
+Or without Compose:
+
+```sh
+docker build -t my-tools-hub .
+docker run --rm -p 8080:8080 my-tools-hub
+```
+
+The image is based on `node:22-alpine`, runs as an unprivileged user, has no dependencies to install, and includes a health check. Use `-p 3000:8080` to publish a different port.
 
 ## Deploy to Netlify
 

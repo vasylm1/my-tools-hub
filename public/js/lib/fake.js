@@ -49,7 +49,7 @@ export const LOCALES = {
 
 const COMPANY_A = ['Nova', 'Apex', 'Blue', 'Sunrise', 'Vertex', 'Northwind', 'Luma', 'Cobalt', 'Orbit', 'Evergreen', 'Atlas', 'Pioneer', 'Bright', 'Summit', 'Harbor'];
 const COMPANY_B = ['Systems', 'Labs', 'Group', 'Solutions', 'Logistics', 'Studio', 'Partners', 'Works', 'Digital', 'Industries', 'Consulting', 'Energy'];
-const JOBS = ['Product Manager', 'Software Engineer', 'Marketing Specialist', 'Sales Manager', 'Data Analyst', 'Designer', 'Accountant', 'Project Coordinator', 'HR Business Partner', 'Customer Success Manager', 'Operations Lead', 'Lighting Designer'];
+const JOBS = ['Product Manager', 'Software Engineer', 'Marketing Specialist', 'Sales Manager', 'Data Analyst', 'Designer', 'Accountant', 'Project Coordinator', 'HR Business Partner', 'Customer Success Manager', 'Operations Lead', 'Graphic Designer'];
 const TRANSLIT = { а: 'a', б: 'b', в: 'v', г: 'h', ґ: 'g', д: 'd', е: 'e', є: 'ie', ж: 'zh', з: 'z', и: 'y', і: 'i', ї: 'i', й: 'i', к: 'k', л: 'l', м: 'm', н: 'n', о: 'o', п: 'p', р: 'r', с: 's', т: 't', у: 'u', ф: 'f', х: 'kh', ц: 'ts', ч: 'ch', ш: 'sh', щ: 'shch', ь: '', ю: 'iu', я: 'ia', 'ł': 'l', 'ß': 'ss' };
 
 function rnd(min, max) {

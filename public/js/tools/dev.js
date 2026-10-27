@@ -1,5 +1,6 @@
 // Developer & utility tools.
 import { h } from '../core/dom.js';
+import { t as tr } from '../i18n.js';
 import { icon } from '../core/icons.js';
 import { validateJson, JsonError, sortKeysDeep, jsonToRows } from '../lib/json.js';
 import { toCSV } from '../lib/csv.js';
@@ -40,7 +41,7 @@ export const tools = {
         parsed = validateJson(json);
       } catch (e) {
         if (!(e instanceof JsonError)) throw e;
-        return { error: `Invalid JSON: ${e.message} (line ${e.line}, column ${e.column})`, node: sourceView(json, e.line, e.column) };
+        return { error: 'Invalid JSON: {message} (line {line}, column {column})', values: { message: tr(e.message), line: e.line, column: e.column }, node: sourceView(json, e.line, e.column) };
       }
       let value = parsed.value;
       const warn = parsed.duplicates.length ? { notice: { kind: 'warn', text: `Duplicate keys found: ${parsed.duplicates.join(', ')}. Only the last value of each is kept.` } } : {};
@@ -147,7 +148,7 @@ export const tools = {
       { id: 'ends', type: 'checkbox', label: 'Count the start and end dates', value: true, show: (v) => v.mode === 'work' },
       { id: 'date', type: 'date', label: 'Date', value: today(), half: true, show: (v) => v.mode === 'tz' },
       { id: 'time', type: 'text', label: 'Time (24 h)', value: '12:00', half: true, placeholder: 'HH:MM', show: (v) => v.mode === 'tz' },
-      { id: 'from', type: 'select', label: 'From zone', value: 'Europe/Warsaw', half: true, options: [{ group: 'Common', options: COMMON_ZONES }, { group: 'All zones', options: allZones() }], show: (v) => v.mode === 'tz' },
+      { id: 'from', type: 'select', label: 'From zone', value: 'Europe/London', half: true, options: [{ group: 'Common', options: COMMON_ZONES }, { group: 'All zones', options: allZones() }], show: (v) => v.mode === 'tz' },
       { id: 'to', type: 'select', label: 'To zone', value: 'America/New_York', half: true, options: [{ group: 'Common', options: COMMON_ZONES }, { group: 'All zones', options: allZones() }], show: (v) => v.mode === 'tz' },
     ],
     run(v) {
@@ -174,6 +175,10 @@ export const tools = {
 
   'currency-converter': (() => {
     const cache = new Map();
+    const updated = (data) => {
+      if (!data.time_last_update_unix) return '-';
+      try { return `${new Intl.DateTimeFormat(document.documentElement.lang || 'en', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'UTC' }).format(new Date(data.time_last_update_unix * 1000))} UTC`; } catch { return data.time_last_update_utc || '-'; }
+    };
     async function rates(base) {
       if (cache.has(base)) return cache.get(base);
       const ctl = new AbortController();
@@ -208,7 +213,7 @@ export const tools = {
         return {
           stats: [['Result', fmt(amount * rate, to)], ['Rate', `1 ${from} = ${Number(rate.toPrecision(6))} ${to}`]],
           table: { caption: `${fmt(amount, from)} in other currencies`, head: ['Currency', 'Amount'], rows: codes.filter((c) => c !== from && data.rates[c]).map((c) => [c, fmt(amount * data.rates[c], c)]) },
-          notice: `Reference rates updated ${data.time_last_update_utc?.replace(/ \+0000$/, ' UTC') || 'recently'}. Not a trading quote.`,
+          notice: { kind: 'info', text: 'Reference rates updated {when}. Not a trading quote.', values: { when: updated(data) } },
           node: h('p', { class: 'muted small-text' }, 'Rates by ', h('a', { href: 'https://www.exchangerate-api.com', rel: 'noopener noreferrer', target: '_blank' }, 'Exchange Rate API'), '.'),
         };
       },

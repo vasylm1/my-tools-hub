@@ -1,5 +1,6 @@
 // Central UI translations. English is the source text; add each new phrase here.
 import { marketingPhrases } from './i18n-marketing.js';
+import { toolPhrases } from './i18n-tools.js';
 
 const LOCALES = [
   { id: 'en', tag: 'en', name: 'English' },
@@ -91,8 +92,8 @@ const phrases = {
   'Landscape': ['Pozioma', 'Querformat', 'Альбомна', '横向'],
   'Portrait': ['Pionowa', 'Hochformat', 'Книжкова', '纵向'],
   'US Letter': ['US Letter', 'US Letter', 'US Letter', 'US Letter'],
-  'Bottom left': ['Lewy dół', 'Unten links', 'Ліворуч унизу', '左下'],
-  'Bottom right': ['Prawy dół', 'Unten rechts', 'Праворуч унизу', '右下'],
+  "Bottom left": ["Lewy dolny róg", "Unten links", "Ліворуч унизу", "左下"],
+  "Bottom right": ["Prawy dolny róg", "Unten rechts", "Праворуч унизу", "右下"],
   'Top left': ['Lewy górny róg', 'Oben links', 'Ліворуч угорі', '左上'],
   'Top right': ['Prawy górny róg', 'Oben rechts', 'Праворуч угорі', '右上'],
   'Centre': ['Środek', 'Mitte', 'По центру', '居中'],
@@ -110,13 +111,13 @@ const phrases = {
   'Instagram story / Reels': ['Instagram — relacja / Reels', 'Instagram — Story / Reels', 'Instagram — історія / Reels', 'Instagram 快拍 / Reels'],
   'Facebook cover': ['Okładka Facebooka', 'Facebook-Titelbild', 'Обкладинка Facebook', 'Facebook 封面'],
   'LinkedIn banner': ['Baner LinkedIn', 'LinkedIn-Banner', 'Банер LinkedIn', 'LinkedIn 横幅'],
-  'X header': ['Nagłówek X', 'X-Header', 'Шапка X', 'X 页眉'],
+  "X header": ["Nagłówek X", "X-Header", "Шапка X", "X 头图"],
   'YouTube banner': ['Baner YouTube', 'YouTube-Banner', 'Банер YouTube', 'YouTube 横幅'],
   'Sunset': ['Zachód słońca', 'Sonnenuntergang', 'Захід сонця', '日落'],
   'Ocean': ['Ocean', 'Ozean', 'Океан', '海洋'],
   'Grape': ['Winogrono', 'Traube', 'Виноград', '葡萄'],
   'Forest': ['Las', 'Wald', 'Ліс', '森林'],
-  'Slate': ['Łupek', 'Schiefer', 'Сланець', '石板灰'],
+  "Slate": ["Grafit", "Schiefer", "Графіт", "石板灰"],
   'Peach': ['Brzoskwinia', 'Pfirsich', 'Персик', '蜜桃'],
   'Mint': ['Mięta', 'Minze', 'М’ята', '薄荷'],
   'e-mail': ['e-mail', 'E-Mail', 'електронна пошта', '电子邮箱'],
@@ -126,7 +127,7 @@ const phrases = {
   'Result': ['Wynik', 'Ergebnis', 'Результат', '结果'],
   'Generate': ['Generuj', 'Erstellen', 'Створити', '生成'],
   'Load example': ['Wczytaj przykład', 'Beispiel laden', 'Завантажити приклад', '加载示例'],
-  'Reset': ['Wyczyść', 'Zurücksetzen', 'Скинути', '重置'],
+  "Reset": ["Zresetuj", "Zurücksetzen", "Скинути", "重置"],
   'Fill in the form and press the button.': ['Wypełnij formularz i naciśnij przycisk.', 'Fülle das Formular aus und klicke auf die Schaltfläche.', 'Заповніть форму та натисніть кнопку.', '填写表单，然后点击按钮。'],
   'Print / Save as PDF': ['Drukuj / Zapisz jako PDF', 'Drucken / Als PDF speichern', 'Друк / Зберегти як PDF', '打印 / 保存为 PDF'],
   'Copy formatted': ['Kopiuj z formatowaniem', 'Formatiert kopieren', 'Копіювати з форматуванням', '复制格式化内容'],
@@ -175,7 +176,7 @@ const phrases = {
   'Anonymise': ['Anonimizuj', 'Anonymisieren', 'Анонімізувати', '匿名化'],
   'Bar colour': ['Kolor marginesów', 'Farbe der Ränder', 'Колір полів', '边框颜色'],
   'Benefits (one per line)': ['Korzyści (każda w osobnym wierszu)', 'Vorteile (je einer pro Zeile)', 'Переваги (по одній у рядку)', '优势（每行一项）'],
-  'Body (blank line = new paragraph)': ['Treść (pusta linia oznacza nowy akapit)', 'Textkörper (Leerzeile = neuer Absatz)', 'Текст (порожній рядок = новий абзац)', '正文（空行表示新段落）'],
+  "Body (blank line = new paragraph)": ["Treść (pusta linia oznacza nowy akapit)", "Haupttext (Leerzeile = neuer Absatz)", "Текст (порожній рядок = новий абзац)", "正文（空行表示新段落）"],
   'Brand': ['Marka', 'Marke', 'Бренд', '品牌'],
   'Button link': ['Link przycisku', 'Schaltflächenlink', 'Посилання кнопки', '按钮链接'],
   'Button text': ['Tekst przycisku', 'Schaltflächentext', 'Текст кнопки', '按钮文字'],
@@ -295,7 +296,7 @@ const phrases = {
   'The output would be larger than 100 megapixels.': ['Wynik miałby ponad 100 megapikseli.', 'Das Ergebnis wäre größer als 100 Megapixel.', 'Результат містив би понад 100 мегапікселів.', '输出图片将超过 1 亿像素。'],
   'All values are random and fictional. Email addresses use reserved example domains.': ['Wszystkie wartości są losowe i fikcyjne. Adresy e-mail używają zarezerwowanych domen przykładowych.', 'Alle Werte sind zufällig und fiktiv. E-Mail-Adressen verwenden reservierte Beispieldomains.', 'Усі значення випадкові й вигадані. В електронних адресах використовуються зарезервовані домени для прикладів.', '所有数据均为随机虚构。邮箱地址使用了保留的示例域名。'],
   'Checks the address format only. It does not confirm that a mailbox exists.': ['Sprawdza tylko format adresu. Nie potwierdza, że skrzynka istnieje.', 'Prüft nur das Adressformat. Es wird nicht bestätigt, dass das Postfach existiert.', 'Перевіряється лише формат адреси, а не наявність поштової скриньки.', '仅检查地址格式，不会确认邮箱是否存在。'],
-  'Counts Monday–Friday only; public holidays are not subtracted.': ['Liczone są tylko dni od poniedziałku do piątku; święta nie są odejmowane.', 'Es werden nur Montage bis Freitage gezählt; Feiertage werden nicht abgezogen.', 'Рахуються лише дні з понеділка до п’ятниці; державні свята не віднімаються.', '仅统计周一至周五，不扣除公共假期。'],
+  "Counts Monday–Friday only; public holidays are not subtracted.": ["Liczone są tylko dni od poniedziałku do piątku; święta nie są odejmowane.", "Es werden nur Werktage von Montag bis Freitag gezählt; Feiertage werden nicht abgezogen.", "Рахуються лише дні з понеділка до п’ятниці; державні свята не віднімаються.", "仅统计周一至周五，不扣除公共假期。"],
   'Masking and hashing reduce exposure but are not a guarantee of anonymity: free-text columns and rare value combinations can still identify people.': ['Maskowanie i haszowanie ograniczają ujawnianie danych, ale nie gwarantują anonimowości. Kolumny tekstowe i rzadkie kombinacje wartości mogą nadal wskazywać konkretne osoby.', 'Maskierung und Hashing verringern die Offenlegung, garantieren aber keine Anonymität: Freitextspalten und seltene Wertekombinationen können Personen weiterhin identifizierbar machen.', 'Маскування й хешування зменшують ризик розкриття даних, але не гарантують анонімності: вільний текст і рідкісні комбінації значень усе ще можуть ідентифікувати людей.', '遮蔽和哈希处理可以降低暴露风险，但不能保证匿名：自由文本列和少见的数值组合仍可能识别个人。'],
   'Power-word detection works best for English headlines.': ['Wykrywanie mocnych słów działa najlepiej dla nagłówków po angielsku.', 'Die Erkennung von Signalwörtern funktioniert am besten bei englischen Überschriften.', 'Виявлення сильних слів найкраще працює для англомовних заголовків.', '强效词识别最适用于英文标题。'],
   'Press “Print / Save as PDF” and choose “Save as PDF”. Turn off headers and footers for the cleanest result.': ['Wybierz „Drukuj / Zapisz jako PDF”, a następnie „Zapisz jako PDF”. Aby uzyskać czysty dokument, wyłącz nagłówki i stopki.', 'Klicke auf „Drucken / Als PDF speichern“ und wähle „Als PDF speichern“. Deaktiviere Kopf- und Fußzeilen für ein sauberes Ergebnis.', 'Натисніть «Друк / Зберегти як PDF» і виберіть «Зберегти як PDF». Для охайного вигляду вимкніть колонтитули.', '点击“打印 / 保存为 PDF”，然后选择“保存为 PDF”。为获得整洁效果，请关闭页眉和页脚。'],
@@ -303,7 +304,7 @@ const phrases = {
   'Scan the QR code with a phone camera to add the contact.': ['Zeskanuj kod QR aparatem telefonu, aby dodać kontakt.', 'Scanne den QR-Code mit der Handykamera, um den Kontakt hinzuzufügen.', 'Відскануйте QR-код камерою телефона, щоб додати контакт.', '用手机摄像头扫描二维码即可添加联系人。'],
   'Table layout with inline styles for broad email-client support. Test in your email provider before sending.': ['Układ tabeli i style wbudowane zapewniają zgodność z wieloma klientami poczty. Przed wysłaniem przetestuj wiadomość w swojej usłudze e-mail.', 'Tabellenlayout und Inline-Stile sorgen für breite Unterstützung durch E-Mail-Programme. Teste die Nachricht vor dem Versand bei deinem E-Mail-Anbieter.', 'Таблична верстка й вбудовані стилі сумісні з більшістю поштових клієнтів. Перед надсиланням перевірте лист у своїй поштовій службі.', '表格布局和内联样式可兼容更多邮件客户端。发送前请在你的邮件服务中进行测试。'],
   'The preview is sandboxed: scripts, forms and external resources are blocked, so it is safe to inspect untrusted HTML.': ['Podgląd działa w izolacji: skrypty, formularze i zasoby zewnętrzne są blokowane, więc możesz bezpiecznie sprawdzać niezaufany HTML.', 'Die Vorschau läuft isoliert: Skripte, Formulare und externe Ressourcen sind blockiert. Daher kannst du nicht vertrauenswürdiges HTML sicher prüfen.', 'Попередній перегляд ізольований: скрипти, форми й зовнішні ресурси заблоковано, тому неперевірений HTML можна безпечно оглядати.', '预览处于沙盒隔离环境中，脚本、表单和外部资源均被阻止，因此可以安全检查不受信任的 HTML。'],
-  'The source is cropped to a square from the centre. Pack contains favicon.ico (16/32/48), PNGs up to 512 px and an HTML snippet.': ['Obraz źródłowy jest centralnie przycinany do kwadratu. Zestaw zawiera favicon.ico (16/32/48), pliki PNG do 512 px i fragment HTML.', 'Die Vorlage wird mittig quadratisch zugeschnitten. Das Paket enthält favicon.ico (16/32/48), PNGs bis 512 px und einen HTML-Codeausschnitt.', 'Вихідне зображення обрізається по центру до квадрата. Набір містить favicon.ico (16/32/48), PNG до 512 пікселів і фрагмент HTML.', '源图片会从中心裁切为正方形。压缩包包含 favicon.ico（16/32/48）、最大 512 像素的 PNG 和 HTML 代码片段。'],
+  "The source is cropped to a square from the centre. Pack contains favicon.ico (16/32/48), PNGs up to 512 px and an HTML snippet.": ["Obraz źródłowy jest centralnie przycinany do kwadratu. Zestaw zawiera favicon.ico (16/32/48), pliki PNG do 512 px i fragment HTML.", "Das Quellbild wird mittig quadratisch zugeschnitten. Das Paket enthält favicon.ico (16/32/48), PNGs bis 512 px und einen HTML-Codeausschnitt.", "Вихідне зображення обрізається по центру до квадрата. Набір містить favicon.ico (16/32/48), PNG до 512 пікселів і фрагмент HTML.", "源图片会从中心裁切为正方形。压缩包包含 favicon.ico（16/32/48）、最大 512 像素的 PNG 和 HTML 代码片段。"],
   'Use “Copy formatted”, then paste into your email client’s signature box. In Gmail, paste into Settings → Signature.': ['Kliknij „Kopiuj z formatowaniem” i wklej podpis w ustawieniach programu pocztowego. W Gmailu znajdziesz je w Ustawienia → Podpis.', 'Klicke auf „Formatiert kopieren“ und füge die Signatur in deinem E-Mail-Programm ein. In Gmail: Einstellungen → Signatur.', 'Натисніть «Копіювати з форматуванням» і вставте підпис у налаштуваннях пошти. У Gmail це Налаштування → Підпис.', '点击“复制格式化内容”，然后粘贴到邮件客户端的签名设置中。在 Gmail 中，路径为“设置 → 签名”。'],
   'Open a file for {field}': ['Otwórz plik dla pola „{field}”', 'Datei für „{field}“ öffnen', 'Відкрити файл для поля «{field}»', '为“{field}”字段打开文件'],
   '{file} · sheet “{sheet}” · {rows} rows': ['{file} · arkusz „{sheet}” · {rows} wierszy', '{file} · Tabellenblatt „{sheet}“ · {rows} Zeilen', '{file} · аркуш «{sheet}» · {rows} рядків', '{file} · 工作表“{sheet}”· {rows} 行'],
@@ -329,7 +330,7 @@ const phrases = {
   'Product Marketing Professional and Tech Enthusiast': ['Specjalista marketingu produktowego i pasjonat technologii', 'Produktmarketing-Profi und Technikbegeisterter', 'Фахівець із продуктового маркетингу та ентузіаст технологій', '产品营销从业者与科技爱好者'],
   'Warsaw': ['Warszawa', 'Warschau', 'Варшава', '华沙'],
   'I market lighting by day and build small, private software by night.': ['W dzień zajmuję się marketingiem oświetlenia, a wieczorami tworzę małe programy, które dbają o prywatność.', 'Tagsüber mache ich Marketing für Beleuchtung, abends entwickle ich kleine, datenschutzfreundliche Programme.', 'Удень я займаюся маркетингом освітлення, а ввечері створюю невеликі програми, що дбають про приватність.', '白天从事照明产品营销，晚上开发注重隐私的小工具。'],
-  'I am a data-driven product marketer with more than three years of experience in product launches, portfolio management and digital transformation across European markets. I combine strategic marketing thinking with technical execution in Power BI, SAP and Power Platform.': ['Jestem analitycznym specjalistą marketingu produktowego z ponad trzyletnim doświadczeniem w premierach produktów, zarządzaniu portfolio i transformacji cyfrowej na rynkach europejskich. Łączę myślenie strategiczne z praktyczną pracą w Power BI, SAP i Power Platform.', 'Ich bin datengetriebener Produktmarketer mit mehr als drei Jahren Erfahrung in Produkteinführungen, Portfoliomanagement und digitaler Transformation auf europäischen Märkten. Ich verbinde strategisches Marketingdenken mit der technischen Umsetzung in Power BI, SAP und der Power Platform.', 'Я фахівець із продуктового маркетингу, який спирається на дані, і маю понад три роки досвіду запуску продуктів, керування портфелем і цифрової трансформації на європейських ринках. Поєдную стратегічне мислення з практичною роботою в Power BI, SAP і Power Platform.', '我是一名数据驱动型产品营销人员，在欧洲市场的产品发布、产品组合管理和数字化转型方面拥有三年以上经验。我将战略营销思维与 Power BI、SAP 和 Power Platform 的技术执行相结合。'],
+  "I am a data-driven product marketer with more than three years of experience in product launches, portfolio management and digital transformation across European markets. I combine strategic marketing thinking with technical execution in Power BI, SAP and Power Platform.": ["Jestem specjalistą ds. marketingu produktowego, który opiera decyzje na danych. Mam ponad trzyletnie doświadczenie w wprowadzaniu produktów na rynek, zarządzaniu portfolio i transformacji cyfrowej na rynkach europejskich. Łączę myślenie strategiczne z praktyczną realizacją w Power BI, SAP i Power Platform.", "Ich bin datengetriebener Produktmarketer mit mehr als drei Jahren Erfahrung in Produkteinführungen, Portfoliomanagement und digitaler Transformation auf europäischen Märkten. Ich verbinde strategisches Marketingdenken mit der technischen Umsetzung in Power BI, SAP und der Power Platform.", "Я фахівець із продуктового маркетингу, який спирається на дані, і маю понад три роки досвіду запуску продуктів, керування портфелем і цифрової трансформації на європейських ринках. Поєдную стратегічне мислення з практичною роботою в Power BI, SAP і Power Platform.", "我是一名数据驱动型产品营销人员，在欧洲市场的产品发布、产品组合管理和数字化转型方面拥有三年以上经验。我将战略营销思维与 Power BI、SAP 和 Power Platform 的技术执行相结合。"],
   'Alongside work I study Marketing Business Management for my master’s degree and completed a postgraduate programme in Innovation Management, taught in German. I build the tools I wish existed, usually with AI-assisted development, and keep them local-first and privacy-respecting.': ['Równolegle z pracą studiuję zarządzanie marketingiem na studiach magisterskich. Ukończyłem też podyplomowe studia z zarządzania innowacjami, prowadzone w języku niemieckim. Tworzę narzędzia, których sam potrzebuję, zwykle z pomocą AI, dbając o to, by działały lokalnie i chroniły prywatność.', 'Neben meiner Arbeit studiere ich Marketing Business Management im Master und habe ein deutschsprachiges Aufbaustudium im Innovationsmanagement abgeschlossen. Ich entwickle Werkzeuge, die ich selbst gern hätte, meist mit KI-Unterstützung. Dabei achte ich darauf, dass sie lokal laufen und die Privatsphäre schützen.', 'Паралельно з роботою я навчаюся на магістерській програмі з управління маркетингом і завершив післядипломну програму з управління інноваціями німецькою мовою. Зазвичай за допомогою ШІ створюю інструменти, яких мені бракує, і дбаю, щоб вони працювали локально та захищали приватність.', '工作之余，我攻读市场营销管理硕士学位，并已完成以德语授课的创新管理研究生课程。我借助 AI 开发自己需要的工具，并坚持让它们在本地运行、保护用户隐私。'],
   'This site is one of them: a toolbox that runs entirely in your browser, written in plain HTML, CSS and JavaScript.': ['Ta strona jest jednym z nich: to zestaw narzędzi działających w całości w przeglądarce, napisanych w czystym HTML, CSS i JavaScript.', 'Diese Website ist eines davon: eine Werkzeugsammlung, die vollständig im Browser läuft und mit einfachem HTML, CSS und JavaScript erstellt wurde.', 'Цей сайт — один із таких інструментів: набір функцій, що повністю працює у браузері й написаний на звичайних HTML, CSS і JavaScript.', '这个网站就是其中之一：一套完全在浏览器中运行、使用原生 HTML、CSS 和 JavaScript 编写的工具。'],
   'Go-to-market': ['Strategia wejścia na rynek', 'Markteinführung', 'Виведення на ринок', '市场进入策略'],
@@ -362,7 +363,7 @@ const phrases = {
   'Train regional teams across Europe on products.': ['Prowadzę szkolenia produktowe dla zespołów regionalnych w Europie.', 'Schulung regionaler Teams in ganz Europa zu den Produkten.', 'Навчаю регіональні команди в Європі щодо продуктів.', '为欧洲各地的区域团队开展产品培训。'],
   'Designed and deployed Power Automate, Power Apps, Power BI and SharePoint solutions that automate workflows.': ['Projektowałem i wdrażałem rozwiązania Power Automate, Power Apps, Power BI i SharePoint automatyzujące przepływy pracy.', 'Entwicklung und Einführung von Power-Automate-, Power-Apps-, Power-BI- und SharePoint-Lösungen zur Automatisierung von Arbeitsabläufen.', 'Проєктував і впроваджував рішення Power Automate, Power Apps, Power BI та SharePoint для автоматизації процесів.', '设计并部署 Power Automate、Power Apps、Power BI 和 SharePoint 解决方案，实现工作流自动化。'],
   'Managed SAP data governance, benchmarked products and kept website content accurate.': ['Zarządzałem ładem danych w SAP, porównywałem produkty z rynkiem i dbałem o poprawność treści na stronie.', 'Verwaltung der SAP-Daten-Governance, Benchmarking von Produkten und Pflege korrekter Website-Inhalte.', 'Керував управлінням даними SAP, порівнював продукти з ринком і підтримував точність вмісту сайту.', '负责 SAP 数据治理、产品对标，并确保网站内容准确。'],
-  'Created training materials, newsletters and certifications, and analysed sales and margin.': ['Tworzyłem materiały szkoleniowe, newslettery i certyfikaty oraz analizowałem sprzedaż i marżę.', 'Erstellung von Schulungsunterlagen, Newslettern und Zertifizierungen sowie Analyse von Umsatz und Marge.', 'Створював навчальні матеріали, розсилки й сертифікації, а також аналізував продажі та маржу.', '制作培训材料、新闻邮件和认证内容，并分析销售额与利润率。'],
+  "Created training materials, newsletters and certifications, and analysed sales and margin.": ["Tworzyłem materiały szkoleniowe, newslettery i certyfikaty oraz analizowałem sprzedaż i marżę.", "Erstellung von Schulungsunterlagen, Newslettern und Zertifizierungen sowie Analyse von Umsatz und Marge.", "Створював навчальні матеріали, розсилки й сертифікації, а також аналізував продажі та маржу.", "制作培训材料、邮件通讯和认证内容，并分析销售额与利润率。"],
   'Built and maintained an internal product wiki used for team training.': ['Zbudowałem i prowadziłem wewnętrzną wiki produktową wykorzystywaną do szkoleń zespołu.', 'Aufbau und Pflege eines internen Produkt-Wikis für die Teamschulung.', 'Створив і підтримував внутрішню продуктову вікі для навчання команди.', '搭建并维护供团队培训使用的内部产品知识库。'],
   'Built performance reports in Excel with Power Query and VBA for leadership.': ['Tworzyłem dla kierownictwa raporty wyników w Excelu z użyciem Power Query i VBA.', 'Erstellung von Leistungsberichten in Excel mit Power Query und VBA für die Geschäftsleitung.', 'Створював для керівництва звіти про результати в Excel за допомогою Power Query і VBA.', '使用 Power Query 和 VBA 在 Excel 中为管理层制作绩效报告。'],
   'Supported executives and streamlined office operations with Microsoft 365.': ['Wspierałem kadrę kierowniczą i usprawniałem pracę biura za pomocą Microsoft 365.', 'Unterstützung der Geschäftsleitung und Optimierung der Büroabläufe mit Microsoft 365.', 'Підтримував керівників і оптимізував роботу офісу за допомогою Microsoft 365.', '使用 Microsoft 365 为高管提供支持并优化办公室运营。'],
@@ -371,7 +372,7 @@ const phrases = {
   'Bachelor’s, Marketing in the Enterprise': ['Studia licencjackie: marketing w przedsiębiorstwie', 'Bachelor: Marketing im Unternehmen', 'Бакалаврат: маркетинг на підприємстві', '学士：企业营销'],
   'Junior Specialist, Economics of Enterprise': ['Młodszy specjalista: ekonomika przedsiębiorstw', 'Junior-Spezialist: Betriebswirtschaft', 'Молодший спеціаліст: економіка підприємства', '初级专科：企业经济学'],
   'My Tools Hub': ['My Tools Hub', 'My Tools Hub', 'My Tools Hub', 'My Tools Hub'],
-  'This site: 43 private tools for writing, data, documents and images.': ['Ta strona: 43 narzędzia dbające o prywatność, przydatne przy pracy z tekstem, danymi, dokumentami i obrazami.', 'Diese Website: 43 datenschutzfreundliche Tools für Texte, Daten, Dokumente und Bilder.', 'Цей сайт: 43 інструменти, що дбають про приватність і допомагають працювати з текстами, даними, документами та зображеннями.', '本网站提供 43 种注重隐私的工具，可用于处理文本、数据、文档和图片。'],
+  "This site: 46 private tools for writing, data, documents and images.": ["Ta strona: 46 prywatnych narzędzi do pracy z tekstem, danymi, dokumentami i obrazami.", "Diese Website: 46 datenschutzfreundliche Tools für Texte, Daten, Dokumente und Bilder.", "Цей сайт: 46 приватних інструментів для роботи з текстом, даними, документами та зображеннями.", "本网站提供 46 种注重隐私的工具，可用于处理文本、数据、文档和图片。"],
   'University Schedule Converter': ['Konwerter planu zajęć', 'Universitäts-Stundenplan-Konverter', 'Конвертер університетського розкладу', '大学课表转换器'],
   'A multilingual Excel-to-ICS tool with drag and drop (English, Polish, Ukrainian).': ['Wielojęzyczne narzędzie do konwersji Excela na ICS z obsługą przeciągania (angielski, polski, ukraiński).', 'Mehrsprachiges Excel-zu-ICS-Werkzeug mit Drag-and-drop (Englisch, Polnisch, Ukrainisch).', 'Багатомовний інструмент для перетворення Excel на ICS із перетягуванням файлів (англійська, польська, українська).', '支持拖放的多语言 Excel 转 ICS 工具（英语、波兰语、乌克兰语）。'],
   'AI-powered personal finance system': ['Osobisty system finansowy wspierany przez AI', 'KI-gestütztes persönliches Finanzsystem', 'Персональна фінансова система з підтримкою ШІ', 'AI 驱动的个人财务系统'],
@@ -428,7 +429,7 @@ const phrases = {
   'Accessibility': ['Dostępność', 'Barrierefreiheit', 'Доступність', '无障碍访问'],
   'Email:': ['E-mail:', 'E-Mail:', 'Електронна пошта:', '邮箱：'],
   'My Tools Hub is a free, non-commercial personal project. It has no advertising, no accounts and no paid features.': ['My Tools Hub to darmowy, niekomercyjny projekt osobisty. Nie zawiera reklam, nie wymaga konta i nie oferuje płatnych funkcji.', 'My Tools Hub ist ein kostenloses, nicht kommerzielles persönliches Projekt. Es gibt keine Werbung, Konten oder kostenpflichtigen Funktionen.', 'My Tools Hub — безкоштовний некомерційний особистий проєкт. Тут немає реклами, облікових записів і платних функцій.', 'My Tools Hub 是一个免费的非商业个人项目，没有广告、账户或付费功能。'],
-  'The source code is published under the MIT licence at ': ['Kod źródłowy jest dostępny na licencji MIT pod adresem ', 'Der Quellcode steht unter der MIT-Lizenz unter ', 'Вихідний код опубліковано за ліцензією MIT за адресою ', '源代码以 MIT 许可证发布，地址为'],
+  "The source code is published under the MIT licence at ": ["Kod źródłowy jest dostępny na licencji MIT pod adresem ", "Der Quellcode ist unter der MIT-Lizenz veröffentlicht und abrufbar unter ", "Вихідний код опубліковано за ліцензією MIT за адресою ", "源代码以 MIT 许可证发布，地址为"],
   '. The portrait and the text on the About page are © ': ['. Portret i treść strony „O mnie” są © ', '. Das Porträt und der Text auf der Über-mich-Seite sind © ', '. Портрет і текст на сторінці «Про мене» належать © ', '。关于页面中的肖像和文字版权归'],
   '. All rights reserved.': ['. Wszelkie prawa zastrzeżone.', '. Alle Rechte vorbehalten.', '. Усі права захищено.', '所有权利均予保留。'],
   'Exchange rates in the currency converter are provided by ': ['Kursy walut w przeliczniku pochodzą z serwisu ', 'Die Wechselkurse im Währungsrechner werden bereitgestellt von ', 'Курси валют у конвертері надає сервіс ', '货币转换器中的汇率由'],
@@ -462,7 +463,7 @@ const phrases = {
   'To zone': ['Strefa docelowa', 'Zielzeitzone', 'Цільовий часовий пояс', '目标时区'],
   'Task': ['Zadanie', 'Aufgabe', 'Завдання', '任务'],
   'Background': ['Tło', 'Hintergrund', 'Тло', '背景'],
-  'Foreground': ['Pierwszy plan', 'Vordergrund', 'Передній план', '前景'],
+  "Foreground": ["Kolor kodu", "Farbe des Codes", "Колір коду", "二维码颜色"],
   'Text colour': ['Kolor tekstu', 'Textfarbe', 'Колір тексту', '文字颜色'],
   'Accent colour': ['Kolor akcentu', 'Akzentfarbe', 'Колір акценту', '强调色'],
   'Colour': ['Kolor', 'Farbe', 'Колір', '颜色'],
@@ -545,18 +546,18 @@ const phrases = {
   'Count, score, compare and convert text and Markdown.': ['Zliczaj, oceniaj, porównuj i konwertuj tekst oraz Markdown.', 'Zähle, bewerte, vergleiche und konvertiere Text und Markdown.', 'Рахуйте, оцінюйте, порівнюйте й перетворюйте текст та Markdown.', '统计、评分、比较并转换文本和 Markdown。'],
   'Format JSON and SQL, check flows, convert units, dates and currencies.': ['Formatuj JSON i SQL, sprawdzaj przepływy oraz konwertuj jednostki, daty i waluty.', 'Formatiere JSON und SQL, prüfe Abläufe und rechne Einheiten, Daten und Währungen um.', 'Форматуйте JSON і SQL, перевіряйте потоки та перетворюйте одиниці, дати й валюти.', '格式化 JSON 和 SQL、检查流程，并转换单位、日期和货币。'],
   'Clean, validate and anonymise tables. Chart them. Turn sheets into calendars.': ['Czyść, sprawdzaj i anonimizuj tabele. Twórz wykresy i kalendarze z arkuszy.', 'Bereinige, prüfe und anonymisiere Tabellen. Erstelle Diagramme und Kalender aus Tabellenblättern.', 'Очищуйте, перевіряйте й анонімізуйте таблиці. Створюйте діаграми та календарі.', '清理、验证和匿名化表格，并将其制作为图表或日历。'],
-  'CVs, signatures, newsletters, e-books, roadmaps and one-pagers.': ['CV, podpisy, newslettery, e-booki, roadmapy i jednostronicowe materiały.', 'Lebensläufe, Signaturen, Newsletter, E-Books, Roadmaps und One-Pager.', 'Резюме, підписи, розсилки, електронні книги, плани й односторінкові матеріали.', '简历、签名、新闻邮件、电子书、路线图和单页资料。'],
+  "CVs, signatures, newsletters, e-books, roadmaps and one-pagers.": ["CV, podpisy, newslettery, e-booki, roadmapy i jednostronicowe materiały.", "Lebensläufe, Signaturen, Newsletter, E-Books, Roadmaps und One-Pager.", "Резюме, підписи, розсилки, електронні книги, плани й односторінкові матеріали.", "简历、签名、邮件通讯、电子书、路线图和单页资料。"],
   'QR codes, resizing, watermarks, mockups, palettes and PDFs.': ['Kody QR, zmiana rozmiaru, znaki wodne, makiety, palety i pliki PDF.', 'QR-Codes, Größenänderung, Wasserzeichen, Mockups, Farbpaletten und PDFs.', 'QR-коди, зміна розміру, водяні знаки, макети, палітри й PDF.', '二维码、调整尺寸、水印、样机、配色方案和 PDF。'],
   'Copy analyzer': ['Analizator tekstu', 'Textanalyse', 'Аналізатор тексту', '文案分析器'],
   'Word, character and sentence counts, reading time and Flesch readability.': ['Liczba słów, znaków i zdań, czas czytania oraz czytelność Flescha.', 'Wörter-, Zeichen- und Satzanzahl, Lesezeit und Flesch-Lesbarkeit.', 'Кількість слів, символів і речень, час читання та індекс читабельності Флеша.', '统计词数、字符数和句子数，估算阅读时间并计算 Flesch 易读性。'],
   'Headline analyzer': ['Analizator nagłówków', 'Überschriftenanalyse', 'Аналізатор заголовків', '标题分析器'],
   'Score a headline on length, power words and numbers.': ['Oceń nagłówek pod względem długości, mocnych słów i liczb.', 'Bewerte eine Überschrift nach Länge, Signalwörtern und Zahlen.', 'Оцініть заголовок за довжиною, сильними словами й числами.', '根据长度、吸引力词语和数字为标题评分。'],
-  'Hashtag extractor': ['Wyodrębniacz hashtagów', 'Hashtag-Extraktor', 'Витягувач хештегів', '标签提取器'],
+  "Hashtag extractor": ["Wyodrębnianie hashtagów", "Hashtag-Extraktor", "Виділення хештегів", "话题标签提取器"],
   'Pull top keywords and suggested hashtags out of any text.': ['Wyodrębnij najważniejsze słowa kluczowe i hashtagi z tekstu.', 'Extrahiere die wichtigsten Schlüsselwörter und Hashtags aus einem Text.', 'Виділіть ключові слова та рекомендовані хештеги з тексту.', '从文本中提取关键词并推荐话题标签。'],
   'Text diff': ['Porównywarka tekstu', 'Textvergleich', 'Порівняння тексту', '文本差异比较'],
   'Compare two texts and highlight what was added or removed.': ['Porównaj dwa teksty i wyróżnij dodane lub usunięte fragmenty.', 'Vergleiche zwei Texte und markiere Ergänzungen und Löschungen.', 'Порівняйте два тексти й виділіть додані або видалені фрагменти.', '比较两段文本，并标出新增或删除的内容。'],
   'Markdown to HTML': ['Markdown na HTML', 'Markdown zu HTML', 'Markdown у HTML', 'Markdown 转 HTML'],
-  'Render Markdown to clean, self-contained HTML with a live preview.': ['Konwertuj Markdown do schludnego, kompletnego pliku HTML z podglądem na żywo.', 'Wandle Markdown in eine übersichtliche HTML-Datei um, die ohne zusätzliche Dateien funktioniert. Mit Live-Vorschau.', 'Перетворюйте Markdown на зручний HTML-файл, який можна відкрити окремо, і одразу переглядайте результат.', '将 Markdown 转换为整洁、完整的 HTML 文件，并实时预览。'],
+  "Render Markdown to clean, self-contained HTML with a live preview.": ["Konwertuj Markdown do schludnego, kompletnego pliku HTML z podglądem na żywo.", "Wandle Markdown in saubere, eigenständige HTML-Dateien um – mit Live-Vorschau.", "Перетворюйте Markdown на зручний HTML-файл, який можна відкрити окремо, і одразу переглядайте результат.", "将 Markdown 转换为整洁、完整的 HTML 文件，并实时预览。"],
   'HTML to Markdown': ['HTML na Markdown', 'HTML zu Markdown', 'HTML у Markdown', 'HTML 转 Markdown'],
   'Turn pasted HTML into tidy Markdown.': ['Konwertuj wklejony HTML na uporządkowany Markdown.', 'Wandle eingefügtes HTML in übersichtliches Markdown um.', 'Перетворюйте вставлений HTML на охайний Markdown.', '将粘贴的 HTML 转换为整洁的 Markdown。'],
   'JSON formatter': ['Formater JSON', 'JSON-Formatierer', 'Форматувач JSON', 'JSON 格式化工具'],
@@ -564,7 +565,7 @@ const phrases = {
   'Power Automate JSON checker': ['Walidator JSON Power Automate', 'Power-Automate-JSON-Prüfer', 'Перевірка JSON Power Automate', 'Power Automate JSON 检查器'],
   'Find syntax errors and structural problems in a Power Automate flow definition.': ['Znajdź błędy składni i struktury w definicji przepływu Power Automate.', 'Finde Syntaxfehler und Strukturprobleme in einer Power-Automate-Ablaufdefinition.', 'Знаходьте синтаксичні й структурні помилки у визначенні потоку Power Automate.', '检查 Power Automate 流程定义中的语法错误和结构问题。'],
   'SQL formatter': ['Formater SQL', 'SQL-Formatierer', 'Форматувач SQL', 'SQL 格式化工具'],
-  'Pretty-print and standardise SQL queries.': ['Uporządkuj i ujednolić zapytania SQL.', 'Formatiere und vereinheitliche SQL-Abfragen.', 'Форматуйте й уніфікуйте запити SQL.', '美化并统一 SQL 查询格式。'],
+  "Pretty-print and standardise SQL queries.": ["Formatuj SQL czytelnie i ujednolicaj styl zapytań.", "Formatiere und vereinheitliche SQL-Abfragen.", "Форматуйте й уніфікуйте запити SQL.", "美化并统一 SQL 查询格式。"],
   'HTML viewer': ['Podgląd HTML', 'HTML-Vorschau', 'Перегляд HTML', 'HTML 查看器'],
   'Paste or open HTML and preview it safely in an isolated, responsive frame.': ['Wklej lub otwórz HTML i bezpiecznie wyświetl go w odizolowanej, responsywnej ramce.', 'Füge HTML ein oder öffne eine Datei und zeige sie sicher in einem isolierten, responsiven Rahmen an.', 'Вставте або відкрийте HTML і безпечно перегляньте його в ізольованому адаптивному вікні.', '粘贴或打开 HTML，在隔离且适配屏幕的框架中安全预览。'],
   'Unit converter': ['Przelicznik jednostek', 'Einheitenumrechner', 'Конвертер одиниць', '单位转换器'],
@@ -572,8 +573,8 @@ const phrases = {
   'Date & time toolkit': ['Narzędzia daty i czasu', 'Datum- und Zeitwerkzeuge', 'Інструменти дати й часу', '日期与时间工具'],
   'Date differences, working days between dates, and time zone conversion.': ['Różnice między datami, dni robocze i konwersja stref czasowych.', 'Datumsdifferenzen, Arbeitstage zwischen Daten und Zeitzonenumrechnung.', 'Різниця між датами, робочі дні та перетворення часових поясів.', '计算日期差、工作日和时区转换。'],
   'Convert between currencies using daily reference rates.': ['Przeliczaj waluty na podstawie dziennych kursów referencyjnych.', 'Rechne Währungen anhand täglicher Referenzkurse um.', 'Перетворюйте валюти за щоденними довідковими курсами.', '使用每日参考汇率转换货币。'],
-  'Spreadsheet cleaner': ['Czyściciel arkuszy', 'Tabellenbereinigung', 'Очищення таблиць', '表格清理器'],
-  'Trim, deduplicate, drop empty rows and columns, and standardise headers in CSV or Excel.': ['Usuń zbędne spacje i duplikaty, puste wiersze i kolumny oraz ujednolić nagłówki w CSV lub Excelu.', 'Entferne Leerzeichen, Duplikate sowie leere Zeilen und Spalten und vereinheitliche Überschriften in CSV oder Excel.', 'Прибирайте зайві пробіли й дублікати, видаляйте порожні рядки та стовпці й уніфікуйте заголовки CSV або Excel.', '清理空格和重复项，删除空行空列，并统一 CSV 或 Excel 表头。'],
+  "Spreadsheet cleaner": ["Czyszczenie arkuszy", "Tabellenbereinigung", "Очищення таблиць", "表格清理器"],
+  "Trim, deduplicate, drop empty rows and columns, and standardise headers in CSV or Excel.": ["Usuń zbędne spacje, duplikaty oraz puste wiersze i kolumny, a nagłówki w CSV lub Excelu zapisz w jednolitym formacie.", "Entferne Leerzeichen, Duplikate sowie leere Zeilen und Spalten und vereinheitliche Überschriften in CSV oder Excel.", "Прибирайте зайві пробіли й дублікати, видаляйте порожні рядки та стовпці й уніфікуйте заголовки CSV або Excel.", "清理空格和重复项，删除空行空列，并统一 CSV 或 Excel 表头。"],
   'Email list validator': ['Walidator listy e-mail', 'E-Mail-Listenprüfung', 'Перевірка списку електронних адрес', '邮箱列表验证器'],
   'Validate, deduplicate and summarise a column of email addresses.': ['Sprawdź, usuń duplikaty i podsumuj kolumnę adresów e-mail.', 'Prüfe, bereinige und fasse eine Spalte mit E-Mail-Adressen zusammen.', 'Перевірте, видаліть дублікати й підсумуйте стовпець електронних адрес.', '验证、去重并汇总邮箱地址列。'],
   'Data anonymizer': ['Anonimizator danych', 'Datenanonymisierung', 'Анонімізація даних', '数据匿名化工具'],
@@ -594,15 +595,15 @@ const phrases = {
   'Build a self-contained HTML email signature with a live preview.': ['Utwórz podpis e-mail w HTML z wbudowanymi stylami i podglądem na żywo.', 'Erstelle eine HTML-E-Mail-Signatur mit direkt eingebetteten Stilen und Live-Vorschau.', 'Створіть підпис для електронної пошти в HTML із вбудованими стилями та попереднім переглядом.', '创建样式内嵌的 HTML 邮件签名，并实时预览。'],
   'Persona builder': ['Kreator persony', 'Persona-Ersteller', 'Створення персони', '用户画像生成器'],
   'Build a persona / ICP one-pager and export it as HTML or PDF.': ['Utwórz jednostronicowy profil persony lub ICP i wyeksportuj go do HTML albo PDF.', 'Erstelle ein einseitiges Persona- oder ICP-Profil und exportiere es als HTML oder PDF.', 'Створюйте односторінковий профіль персони або ICP та експортуйте в HTML чи PDF.', '创建单页用户画像或 ICP，并导出为 HTML 或 PDF。'],
-  'Newsletter builder': ['Kreator newslettera', 'Newsletter-Ersteller', 'Створення розсилки', '新闻邮件制作工具'],
-  'Build a responsive HTML email newsletter with a live preview.': ['Utwórz responsywny newsletter w HTML z podglądem na żywo.', 'Erstelle einen responsiven HTML-Newsletter mit Live-Vorschau.', 'Створюйте адаптивну HTML-розсилку з попереднім переглядом.', '创建响应式 HTML 新闻邮件并实时预览。'],
+  "Newsletter builder": ["Kreator newslettera", "Newsletter-Ersteller", "Створення розсилки", "邮件通讯制作工具"],
+  "Build a responsive HTML email newsletter with a live preview.": ["Utwórz responsywny newsletter w HTML z podglądem na żywo.", "Erstelle einen responsiven HTML-Newsletter mit Live-Vorschau.", "Створюйте адаптивну HTML-розсилку з попереднім переглядом.", "创建响应式 HTML 邮件通讯并实时预览。"],
   'Sell sheet': ['Karta produktu', 'Produktübersicht', 'Презентація продукту', '产品单页'],
   'Build a product one-pager and export it as HTML or PDF.': ['Utwórz jednostronicową prezentację produktu i wyeksportuj ją do HTML lub PDF.', 'Erstelle eine einseitige Produktübersicht und exportiere sie als HTML oder PDF.', 'Створюйте односторінкову презентацію продукту й експортуйте в HTML або PDF.', '创建产品单页并导出为 HTML 或 PDF。'],
   'Resume builder': ['Kreator CV', 'Lebenslauf-Ersteller', 'Створення резюме', '简历制作工具'],
   'Fill a form and print a clean CV as PDF.': ['Wypełnij formularz i zapisz przejrzyste CV jako PDF.', 'Fülle ein Formular aus und drucke einen übersichtlichen Lebenslauf als PDF.', 'Заповніть форму й збережіть охайне резюме у PDF.', '填写表单并将简洁的简历打印为 PDF。'],
   'Cover letter': ['List motywacyjny', 'Anschreiben', 'Супровідний лист', '求职信'],
   'Generate a formatted cover letter and print it as PDF.': ['Utwórz sformatowany list motywacyjny i zapisz go jako PDF.', 'Erstelle ein formatiertes Anschreiben und drucke es als PDF.', 'Створюйте відформатований супровідний лист і зберігайте його у PDF.', '生成格式规范的求职信并打印为 PDF。'],
-  'Label sheet': ['Arkusz etykiet', 'Etikettenbogen', 'Аркуш етикеток', '标签页'],
+  "Label sheet": ["Arkusz etykiet", "Etikettenbogen", "Аркуш етикеток", "标签打印页"],
   'Lay labels out on a printable A4 grid.': ['Rozmieść etykiety na siatce A4 gotowej do druku.', 'Ordne Etiketten auf einem druckbaren A4-Raster an.', 'Розмістіть етикетки на сітці A4 для друку.', '将标签排布在可打印的 A4 网格上。'],
   'Roadmap maker': ['Kreator roadmapy', 'Roadmap-Ersteller', 'Створення дорожньої карти', '路线图制作工具'],
   'Generate a roadmap / timeline graphic from milestones.': ['Twórz grafikę roadmapy lub osi czasu na podstawie kamieni milowych.', 'Erstelle aus Meilensteinen eine Roadmap- oder Zeitachsengrafik.', 'Створюйте дорожню карту або часову шкалу з ключових етапів.', '根据里程碑生成路线图或时间线。'],
@@ -634,7 +635,7 @@ const phrases = {
   'Combine multiple images into one PDF (A4, Letter or fit-to-image).': ['Połącz wiele obrazów w jeden plik PDF (A4, Letter lub dopasowany do obrazu).', 'Führe mehrere Bilder zu einer PDF-Datei zusammen (A4, Letter oder bildfüllend).', 'Об’єднуйте зображення в один PDF (A4, Letter або за розміром зображення).', '将多张图片合并为一个 PDF（A4、Letter 或适配图片尺寸）。'],
 };
 
-for (const [key, value] of Object.entries(marketingPhrases)) if (!(key in phrases)) phrases[key] = value;
+for (const extra of [marketingPhrases, toolPhrases]) for (const [key, value] of Object.entries(extra)) if (!(key in phrases)) phrases[key] = value;
 
 const knownLocale = (id) => LOCALES.some((item) => item.id === id);
 let active = 'en';
@@ -677,8 +678,12 @@ export function countText(kind, value) {
   return `${formatNumber(value)} ${word}`;
 }
 
+/** Developer aid: phrases shown in a non-English interface that have no translation yet (see scripts/audit-translations). */
+export const missingTranslations = new Set();
+
 export function t(source, values = {}) {
   const index = LOCALES.findIndex((item) => item.id === active) - 1;
+  if (index >= 0 && !phrases[source]?.[index] && /\p{L}{2}/u.test(source)) missingTranslations.add(source);
   const translated = index < 0 ? source : (phrases[source]?.[index] || source);
   return String(translated).replace(/\{(\w+)\}/g, (_, key) => String(values[key] ?? `{${key}}`));
 }

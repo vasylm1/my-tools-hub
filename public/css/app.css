@@ -360,6 +360,9 @@ caption { text-align: left; padding: 9px 12px; font-weight: 600; font-size: .86r
 .finding.warning { background: var(--warn-soft); } .finding.warning > .icon { color: var(--warn); }
 .finding .icon { margin-top: 2px; }
 .finding code { font: .8rem var(--mono); color: var(--ink-2); grid-column: 2; overflow-wrap: anywhere; }
+.contrast-sample { padding: 20px 22px; border: 1px solid var(--line-2); border-radius: 10px; }
+.contrast-sample strong { font-size: 1.5rem; letter-spacing: -.02em; }
+.contrast-sample p { margin: 8px 0 0; font-size: 1rem; }
 .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; }
 .swatch { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--bg-2); font: .78rem var(--mono); }
 .swatch i { display: block; height: 58px; }
