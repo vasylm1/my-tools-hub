@@ -220,7 +220,7 @@ async function renderTool(id) {
 /* ------------------------------------------------------------ about etc. */
 
 function renderAbout() {
-  setTitle(tr('About'));
+  setTitle(tr('About me'));
   const p = profile;
   const mail = { label: 'Email', icon: 'mail', href: `mailto:${p.email}` };
   const links = [...p.links, mail].map((link) => h('a', {
@@ -342,7 +342,7 @@ let hits = [];
 let active = -1;
 
 function searchHits(q) {
-  const pages = [['tools', 'All tools', 'layers'], ['about', 'About', 'user'], ['privacy', 'Privacy', 'lock'], ['legal', 'Legal notice', 'info']]
+  const pages = [['tools', 'All tools', 'layers'], ['about', 'About me', 'user'], ['privacy', 'Privacy', 'lock'], ['legal', 'Legal notice', 'info']]
     .filter(([, name]) => q && `${name} ${tr(name)}`.toLowerCase().includes(q)).map(([to, name, ic]) => ({ to: `#/${to}`, name: tr(name), ic, sub: tr('Page') }));
   const tools = searchTools(q, tr).map((tool) => ({ to: `#/${tool.id}`, name: tr(tool.name), ic: tool.icon, sub: catName(tool.cat) }));
   return [...tools, ...pages].slice(0, 8);
