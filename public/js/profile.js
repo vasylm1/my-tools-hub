@@ -21,7 +21,7 @@ export const profile = {
   impact: [
     { value: '13', label: 'product families' },
     { value: '18', label: 'European countries' },
-    { value: '1,000+', label: 'report users across Europe' },
+    { value: '1,000+', label: 'people across Europe using these reports' },
     { value: '15', label: 'product training sessions' },
   ],
   experience: [
