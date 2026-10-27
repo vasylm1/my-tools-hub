@@ -11,13 +11,13 @@ import { t } from '../i18n.js';
 
 const optionList = (options) => options.map((o) => (Array.isArray(o) ? o : [o, o]));
 
-function fillSelect(select, options) {
+function fillSelect(select, options, translateLabels = true) {
   for (const o of options) {
     if (o && o.group) {
-      select.append(h('optgroup', { label: t(o.group) }, ...optionList(o.options).map(([v, l]) => h('option', { value: v }, t(l)))));
+      select.append(h('optgroup', { label: translateLabels ? t(o.group) : o.group }, ...optionList(o.options).map(([v, l]) => h('option', { value: v }, translateLabels ? t(l) : l))));
     } else {
       const [v, l] = Array.isArray(o) ? o : [o, o];
-      select.append(h('option', { value: v }, t(l)));
+      select.append(h('option', { value: v }, translateLabels ? t(l) : l));
     }
   }
 }
@@ -84,7 +84,7 @@ export function buildField(spec) {
       setOptions = (options, keep = true) => {
         const prev = control.value;
         control.replaceChildren();
-        fillSelect(control, options);
+        fillSelect(control, options, !spec.optionsFor);
         if (keep && [...control.options].some((o) => o.value === prev)) control.value = prev;
       };
       break;
