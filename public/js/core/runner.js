@@ -23,19 +23,20 @@ import { buildField } from './form.js';
 import { icon } from './icons.js';
 import { canvasToBlob, EXT } from './image.js';
 import { createZip } from '../lib/zip.js';
+import { formatNumber, t as tr } from '../i18n.js';
 
 export function mountTool(root, def) {
   const built = def.fields.map(buildField);
   const byId = Object.fromEntries(built.map((f) => [f.spec.id, f]));
   const live = def.live !== false;
   const out = h('div', { class: 'results', 'aria-live': 'polite' });
-  const runBtn = h('button', { type: 'button', class: 'btn primary', onclick: () => execute() }, def.runLabel || 'Generate');
+  const runBtn = h('button', { type: 'button', class: 'btn primary', onclick: () => execute() }, tr(def.runLabel || 'Generate'));
   const actions = h('div', { class: 'actions' },
     !live && runBtn,
-    def.example && h('button', { type: 'button', class: 'btn', onclick: () => { for (const [k, v] of Object.entries(def.example)) { byId[k]?.set(v); sync(); } execute(); } }, 'Load example'),
-    h('button', { type: 'button', class: 'btn ghost', onclick: () => { for (const f of built) f.reset(); sync(); out.replaceChildren(); if (live) execute(); } }, 'Reset'));
-  const inputs = h('section', { class: 'panel inputs', 'aria-label': 'Input' }, h('div', { class: 'fields' }, ...built.map((f) => f.el)), actions);
-  const results = h('section', { class: 'panel output', 'aria-label': 'Result' }, out);
+    def.example && h('button', { type: 'button', class: 'btn', onclick: () => { for (const [k, v] of Object.entries(def.example)) { byId[k]?.set(v); sync(); } execute(); } }, tr('Load example')),
+    h('button', { type: 'button', class: 'btn ghost', onclick: () => { for (const f of built) f.reset(); sync(); out.replaceChildren(); if (live) execute(); } }, tr('Reset')));
+  const inputs = h('section', { class: 'panel inputs', 'aria-label': tr('Input') }, h('div', { class: 'fields' }, ...built.map((f) => f.el)), actions);
+  const results = h('section', { class: 'panel output', 'aria-label': tr('Result') }, out);
   root.replaceChildren(h('div', { class: 'tool' }, inputs, results));
 
   const values = () => Object.fromEntries(built.map((f) => [f.spec.id, f.get()]));
@@ -73,7 +74,7 @@ export function mountTool(root, def) {
   inputs.addEventListener('input', (e) => { sync(); if (live) (e.target.matches('select,input[type=checkbox],input[type=color],.image-field *') ? execute() : rerun()); });
   inputs.addEventListener('change', (e) => { sync(); if (live && e.target.matches('select,input[type=checkbox],input[type=color]')) execute(); });
   sync();
-  if (live) execute(); else out.replaceChildren(h('p', { class: 'empty' }, def.idle || 'Fill in the form and press the button.'));
+  if (live) execute(); else out.replaceChildren(h('p', { class: 'empty' }, tr(def.idle || 'Fill in the form and press the button.')));
 
   return () => { rerun.cancel(); seq++; };
 }
@@ -89,7 +90,7 @@ export async function renderResult(container, result) {
 
 const withIcon = (name, text) => [icon(name, 15), h('span', {}, text)];
 
-function copyBtn(getText, label = 'Copy') {
+function copyBtn(getText, label = tr('Copy')) {
   return h('button', { type: 'button', class: 'btn small', onclick: () => copyText(getText()) }, ...withIcon('copy', label));
 }
 
@@ -98,15 +99,15 @@ function fileBtn(label, name, data, mime) {
 }
 
 async function renderPart(into, r) {
-  if (r.error) into.append(h('div', { class: 'msg error', role: 'alert' }, icon('xcircle', 16), h('span', {}, r.error)));
-  if (r.empty) into.append(h('p', { class: 'empty' }, r.empty));
+  if (r.error) into.append(h('div', { class: 'msg error', role: 'alert' }, icon('xcircle', 16), h('span', {}, tr(r.error))));
+  if (r.empty) into.append(h('p', { class: 'empty' }, tr(r.empty)));
   if (r.notice) {
     const n = typeof r.notice === 'string' ? { kind: 'info', text: r.notice } : r.notice;
     const ic = { ok: 'checkcircle', warn: 'alert', info: 'info', error: 'xcircle' }[n.kind || 'info'] || 'info';
-    into.append(h('div', { class: `msg ${n.kind || 'info'}` }, icon(ic, 16), h('span', {}, n.text)));
+    into.append(h('div', { class: `msg ${n.kind || 'info'}` }, icon(ic, 16), h('span', {}, tr(n.text))));
   }
   if (r.stats) {
-    into.append(h('dl', { class: 'stats' }, ...r.stats.map(([k, v]) => h('div', {}, h('dt', {}, k), h('dd', {}, String(v))))));
+    into.append(h('dl', { class: 'stats' }, ...r.stats.map(([k, v]) => h('div', {}, h('dt', {}, tr(k)), h('dd', {}, String(v))))));
   }
   if (r.table) into.append(tableEl(r.table));
   if (r.node) into.append(r.node);
@@ -123,17 +124,19 @@ function tableEl({ head, rows, caption }) {
       caption && h('caption', {}, caption),
       head && h('thead', {}, h('tr', {}, ...head.map((c) => h('th', { scope: 'col' }, c)))),
       h('tbody', {}, ...rows.slice(0, MAX).map((r) => h('tr', {}, ...r.map((c) => h('td', {}, c == null ? '' : String(c))))))),
-    rows.length > MAX && h('p', { class: 'muted small-text' }, `Showing the first ${MAX} of ${rows.length} rows.`));
+    rows.length > MAX && h('p', { class: 'muted small-text' }, tr('Showing the first {shown} of {total} rows.', { shown: formatNumber(MAX), total: formatNumber(rows.length) })));
 }
 
 function textBlock(t) {
-  const area = h('textarea', { readOnly: true, rows: t.rows || 10, spellcheck: false, 'aria-label': t.label || 'Output' });
+  const area = h('textarea', { readOnly: true, rows: t.rows || 10, spellcheck: false, 'aria-label': t.label ? windowText(t.label) : windowText('Output') });
   area.value = t.value;
   return h('div', { class: 'block' },
-    t.label && h('div', { class: 'block-head' }, h('strong', {}, t.label)),
+    t.label && h('div', { class: 'block-head' }, h('strong', {}, windowText(t.label))),
     area,
-    h('div', { class: 'actions' }, copyBtn(() => t.value), t.filename && fileBtn(`Download ${t.filename}`, t.filename, t.value, t.mime || 'text/plain;charset=utf-8')));
+    h('div', { class: 'actions' }, copyBtn(() => t.value), t.filename && fileBtn(windowText(`Download ${t.filename}`), t.filename, t.value, t.mime || 'text/plain;charset=utf-8')));
 }
+
+function windowText(value) { return tr(value); }
 
 async function canvasBlock({ canvas, filename = 'image', formats = ['png', 'jpeg', 'webp'], quality = 0.92 }) {
   const types = { png: 'image/png', jpeg: 'image/jpeg', webp: 'image/webp' };
@@ -158,16 +161,18 @@ async function canvasBlock({ canvas, filename = 'image', formats = ['png', 'jpeg
     } catch { toast('Copying images is not supported here; use Download.', 'error'); }
   };
   canvas.classList.add('preview-canvas');
+  canvas.setAttribute('role', 'img');
+  canvas.setAttribute('aria-label', `Image preview, ${canvas.width} by ${canvas.height} pixels. Use the download buttons to save it.`);
   return h('div', { class: 'block' },
     h('div', { class: 'canvas-wrap' }, canvas),
     h('p', { class: 'muted small-text' }, `${canvas.width} × ${canvas.height} px`),
     h('div', { class: 'actions' },
       ...formats.map((f) => h('button', { type: 'button', class: 'btn small', onclick: () => save(f) }, ...withIcon('download', f.toUpperCase()))),
-      h('button', { type: 'button', class: 'btn small', onclick: copyImage }, ...withIcon('copy', 'Copy image'))));
+      h('button', { type: 'button', class: 'btn small', onclick: copyImage }, ...withIcon('copy', tr('Copy image')))));
 }
 
 function htmlBlock({ value, filename = 'document.html', pageWidth, print, rich, title = 'Preview', width }) {
-  const frame = h('iframe', { title, sandbox: 'allow-same-origin', class: 'preview-frame', referrerPolicy: 'no-referrer' });
+  const frame = h('iframe', { title: tr(title), sandbox: 'allow-same-origin', class: 'preview-frame', referrerPolicy: 'no-referrer' });
   const holder = h('div', { class: `frame-holder${pageWidth ? ' paged' : ''}` }, frame);
   const fit = () => {
     const doc = frame.contentDocument;
@@ -186,7 +191,7 @@ function htmlBlock({ value, filename = 'document.html', pageWidth, print, rich, 
   ro.observe(holder);
   return h('div', { class: 'block' }, holder,
     h('div', { class: 'actions' },
-      print && h('button', { type: 'button', class: 'btn small primary', onclick: () => { frame.contentWindow.focus(); frame.contentWindow.print(); } }, ...withIcon('printer', 'Print / Save as PDF')),
+      print && h('button', { type: 'button', class: 'btn small primary', onclick: () => { frame.contentWindow.focus(); frame.contentWindow.print(); } }, ...withIcon('printer', tr('Print / Save as PDF'))),
       rich && h('button', {
         type: 'button', class: 'btn small primary', onclick: async () => {
           try {
@@ -194,21 +199,21 @@ function htmlBlock({ value, filename = 'document.html', pageWidth, print, rich, 
             toast('Copied. Paste it into your email settings.');
           } catch { toast('Rich copy is not available here. Use Copy HTML instead.', 'error'); }
         },
-      }, ...withIcon('copy', 'Copy formatted')),
-      copyBtn(() => value, 'Copy HTML'),
-      fileBtn(`Download ${filename}`, filename, value, 'text/html;charset=utf-8')));
+      }, ...withIcon('copy', tr('Copy formatted'))),
+      copyBtn(() => value, tr('Copy HTML')),
+      fileBtn(tr('Download {name}', { name: filename }), filename, value, 'text/html;charset=utf-8')));
 }
 
 function downloadsBlock(files) {
   const toBlob = (f) => (f.data instanceof Blob ? f.data : new Blob([f.data], { type: f.mime || 'application/octet-stream' }));
-  const buttons = files.map((f) => h('button', { type: 'button', class: 'btn small', onclick: () => download(f.name, toBlob(f), f.mime) }, ...withIcon('download', f.label || f.name)));
+  const buttons = files.map((f) => h('button', { type: 'button', class: 'btn small', onclick: () => download(f.name, toBlob(f), f.mime) }, ...withIcon('download', f.label ? tr(f.label) : f.name)));
   const zipBtn = files.length > 1 && h('button', {
     type: 'button', class: 'btn small primary', onclick: async () => {
       const entries = [];
       for (const f of files) entries.push({ name: f.name, data: new Uint8Array(await toBlob(f).arrayBuffer()) });
       download('files.zip', createZip(entries), 'application/zip');
     },
-  }, ...withIcon('download', `All ${files.length} files (ZIP)`));
+  }, ...withIcon('download', tr('All {count} files (ZIP)', { count: formatNumber(files.length) })));
   return h('div', { class: 'block' }, h('div', { class: 'actions wrap' }, zipBtn, ...buttons));
 }
 

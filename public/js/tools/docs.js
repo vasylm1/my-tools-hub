@@ -16,7 +16,7 @@ const href = (u) => e(safeUrl(String(u || '').trim()));
 const lines = (t) => String(t || '').split(/\r?\n/).map((x) => x.trim()).filter(Boolean);
 const para = (t) => lines(t).map((l) => e(l)).join('<br>');
 const ul = (t, cls = '') => (lines(t).length ? `<ul${cls ? ` class="${cls}"` : ''}>${lines(t).map((l) => `<li>${e(l.replace(/^[-•*]\s*/, ''))}</li>`).join('')}</ul>` : '');
-const hex = (c) => (/^#[0-9a-f]{6}$/i.test(c) ? c : '#0f766e');
+const hex = (c) => (/^#[0-9a-f]{6}$/i.test(c) ? c : '#1a6b47');
 
 const A4_CSS = (accent) => `@page{size:A4;margin:0}*{box-sizing:border-box}body{margin:0;font:14px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#1d2327;background:#fff}
 .page{width:210mm;min-height:297mm;padding:16mm 18mm}h1{font-size:30px;line-height:1.15;margin:0 0 4px;color:${accent}}h2{font-size:13px;letter-spacing:.09em;text-transform:uppercase;color:${accent};border-bottom:2px solid ${accent};padding-bottom:3px;margin:22px 0 8px}
@@ -119,7 +119,7 @@ export const tools = {
       { id: 'photo', type: 'image', label: 'Or upload a photo' },
       { id: 'linkedin', type: 'url', label: 'LinkedIn URL', half: true },
       { id: 'x', type: 'url', label: 'X / Twitter URL', half: true },
-      { id: 'accent', type: 'color', label: 'Accent colour', value: '#0f766e' },
+      { id: 'accent', type: 'color', label: 'Accent colour', value: '#1a6b47' },
     ],
     run(v) {
       const accent = hex(v.accent);
@@ -224,7 +224,7 @@ ${v.ctaText ? `<tr><td style="padding:8px 32px 32px"><a href="${href(v.ctaUrl)}"
       { id: 'experience', type: 'textarea', label: 'Experience', rows: 9, hint: 'One block per job, blank line between blocks. First line: Role | Company | Dates. Following lines: achievements.', value: 'Senior Product Marketing Manager | Acme Lighting | 2021 – now\nLed launch of 3 product families in 12 markets\nBuilt the sales enablement programme used by 400 reps\n\nMarketing Specialist | Globex | 2017 – 2021\nGrew qualified leads by 85% in two years' },
       { id: 'education', type: 'textarea', label: 'Education', rows: 3, hint: 'Same format: Degree | School | Dates.', value: 'MSc Marketing Management | VIZJA University | 2024 – now' },
       { id: 'skills', type: 'text', label: 'Skills (comma-separated)', value: 'Go-to-market, Power BI, SQL, Sales enablement, n8n' },
-      { id: 'accent', type: 'color', label: 'Accent colour', value: '#0f766e' },
+      { id: 'accent', type: 'color', label: 'Accent colour', value: '#1a6b47' },
     ],
     run(v) {
       const a = hex(v.accent);

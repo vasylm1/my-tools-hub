@@ -7,29 +7,30 @@ import { h, formatBytes, toast } from './dom.js';
 import { icon } from './icons.js';
 import { loadImageFile } from './image.js';
 import { parseCSV, toCSV } from '../lib/csv.js';
+import { t } from '../i18n.js';
 
 const optionList = (options) => options.map((o) => (Array.isArray(o) ? o : [o, o]));
 
 function fillSelect(select, options) {
   for (const o of options) {
     if (o && o.group) {
-      select.append(h('optgroup', { label: o.group }, ...optionList(o.options).map(([v, l]) => h('option', { value: v }, l))));
+      select.append(h('optgroup', { label: t(o.group) }, ...optionList(o.options).map(([v, l]) => h('option', { value: v }, t(l)))));
     } else {
       const [v, l] = Array.isArray(o) ? o : [o, o];
-      select.append(h('option', { value: v }, l));
+      select.append(h('option', { value: v }, t(l)));
     }
   }
 }
 
 function dropzone({ multiple, accept, onFiles, label }) {
-  const input = h('input', { type: 'file', accept, multiple, class: 'sr-only', tabindex: -1 });
+  label = t(label);
+  // The file input sits beside (not inside) the role=button zone, so interactive controls are not nested.
+  const input = h('input', { type: 'file', accept, multiple, class: 'sr-only', tabindex: -1, 'aria-label': label });
   const zone = h('div', { class: 'dropzone', tabindex: 0, role: 'button', 'aria-label': label },
     h('span', { class: 'dz-icon', 'aria-hidden': 'true' }, icon('upload', 20)),
-    h('span', { class: 'dz-text' }, label),
-    input);
-  const open = () => input.click();
-  zone.addEventListener('click', (e) => { if (e.target !== input) open(); });
-  zone.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
+    h('span', { class: 'dz-text' }, label));
+  zone.addEventListener('click', () => input.click());
+  zone.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); input.click(); } });
   zone.addEventListener('dragover', (e) => { e.preventDefault(); zone.classList.add('over'); });
   zone.addEventListener('dragleave', () => zone.classList.remove('over'));
   zone.addEventListener('drop', (e) => { e.preventDefault(); zone.classList.remove('over'); if (e.dataTransfer.files.length) onFiles([...e.dataTransfer.files]); });
@@ -38,7 +39,7 @@ function dropzone({ multiple, accept, onFiles, label }) {
     if (files.length) { e.preventDefault(); onFiles(files); }
   });
   input.addEventListener('change', () => { if (input.files.length) onFiles([...input.files]); input.value = ''; });
-  return zone;
+  return h('div', { class: 'dz-wrap' }, zone, input);
 }
 
 export function buildField(spec) {
@@ -53,13 +54,13 @@ export function buildField(spec) {
 
   switch (type) {
     case 'textarea':
-      control = h('textarea', { id, rows: spec.rows || 8, placeholder: spec.placeholder || '', spellcheck: spec.spellcheck ?? false });
+      control = h('textarea', { id, rows: spec.rows || 8, placeholder: t(spec.placeholder || ''), spellcheck: spec.spellcheck ?? false });
       control.value = spec.value ?? '';
       get = () => control.value;
       set = (v) => { control.value = v ?? ''; };
       break;
     case 'number':
-      control = h('input', { id, type: 'number', min: spec.min, max: spec.max, step: spec.step ?? 'any', placeholder: spec.placeholder || '' });
+      control = h('input', { id, type: 'number', min: spec.min, max: spec.max, step: spec.step ?? 'any', placeholder: t(spec.placeholder || '') });
       control.value = spec.value ?? '';
       get = () => (control.value === '' || !Number.isFinite(control.valueAsNumber) ? null : control.valueAsNumber);
       set = (v) => { control.value = v ?? ''; };
@@ -94,7 +95,7 @@ export function buildField(spec) {
       break;
     case 'color':
       control = h('input', { id, type: 'color' });
-      control.value = spec.value || '#0f766e';
+      control.value = spec.value || '#1a6b47';
       get = () => control.value;
       set = (v) => { control.value = v; };
       break;
@@ -109,8 +110,8 @@ export function buildField(spec) {
           h('img', { src: it.thumb, alt: '', width: 36, height: 36 }),
           h('span', { class: 'fl-name' }, it.name),
           h('span', { class: 'fl-size muted' }, `${it.width}×${it.height}`),
-          multiple && h('button', { type: 'button', class: 'mini', 'aria-label': `Move ${it.name} up`, disabled: i === 0, onclick: () => { [items[i - 1], items[i]] = [items[i], items[i - 1]]; render(); emit(root); } }, icon('arrowup', 14)),
-          h('button', { type: 'button', class: 'mini', 'aria-label': `Remove ${it.name}`, onclick: () => { items.splice(i, 1); render(); emit(root); } }, icon('x', 14)))));
+          multiple && h('button', { type: 'button', class: 'mini', 'aria-label': t('Move {name} up', { name: it.name }), disabled: i === 0, onclick: () => { [items[i - 1], items[i]] = [items[i], items[i - 1]]; render(); emit(root); } }, icon('arrowup', 14)),
+          h('button', { type: 'button', class: 'mini', 'aria-label': t('Remove {name}', { name: it.name }), onclick: () => { items.splice(i, 1); render(); emit(root); } }, icon('x', 14)))));
       };
       const root = h('div', { class: 'image-field', id });
       const zone = dropzone({
@@ -118,7 +119,7 @@ export function buildField(spec) {
         accept: 'image/*',
         label: multiple ? 'Drop images here, paste, or click to choose' : 'Drop an image here, paste, or click to choose',
         onFiles: async (files) => {
-          status.textContent = 'Loading…';
+          status.textContent = t('Loading…');
           const loaded = [];
           for (const f of files) {
             try {
@@ -148,24 +149,24 @@ export function buildField(spec) {
       break;
     }
     case 'textfile': {
-      const area = h('textarea', { id, rows: spec.rows || 8, placeholder: spec.placeholder || '', spellcheck: false });
+      const area = h('textarea', { id, rows: spec.rows || 8, placeholder: t(spec.placeholder || ''), spellcheck: false });
       area.value = spec.value ?? '';
-      const input = h('input', { type: 'file', accept: spec.accept || '.csv,.tsv,.txt,.xlsx', class: 'sr-only', tabindex: -1 });
-      const btn = h('button', { type: 'button', class: 'btn small', onclick: () => input.click() }, icon('folderopen', 15), h('span', {}, 'Open file'));
+      const input = h('input', { type: 'file', accept: spec.accept || '.csv,.tsv,.txt,.xlsx', class: 'sr-only', tabindex: -1, 'aria-label': t('Open file') });
+      const btn = h('button', { type: 'button', class: 'btn small', onclick: () => input.click() }, icon('folderopen', 15), h('span', {}, t('Open file')));
       const note = h('span', { class: 'muted small-text' });
       input.addEventListener('change', async () => {
         const file = input.files[0];
         input.value = '';
         if (!file) return;
-        if (file.size > 25 * 1024 * 1024) { toast('That file is larger than 25 MB.', 'error'); return; }
+        if (file.size > 25 * 1024 * 1024) { toast(t('That file is larger than 25 MB.'), 'error'); return; }
         try {
           if (/\.xlsx$/i.test(file.name)) {
             const { readXlsx } = await import('../lib/xlsx.js');
             const { sheetName, rows } = await readXlsx(await file.arrayBuffer());
             area.value = toCSV(rows);
-            note.textContent = `${file.name} · sheet “${sheetName}” · ${rows.length} rows`;
+            note.textContent = t('{file} · sheet “{sheet}” · {rows} rows', { file: file.name, sheet: sheetName, rows: rows.length });
           } else if (/\.xls$/i.test(file.name)) {
-            throw new Error('Old .xls files are not supported. Save the sheet as .xlsx or .csv first.');
+            throw new Error(t('Old .xls files are not supported. Save the sheet as .xlsx or .csv first.'));
           } else {
             area.value = await file.text();
             note.textContent = `${file.name} · ${formatBytes(file.size)}`;
@@ -179,7 +180,7 @@ export function buildField(spec) {
       break;
     }
     default:
-      control = h('input', { id, type, placeholder: spec.placeholder || '', autocomplete: 'off', spellcheck: false, maxLength: spec.maxLength });
+      control = h('input', { id, type, placeholder: t(spec.placeholder || ''), autocomplete: 'off', spellcheck: false, maxLength: spec.maxLength });
       control.value = spec.value ?? '';
       get = () => control.value;
       set = (v) => { control.value = v ?? ''; };
@@ -187,12 +188,12 @@ export function buildField(spec) {
 
   const isCheck = type === 'checkbox';
   const label = spec.label && (isCheck
-    ? h('label', { class: 'check', for: id }, control, h('span', {}, spec.label))
-    : h('label', { class: 'label', for: type === 'textfile' ? id : id }, spec.label));
+    ? h('label', { class: 'check', for: id }, control, h('span', {}, t(spec.label)))
+    : h('label', { class: 'label', for: id }, t(spec.label)));
   const el = h('div', { class: `field${spec.half ? ' half' : ''}${isCheck ? ' is-check' : ''}`, dataset: { id: spec.id } },
     label,
     !isCheck && (extra ? h('div', { class: 'range-wrap' }, control, extra) : control),
-    spec.hint && h('p', { class: 'hint' }, spec.hint));
+    spec.hint && h('p', { class: 'hint' }, t(spec.hint)));
   const initial = get();
   return { el, get, set, setOptions, reset: () => set(initial), spec };
 }
@@ -204,5 +205,5 @@ export function readTable(text) {
   const width = Math.max(...rows.map((r) => r.length));
   const pad = (r) => Array.from({ length: width }, (_, i) => r[i] ?? '');
   const [head, ...body] = rows.map(pad);
-  return { head: head.map((c, i) => c.trim() || `Column ${i + 1}`), body };
+  return { head: head.map((c, i) => c.trim() || t('Column {number}', { number: i + 1 })), body };
 }

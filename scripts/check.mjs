@@ -47,9 +47,9 @@ for await (const file of walk(pub)) {
   if (!/\.(js|html|css)$/.test(file)) continue;
   const text = await readFile(file, 'utf8');
   const rel = path.relative(pub, file);
-  for (const m of text.matchAll(/https?:\/\/[^\s'"`)<>]+/g)) {
+  for (const m of text.matchAll(/https?:\/\/[^\s'"`)<>;,]+/g)) {
     const host = new URL(m[0]).hostname;
-    const ok = ['open.er-api.com', 'www.w3.org', 'purl.org', 'www.idpf.org', 'www.daisy.org', 'example.com', 'example.org', 'example.net', 'schemas.openxmlformats.org', 'claude.com', 'github.com'].includes(host)
+    const ok = ['open.er-api.com', 'www.w3.org', 'purl.org', 'www.idpf.org', 'www.daisy.org', 'example.com', 'example.org', 'example.net', 'schemas.openxmlformats.org', 'claude.com', 'github.com', 'static.vasylautomation.org', 'www.linkedin.com', 'www.netlify.com', 'www.exchangerate-api.com', 'uodo.gov.pl'].includes(host)
       || host.endsWith('.example.com') || host === 'localhost';
     if (!ok) fail(`${rel}: unexpected external URL ${m[0]}`);
   }

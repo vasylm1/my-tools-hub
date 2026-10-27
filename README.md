@@ -4,6 +4,8 @@ A collection of 43 small, private tools that run entirely in your browser: nothi
 
 It is a static site in plain HTML, CSS and vanilla JavaScript (ES modules). There is no build step and no runtime dependencies. Everything served lives in `public/`.
 
+The interface is available in English, Polish, German, Ukrainian and Simplified Chinese. UI phrases and locale handling live in `public/js/i18n.js`; add translations there when adding new interface text. User-provided content and generated document content are left unchanged.
+
 ## Tools
 
 The catalogue is defined in `public/js/registry.js`.

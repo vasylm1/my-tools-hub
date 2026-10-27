@@ -1,4 +1,5 @@
 // Tiny DOM helpers shared by the shell and every tool.
+import { formatNumber, t } from '../i18n.js';
 
 /** Create an element. `props`: class, dataset, on<Event> handlers, DOM properties or attributes. */
 export function h(tag, props, ...kids) {
@@ -68,7 +69,7 @@ let toastTimer;
 export function toast(message, kind = 'ok') {
   const el = document.getElementById('toast');
   if (!el) return;
-  el.textContent = message;
+  el.textContent = t(message);
   el.dataset.kind = kind;
   el.classList.add('show');
   clearTimeout(toastTimer);
@@ -86,5 +87,5 @@ export function formatBytes(n) {
   const units = ['B', 'KB', 'MB', 'GB'];
   let i = 0;
   while (n >= 1024 && i < units.length - 1) { n /= 1024; i++; }
-  return `${n >= 10 || i === 0 ? Math.round(n) : n.toFixed(1)} ${units[i]}`;
+  return `${formatNumber(n, { maximumFractionDigits: n >= 10 || i === 0 ? 0 : 1 })} ${units[i]}`;
 }

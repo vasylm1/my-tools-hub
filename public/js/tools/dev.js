@@ -208,7 +208,8 @@ export const tools = {
         return {
           stats: [['Result', fmt(amount * rate, to)], ['Rate', `1 ${from} = ${Number(rate.toPrecision(6))} ${to}`]],
           table: { caption: `${fmt(amount, from)} in other currencies`, head: ['Currency', 'Amount'], rows: codes.filter((c) => c !== from && data.rates[c]).map((c) => [c, fmt(amount * data.rates[c], c)]) },
-          notice: `Reference rates updated ${data.time_last_update_utc?.replace(/ \+0000$/, ' UTC') || 'recently'} · source: open.er-api.com. Not a trading quote.`,
+          notice: `Reference rates updated ${data.time_last_update_utc?.replace(/ \+0000$/, ' UTC') || 'recently'}. Not a trading quote.`,
+          node: h('p', { class: 'muted small-text' }, 'Rates by ', h('a', { href: 'https://www.exchangerate-api.com', rel: 'noopener noreferrer', target: '_blank' }, 'Exchange Rate API'), '.'),
         };
       },
     };

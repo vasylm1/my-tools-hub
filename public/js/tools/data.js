@@ -31,7 +31,7 @@ const EMAIL_RE = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 
 /* ---------------------------------------------------------------- charts */
 
-const PALETTE = ['#0f766e', '#e4572e', '#4361ee', '#f2a900', '#8e44ad', '#2a9d8f', '#d1495b', '#3d5a80', '#6a994e', '#bc6c25'];
+const PALETTE = ['#1a6b47', '#e4572e', '#4361ee', '#f2a900', '#8e44ad', '#2a9d8f', '#d1495b', '#3d5a80', '#6a994e', '#bc6c25'];
 const niceMax = (v) => {
   if (v <= 0) return 1;
   const p = 10 ** Math.floor(Math.log10(v));
@@ -261,7 +261,7 @@ export const tools = {
     fields: [
       dataField({ rows: 8 }),
       { id: 'type', type: 'select', label: 'Chart type', half: true, options: [['bar', 'Bar'], ['line', 'Line'], ['pie', 'Pie']] },
-      { id: 'color', type: 'color', label: 'Colour', value: '#0f766e', half: true, show: (v) => v.type !== 'pie' },
+      { id: 'color', type: 'color', label: 'Colour', value: '#1a6b47', half: true, show: (v) => v.type !== 'pie' },
       { id: 'labels', type: 'select', label: 'Label column', half: true, options: [['0', '(no data yet)']], optionsFor: columnOptions() },
       { id: 'vals', type: 'select', label: 'Value column', half: true, options: [['1', '(no data yet)']], optionsFor: columnOptions(), value: '1' },
       { id: 'title', type: 'text', label: 'Chart title', placeholder: 'Optional' },

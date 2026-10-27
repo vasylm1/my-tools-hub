@@ -4,57 +4,69 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>My Tools Hub</title>
-  <meta name="description" content="40+ small, private tools that run entirely in your browser: QR codes, JSON, images, PDFs, spreadsheets, writing helpers and more. No uploads, no accounts.">
+  <meta name="description" content="40+ small, private tools that run entirely in your browser: QR codes, JSON, images, PDFs, spreadsheets, writing helpers and more. No uploads, no accounts." data-i18n-content="40+ small, private tools that run entirely in your browser: QR codes, JSON, images, PDFs, spreadsheets, writing helpers and more. No uploads, no accounts.">
   <meta name="color-scheme" content="dark light">
   <meta name="theme-color" content="#08090a">
   <meta property="og:title" content="My Tools Hub">
-  <meta property="og:description" content="40+ private, in-browser tools. Nothing is uploaded.">
+  <meta property="og:description" content="40+ private, in-browser tools. Nothing is uploaded." data-i18n-content="40+ private, in-browser tools. Nothing is uploaded.">
   <meta property="og:type" content="website">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/icons/icon-192.png">
   <link rel="manifest" href="/manifest.webmanifest">
   <script src="/js/theme-init.js"></script>
-  <script defer src="https://static.vasylautomation.org/script.js" data-website-id="37f9d002-6188-40fe-93e4-26936bd09f03"></script>
+  <script defer src="https://static.vasylautomation.org/script.js" data-website-id="37f9d002-6188-40fe-93e4-26936bd09f03" data-do-not-track="true"></script>
   <link rel="stylesheet" href="/css/app.css">
   <link rel="modulepreload" href="/js/main.js">
 </head>
 <body>
-  <a class="skip" href="#main">Skip to content</a>
+  <a class="skip" href="#main" data-i18n="Skip to content">Skip to content</a>
 
   <header class="topbar">
     <div class="topbar-in">
-      <button class="icon-btn menu-btn" id="menu-btn" type="button" aria-label="Open tool list" aria-expanded="false" aria-controls="sidebar"></button>
-      <a class="brand" href="#/" aria-label="My Tools Hub, home">
+      <button class="icon-btn menu-btn" id="menu-btn" type="button" data-i18n-aria="Open tool list" aria-expanded="false" aria-controls="sidebar"></button>
+      <a class="brand" href="#/" aria-label="My Tools Hub, home" data-i18n-aria="My Tools Hub, home">
         <svg class="brand-mark" viewBox="0 0 64 64" width="26" height="26" aria-hidden="true"><rect width="64" height="64" rx="15" fill="currentColor"/><g fill="#fff"><rect x="14" y="14" width="16" height="16" rx="4"/><rect x="34" y="14" width="16" height="16" rx="4" opacity=".6"/><rect x="14" y="34" width="16" height="16" rx="4" opacity=".6"/><rect x="34" y="34" width="16" height="16" rx="4"/></g></svg>
         <span class="brand-name">My Tools Hub</span>
       </a>
-      <nav class="topnav" aria-label="Main">
-        <a href="#/tools" data-nav="tools">Tools</a>
-        <a href="#/about" data-nav="about">About</a>
+      <nav class="topnav" aria-label="Main navigation" data-i18n-aria="Main navigation">
+        <a href="#/tools" data-nav="tools" data-i18n="Tools">Tools</a>
+        <a href="#/about" data-nav="about" data-i18n="About">About</a>
       </nav>
-      <button class="search-trigger" id="palette-btn" type="button" aria-label="Search tools" aria-haspopup="dialog">
-        <span class="st-icon"></span><span class="st-text">Search tools</span><kbd id="palette-kbd">Ctrl K</kbd>
-      </button>
-      <button class="icon-btn" id="theme-btn" type="button" aria-label="Switch colour theme" title="Switch colour theme"></button>
+      <div class="search" role="search">
+        <span class="search-icon" id="search-icon"></span>
+        <label class="sr-only" for="search" data-i18n="Search tools">Search tools</label>
+        <input id="search" type="search" placeholder="Search tools" data-i18n-placeholder="Search tools" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="false" aria-controls="search-results" aria-autocomplete="list">
+        <kbd id="search-kbd">Ctrl K</kbd>
+        <div class="search-results" id="search-results" role="listbox" aria-label="Search results" data-i18n-aria="Search results" hidden></div>
+      </div>
+      <label class="sr-only" for="locale-select" data-i18n="Language">Language</label>
+      <select class="locale-select" id="locale-select" aria-label="Language" data-i18n-aria="Language">
+        <option value="en">English</option>
+        <option value="pl">Polski</option>
+        <option value="de">Deutsch</option>
+        <option value="uk">Українська</option>
+        <option value="zh">简体中文</option>
+      </select>
+      <button class="icon-btn" id="theme-btn" type="button" aria-label="Switch colour theme" title="Switch colour theme" data-i18n-aria="Switch colour theme"></button>
     </div>
   </header>
 
   <div class="shell">
-    <nav class="sidebar" id="sidebar" aria-label="Tools"></nav>
+    <nav class="sidebar" id="sidebar" aria-label="Tools" data-i18n-aria="Tools list"></nav>
     <div class="scrim" id="scrim" hidden></div>
     <main id="main" tabindex="-1"></main>
   </div>
 
   <footer class="footer">
     <div class="footer-in">
-      <span>My Tools Hub. Everything runs in your browser; your files are never uploaded.</span>
-      <nav aria-label="Footer"><a href="#/tools">Tools</a><a href="#/about">About</a><a href="#/privacy">Privacy</a></nav>
+      <span data-i18n="My Tools Hub. Everything runs in your browser; your files are never uploaded.">My Tools Hub. Everything runs in your browser; your files are never uploaded.</span>
+      <nav aria-label="Footer navigation" data-i18n-aria="Footer navigation"><a href="#/tools" data-i18n="Tools">Tools</a><a href="#/about" data-i18n="About">About</a><a href="#/privacy" data-i18n="Privacy">Privacy</a><a href="#/legal" data-i18n="Legal notice">Legal notice</a></nav>
     </div>
   </footer>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-  <noscript><p class="noscript">My Tools Hub needs JavaScript to run its tools. Everything stays on your device.</p></noscript>
+  <noscript><p class="noscript" data-i18n="My Tools Hub needs JavaScript to run its tools. Everything stays on your device.">My Tools Hub needs JavaScript to run its tools. Everything stays on your device.</p></noscript>
   <script type="module" src="/js/main.js"></script>
 </body>
 </html>

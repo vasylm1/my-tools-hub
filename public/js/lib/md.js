@@ -125,8 +125,8 @@ export function markdownToHtml(md) {
 export const DOC_CSS = `body{font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;max-width:46rem;margin:2rem auto;padding:0 1rem;color:#1d2327}
 h1,h2,h3,h4{line-height:1.25;margin:1.6em 0 .5em}pre{background:#f3f1ec;padding:1rem;border-radius:8px;overflow:auto}
 code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.92em;background:#f3f1ec;padding:.1em .35em;border-radius:4px}pre code{background:none;padding:0}
-blockquote{margin:1em 0;padding:.2em 1em;border-left:4px solid #0f766e;color:#4a535a}table{border-collapse:collapse}th,td{border:1px solid #d9d4c8;padding:.4em .7em}
-img{max-width:100%}a{color:#0f766e}hr{border:0;border-top:1px solid #d9d4c8;margin:2em 0}`;
+blockquote{margin:1em 0;padding:.2em 1em;border-left:4px solid #1a6b47;color:#4a535a}table{border-collapse:collapse}th,td{border:1px solid #d9d4c8;padding:.4em .7em}
+img{max-width:100%}a{color:#1a6b47}hr{border:0;border-top:1px solid #d9d4c8;margin:2em 0}`;
 
 export function markdownDocument(md, title = 'Document') {
   return `<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1">\n<title>${esc(title)}</title>\n<style>${DOC_CSS}</style>\n</head>\n<body>\n${markdownToHtml(md)}\n</body>\n</html>\n`;

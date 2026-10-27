@@ -40,7 +40,7 @@ const luminance = (hex) => {
 };
 const contrast = (a, b) => { const [x, y] = [luminance(a), luminance(b)].sort((p, q) => q - p); return (x + 0.05) / (y + 0.05); };
 
-const GRADIENTS = [['sunset', 'Sunset', '#ff7e5f', '#feb47b'], ['ocean', 'Ocean', '#2193b0', '#6dd5ed'], ['grape', 'Grape', '#7f00ff', '#e100ff'], ['forest', 'Forest', '#134e5e', '#71b280'], ['slate', 'Slate', '#232526', '#414345'], ['peach', 'Peach', '#ffecd2', '#fcb69f'], ['mint', 'Mint', '#0f766e', '#a7f3d0']];
+const GRADIENTS = [['sunset', 'Sunset', '#ff7e5f', '#feb47b'], ['ocean', 'Ocean', '#2193b0', '#6dd5ed'], ['grape', 'Grape', '#7f00ff', '#e100ff'], ['forest', 'Forest', '#134e5e', '#71b280'], ['slate', 'Slate', '#232526', '#414345'], ['peach', 'Peach', '#ffecd2', '#fcb69f'], ['mint', 'Mint', '#1a6b47', '#a7f3d0']];
 const gradientField = { id: 'bg', type: 'select', label: 'Background', options: [...GRADIENTS.map(([k, n]) => [k, n]), ['custom', 'Custom colours']] };
 function backdrop(ctx, w, hh, v) {
   const preset = GRADIENTS.find(([k]) => k === v.bg);
@@ -393,7 +393,7 @@ export const tools = {
       { id: 'preset', type: 'select', label: 'Format', options: socialOptions(['linkedin-banner', 'x-header', 'facebook-cover', 'youtube-banner']) },
       { id: 'name', type: 'text', label: 'Name', value: 'Jane Doe' },
       { id: 'tagline', type: 'text', label: 'Tagline', value: 'Marketing · Strategy · Growth' },
-      { id: 'c1', type: 'color', label: 'Colour 1', value: '#0f766e', half: true },
+      { id: 'c1', type: 'color', label: 'Colour 1', value: '#1a6b47', half: true },
       { id: 'c2', type: 'color', label: 'Colour 2', value: '#4361ee', half: true },
       { id: 'align', type: 'select', label: 'Text position', options: [['left', 'Left'], ['center', 'Centre'], ['right', 'Right']] },
     ],
@@ -422,7 +422,7 @@ export const tools = {
       { id: 'reason', type: 'textarea', label: 'Description', rows: 3, value: 'for successfully completing the Advanced Marketing Strategy programme with distinction.' },
       { id: 'date', type: 'text', label: 'Date', value: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }), half: true },
       { id: 'issuer', type: 'text', label: 'Issuer / signature', value: 'John Smith, Director', half: true },
-      { id: 'accent', type: 'color', label: 'Accent colour', value: '#0f766e' },
+      { id: 'accent', type: 'color', label: 'Accent colour', value: '#1a6b47' },
     ],
     async run(v) {
       const W = 1754;

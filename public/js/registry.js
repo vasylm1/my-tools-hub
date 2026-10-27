@@ -68,11 +68,15 @@ export const TOOLS = [
 
 export const byId = Object.fromEntries(TOOLS.map((t) => [t.id, t]));
 
-export function searchTools(query) {
+export function searchTools(query, translate = (value) => value) {
   const terms = query.toLowerCase().split(/\s+/).filter(Boolean);
   if (!terms.length) return TOOLS;
-  return TOOLS.filter((t) => {
-    const hay = `${t.name} ${t.desc} ${t.kw}`.toLowerCase();
-    return terms.every((x) => hay.includes(x));
-  });
+  const score = (t) => {
+    const name = `${t.name} ${translate(t.name)}`.toLowerCase();
+    const hay = `${name} ${t.desc} ${translate(t.desc)} ${t.kw}`.toLowerCase();
+    if (!terms.every((x) => hay.includes(x))) return -1;
+    // Name matches beat description matches; earlier and word-start matches rank higher.
+    return terms.reduce((n, x) => n + (name.startsWith(x) ? 4 : name.split(/\s+/).some((w) => w.startsWith(x)) ? 3 : name.includes(x) ? 2 : 0), 0);
+  };
+  return TOOLS.map((t) => [t, score(t)]).filter(([, n]) => n >= 0).sort((a, b) => b[1] - a[1]).map(([t]) => t);
 }

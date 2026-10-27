@@ -24,6 +24,10 @@ My Tools Hub is a set of small, private tools that run entirely in the browser. 
 | `scripts/serve.mjs`, `scripts/check.mjs` | Local server and consistency checks |
 | `tests/*.test.mjs` | Tests using `node:test` |
 
+## Localization
+
+The interface supports English, Polish, German, Ukrainian and Simplified Chinese. Keep English as the source text and add a matching phrase row in `public/js/i18n.js` in the order Polish, German, Ukrainian, Chinese. Preserve `{placeholders}` exactly. Translate labels and instructions, but leave user content, filenames and generated document text untouched.
+
 ## Code conventions
 
 - ES modules with relative imports and the `.js` extension. Two-space indent, single quotes, semicolons.
