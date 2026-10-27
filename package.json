@@ -1,0 +1,16 @@
+{
+  "name": "my-tools-hub",
+  "version": "1.0.0",
+  "description": "Private, in-browser tools in plain HTML, CSS and JavaScript. No build step, no runtime dependencies.",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node scripts/serve.mjs",
+    "test": "node --test tests/",
+    "check": "node scripts/check.mjs"
+  }
+}
