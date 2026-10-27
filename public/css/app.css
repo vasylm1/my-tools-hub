@@ -392,8 +392,8 @@ caption { text-align: left; padding: 9px 12px; font-weight: 600; font-size: .86r
 .focus { padding: 4px 28px 4px 0; display: grid; gap: 10px; align-content: start; }
 .focus + .focus { padding-left: 28px; border-left: 1px solid var(--line); }
 .focus h3 { font-size: 1rem; } .focus p { color: var(--ink-2); font-size: .92rem; }
-.skills { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 28px; }
-.skills h3 { font-size: .9rem; color: var(--ink-2); font-weight: 500; margin-bottom: 10px; }
+.skills { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 18px 20px; align-items: start; }
+.skills h3 { font-size: .9rem; color: var(--ink-2); font-weight: 500; margin-bottom: 8px; }
 .timeline { list-style: none; margin: 0; padding: 0; }
 .timeline > li { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 24px; padding: 18px 0; border-bottom: 1px solid var(--line); }
 .timeline .when { color: var(--ink-3); font-size: .88rem; padding-top: 3px; }
@@ -403,6 +403,8 @@ caption { text-align: left; padding: 9px 12px; font-weight: 600; font-size: .86r
 .timeline ul li { margin: 4px 0; }
 .tags { display: flex; flex-wrap: wrap; gap: 7px; }
 .tag { padding: 4px 11px; border-radius: 99px; border: 1px solid var(--line-2); background: var(--surface); font-size: .84rem; color: var(--ink); }
+.skills .tags { gap: 6px; }
+.skills .tag { padding: 3px 9px; font-size: .8rem; line-height: 1.35; }
 .project-list { list-style: none; margin: 0; padding: 0; }
 .project-list li { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 15px 0; border-bottom: 1px solid var(--line); }
 .project-list li > div { display: grid; gap: 2px; }
@@ -440,7 +442,8 @@ caption { text-align: left; padding: 9px 12px; font-weight: 600; font-size: .86r
   .principle:nth-child(n+3) { border-top: 1px solid var(--line); }
   .mock-body { grid-template-columns: 1fr; }
   .mock-side { display: none; }
-  .focus-grid, .skills { grid-template-columns: 1fr; gap: 24px; }
+  .focus-grid { grid-template-columns: 1fr; gap: 24px; }
+  .skills { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
   .case { grid-template-columns: 1fr; gap: 14px; }
   .steps { grid-template-columns: 1fr; }
   .steps li, .steps li + li { padding: 22px 0; border-left: 0; border-bottom: 1px solid var(--line); }
@@ -463,6 +466,7 @@ caption { text-align: left; padding: 9px 12px; font-weight: 600; font-size: .86r
   .search { min-width: 0; }
   .locale-select { width: 78px; max-width: 78px; padding-left: 6px; padding-right: 14px; font-size: .78rem; }
   .wrap { padding: 0 16px; }
+  .skills { grid-template-columns: 1fr; gap: 16px; }
   .section { padding: 64px 16px 0; }
   .principles { grid-template-columns: 1fr; }
   .principle, .principle:nth-child(odd) { padding: 22px 0; border-right: 0; border-top: 1px solid var(--line); }
