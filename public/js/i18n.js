@@ -14,6 +14,7 @@ const phrases = {
   'Skip to content': ['Przejdź do treści', 'Zum Inhalt springen', 'Перейти до вмісту', '跳到正文'],
   'Open tool list': ['Otwórz listę narzędzi', 'Werkzeugliste öffnen', 'Відкрити список інструментів', '打开工具列表'],
   'Main navigation': ['Nawigacja główna', 'Hauptnavigation', 'Головна навігація', '主导航'],
+  'Home': ['Strona główna', 'Startseite', 'Головна', '首页'],
   'Tools': ['Narzędzia', 'Werkzeuge', 'Інструменти', '工具'],
   'About': ['O mnie', 'Über mich', 'Про мене', '关于'],
   'Privacy': ['Prywatność', 'Datenschutz', 'Конфіденційність', '隐私'],
