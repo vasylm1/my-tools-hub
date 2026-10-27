@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>My Tools Hub</title>
+  <meta name="description" content="40+ small, private tools that run entirely in your browser: QR codes, JSON, images, PDFs, spreadsheets, writing helpers and more. No uploads, no accounts.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f5f1ea" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14181b" media="(prefers-color-scheme: dark)">
+  <meta property="og:title" content="My Tools Hub">
+  <meta property="og:description" content="40+ private, in-browser tools. Nothing is uploaded.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <script src="/js/theme-init.js"></script>
+  <link rel="stylesheet" href="/css/app.css">
+  <link rel="modulepreload" href="/js/main.js">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-btn menu-btn" id="menu-btn" type="button" aria-label="Open tool list" aria-expanded="false" aria-controls="sidebar">☰</button>
+    <a class="brand" href="#/" aria-label="My Tools Hub, home">
+      <span class="brand-mark" aria-hidden="true">⌘</span>
+      <span class="brand-name">My Tools Hub</span>
+    </a>
+    <div class="search">
+      <label class="sr-only" for="search">Search tools</label>
+      <input id="search" type="search" placeholder="Search tools   ( / )" autocomplete="off" spellcheck="false">
+    </div>
+    <button class="icon-btn" id="theme-btn" type="button" aria-label="Switch colour theme" title="Switch colour theme">◐</button>
+  </header>
+
+  <div class="shell">
+    <nav class="sidebar" id="sidebar" aria-label="Tools"></nav>
+    <div class="scrim" id="scrim" hidden></div>
+    <main id="main" tabindex="-1"></main>
+  </div>
+
+  <footer class="footer">
+    <span>Runs 100% in your browser. Your files and text are never uploaded.</span>
+    <a href="#/about">About &amp; privacy</a>
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <noscript><p class="noscript">My Tools Hub needs JavaScript to run its tools. Everything stays on your device.</p></noscript>
+  <script type="module" src="/js/main.js"></script>
+</body>
+</html>
