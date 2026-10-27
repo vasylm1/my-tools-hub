@@ -5,12 +5,13 @@
 # Security headers for every response.
 # CSP notes:
 #  - style-src needs 'unsafe-inline' because the document/email tools render user-built HTML (with inline styles) in sandboxed previews.
-#  - connect-src allows the single third-party request the app makes (exchange rates for the Currency converter).
+#  - script-src and connect-src allow the self-hosted Umami tracker.
+#  - connect-src also allows exchange rates for the Currency converter.
 #  - frame-src 'self' blob: is for the sandboxed preview iframes (scripts are disabled inside them).
 [[headers]]
   for = "/*"
   [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://open.er-api.com; frame-src 'self' blob:; worker-src 'self'; manifest-src 'self'; media-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' https://static.vasylautomation.org; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://open.er-api.com https://static.vasylautomation.org; frame-src 'self' blob:; worker-src 'self'; manifest-src 'self'; media-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'"
     X-Content-Type-Options = "nosniff"
     X-Frame-Options = "DENY"
     Referrer-Policy = "no-referrer"

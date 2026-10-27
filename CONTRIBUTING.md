@@ -6,7 +6,7 @@ My Tools Hub is a set of small, private tools that run entirely in the browser. 
 
 - **No build step.** Netlify serves `public/` as-is. Do not add a bundler, transpiler, framework or generated output.
 - **No runtime dependencies.** Anything the app needs lives in `public/js/lib/` as our own code, and `package.json` has no dependencies at all, so there is nothing to install.
-- **Nothing leaves the browser.** Files and text are processed locally. The only allowed network request is the exchange-rate fetch to `https://open.er-api.com` by the Currency converter. Do not add analytics, fonts, CDNs or other remote resources.
+- **Keep tool data local.** Files and text are processed in the browser and must never be sent to analytics. The Currency converter can fetch rates from `https://open.er-api.com`; the self-hosted Umami tracker at `static.vasylautomation.org` records page views only. Do not add event tracking, fonts, CDNs or other remote resources.
 - **Node 20+** is needed for the scripts and tests; the app itself needs only a browser.
 
 ## Project layout

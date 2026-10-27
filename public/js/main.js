@@ -119,7 +119,7 @@ function renderLanding() {
   setTitle('');
   const featured = ['qr-code', 'json-formatter', 'image-resizer', 'spreadsheet-cleaner', 'resume-builder', 'images-to-pdf'].map((id) => byId[id]);
   const principles = [
-    ['lock', 'Private by design', 'Files and text never leave your device. There are no uploads, accounts or analytics.'],
+    ['lock', 'Private by design', 'Files and text stay on your device. Self-hosted Umami counts page visits; there are no uploads or accounts.'],
     ['wifioff', 'Works offline', 'Open it once and every tool keeps working without a connection.'],
     ['zap', 'Fast and plain', 'No frameworks and no build step. Tools load on demand and open instantly.'],
     ['code', 'Open source', 'Plain HTML, CSS and JavaScript that you can read, audit and run yourself.'],
@@ -249,11 +249,12 @@ function renderPrivacy() {
   setTitle('Privacy');
   main.replaceChildren(h('div', { class: 'wrap section pt' }, h('article', { class: 'prose narrow' },
     h('h1', { tabindex: -1 }, 'Privacy'),
-    h('p', { class: 'lead-sm' }, 'There is no server, no account, no analytics and no tracking. The site is static files that your browser runs.'),
+    h('p', { class: 'lead-sm' }, 'The tools run in your browser without an account. Self-hosted Umami records page views for this site.'),
     h('h2', {}, 'What stays on your device'),
     h('p', {}, 'Text you type, files you open and images you drop in are processed by your browser only. They are never uploaded. Closing the tab discards them.'),
-    h('h2', {}, 'The one network request'),
+    h('h2', {}, 'Network requests'),
     h('p', {}, 'The currency converter downloads a public table of daily exchange rates from open.er-api.com. Only the base currency code is part of that request; your amounts are never sent.'),
+    h('p', {}, 'Self-hosted Umami at static.vasylautomation.org receives page views, page titles, referrers, browser and device details, language, and approximate location. It does not receive text you enter or files you open. The tracker does not use cookies.'),
     h('h2', {}, 'Stored in your browser'),
     h('p', {}, 'Your light or dark theme choice is saved in local storage. A service worker caches the app files so the hub works offline.'),
     h('h2', {}, 'Good to know'),

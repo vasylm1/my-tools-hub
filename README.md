@@ -1,6 +1,6 @@
 # My Tools Hub
 
-A collection of 43 small, private tools that run entirely in your browser: nothing you paste or open is uploaded. The only network request the app makes is to `open.er-api.com` for exchange rates in the Currency converter.
+A collection of 43 small, private tools that run entirely in your browser: nothing you paste or open is uploaded. The Currency converter downloads exchange rates from `open.er-api.com`. Self-hosted Umami records page views; it does not receive tool inputs or files.
 
 It is a static site in plain HTML, CSS and vanilla JavaScript (ES modules). There is no build step and no runtime dependencies. Everything served lives in `public/`.
 
