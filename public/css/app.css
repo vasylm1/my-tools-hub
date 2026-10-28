@@ -481,3 +481,9 @@ caption { text-align: left; padding: 9px 12px; font-weight: 600; font-size: .86r
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; } .caret { display: none; } }
 @media print { .topbar, .sidebar, .footer, .tool .inputs, .actions { display: none !important; } }
+
+/* First-visit statistics notice */
+.notice { position: fixed; left: 16px; bottom: 16px; z-index: 250; width: min(420px, calc(100vw - 32px)); display: grid; gap: 10px; padding: 16px; background: var(--surface-2); border: 1px solid var(--line-2); border-radius: var(--radius-lg); box-shadow: 0 18px 40px -16px rgb(0 0 0 / .55); }
+.notice p { margin: 0; font-size: .88rem; color: var(--ink-2); }
+.notice a { color: var(--accent-2); text-decoration: underline; }
+.notice-actions { display: flex; justify-content: flex-end; }

@@ -30,6 +30,7 @@ localeSelect.addEventListener('change', () => {
   applyStaticTranslations();
   closeSearch();
   route();
+  renderStatsNotice();
 });
 
 /* ------------------------------------------------------------- chrome */
@@ -269,7 +270,7 @@ function statsSwitch() {
   const KEY = 'umami.disabled';
   let off = false;
   try { off = !!localStorage.getItem(KEY); } catch { /* storage blocked */ }
-  const status = h('p', { class: 'muted', role: 'status' }, tr('Your choice is saved in this browser only.'));
+  const status = h('p', { class: 'muted', role: 'status' }, off ? tr('Your visits are not counted.') : tr('Your visits are counted.'));
   const box = h('input', { type: 'checkbox', checked: !off });
   box.addEventListener('change', () => {
     try {
@@ -331,6 +332,23 @@ function renderNotFound(id) {
   main.replaceChildren(h('div', { class: 'wrap section pt' },
     h('div', { class: 'msg error' }, tr('There is no page or tool called “{id}”.', { id })),
     h('p', {}, h('a', { class: 'btn', href: '#/tools' }, tr('Browse all tools')))));
+}
+
+// First-visit notice with the statistics switch. It informs rather than asks: the counting sets no cookies.
+const NOTICE_KEY = 'mth-stats-notice';
+function renderStatsNotice() {
+  $('#stats-notice')?.remove();
+  try { if (localStorage.getItem(NOTICE_KEY)) return; } catch { /* storage blocked: show it each visit */ }
+  const close = h('button', { class: 'btn primary', type: 'button' }, tr('Got it'));
+  const box = h('section', { id: 'stats-notice', class: 'notice', 'aria-label': tr('Page statistics') },
+    h('p', {}, tr('This site counts page visits with Umami, without cookies. Your files never leave your device.'), ' ', h('a', { href: '#/privacy' }, tr('Privacy'))),
+    statsSwitch(),
+    h('div', { class: 'notice-actions' }, close));
+  close.addEventListener('click', () => {
+    try { localStorage.setItem(NOTICE_KEY, '1'); } catch { /* storage blocked */ }
+    box.remove();
+  });
+  document.body.append(box);
 }
 
 async function route() {
@@ -412,6 +430,7 @@ document.addEventListener('keydown', (e) => {
 });
 
 route();
+renderStatsNotice();
 
 /* ------------------------------------------------------- offline cache */
 

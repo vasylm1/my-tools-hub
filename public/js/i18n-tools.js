@@ -1,6 +1,8 @@
 // Translations for the newest tools, the About page job history, the accessibility statement and shared labels.
 // Order: Polish, German, Ukrainian, Simplified Chinese. Merged into the main table by i18n.js (existing keys win).
 export const toolPhrases = {
+  "Got it": ["Rozumiem", "Verstanden", "Зрозуміло", "知道了"],
+  "This site counts page visits with Umami, without cookies. Your files never leave your device.": ["Ta strona zlicza odwiedziny za pomocą Umami, bez plików cookie. Twoje pliki nigdy nie opuszczają urządzenia.", "Diese Website zählt Seitenaufrufe mit Umami, ohne Cookies. Deine Dateien verlassen dein Gerät nie.", "Цей сайт рахує відвідування за допомогою Umami, без файлів cookie. Ваші файли ніколи не залишають пристрій.", "本网站使用 Umami 统计页面访问量，不使用 Cookie。你的文件始终不会离开你的设备。"],
   "Count my visits in the page statistics": ["Zliczaj moje wizyty w statystykach strony", "Meine Besuche in der Seitenstatistik zählen", "Враховувати мої відвідування в статистиці сторінок", "在页面统计中计入我的访问"],
   "Your choice is saved in this browser only.": ["Twój wybór jest zapisywany tylko w tej przeglądarce.", "Deine Auswahl wird nur in diesem Browser gespeichert.", "Ваш вибір зберігається лише в цьому браузері.", "你的选择仅保存在此浏览器中。"],
   "Your visits are counted.": ["Twoje wizyty są zliczane.", "Deine Besuche werden gezählt.", "Ваші відвідування враховуються.", "你的访问会被统计。"],
