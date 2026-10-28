@@ -67,7 +67,7 @@ export const profile = {
     { name: 'Image2BI', text: 'Turns images into Power BI-ready assets in your browser, with Data URI optimisation and batch XLSX export.', href: 'https://custom-card-generator-1.netlify.app' },
     { name: 'CRM', text: 'A small CRM for staying in touch with the people who matter: contacts, follow-up reminders and notes, with a web app, a native Android app and phone contact sync. Built out of curiosity.' },
     { name: 'Local Secrets MCP', text: 'A small local secrets store with an MCP server that lets AI assistants use credentials without ever seeing them. Includes a command-line tool and a web interface that only works on your own machine.' },
-    { name: 'Analytics Hub', text: 'A Streamlit dashboard that brings Google Search Console and Simple Analytics together in one view of how a website performs.' },
+    { name: 'Analytics Hub', text: 'A Streamlit dashboard that brings Google Search Console and Umami together in one view of how a website performs.' },
     { name: 'Crew Expense Tracker', text: 'A browser-based tracker for shared expenses on trips and events: fair splits, live balances and a simple settlement plan. Everything stays in the browser.' },
     { name: 'University Schedule Converter', text: 'A multilingual Excel-to-ICS tool with drag and drop (English, Polish, Ukrainian).' },
     { name: 'AI-powered personal finance system', text: 'A self-hosted tracker with expense logging, AI categorisation, SQL sync and AI-written reports by email.' },
@@ -97,5 +97,4 @@ export const legal = {
   email: profile.email,
   updated: '27 October 2026',
   authority: { name: 'Prezes Urzędu Ochrony Danych Osobowych (UODO), Poland', href: 'https://uodo.gov.pl/en' },
-  analyticsHost: 'static.vasylautomation.org',
 };

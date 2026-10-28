@@ -264,6 +264,22 @@ function renderAbout() {
 const ext = (href, text) => h('a', { href, rel: 'noopener noreferrer', target: '_blank' }, text);
 const mailto = () => h('a', { href: `mailto:${legal.email}` }, legal.email);
 
+// Umami skips tracking while localStorage holds umami.disabled, so the switch takes effect immediately.
+function statsSwitch() {
+  const KEY = 'umami.disabled';
+  let off = false;
+  try { off = !!localStorage.getItem(KEY); } catch { /* storage blocked */ }
+  const status = h('p', { class: 'muted', role: 'status' }, tr('Your choice is saved in this browser only.'));
+  const box = h('input', { type: 'checkbox', checked: !off });
+  box.addEventListener('change', () => {
+    try {
+      if (box.checked) localStorage.removeItem(KEY); else localStorage.setItem(KEY, '1');
+      status.textContent = box.checked ? tr('Your visits are counted.') : tr('Your visits are not counted.');
+    } catch { status.textContent = tr('Your browser blocks local storage, so this choice cannot be saved.'); }
+  });
+  return h('div', {}, h('label', { class: 'check' }, box, h('span', {}, tr('Count my visits in the page statistics'))), status);
+}
+
 function renderPrivacy() {
   setTitle(tr('Privacy'));
   main.replaceChildren(h('div', { class: 'wrap section pt' }, h('article', { class: 'prose narrow' },
@@ -276,11 +292,12 @@ function renderPrivacy() {
     h('h2', {}, tr('Visiting the site')),
     h('p', {}, tr('The site is hosted by Netlify, Inc. (USA). When you load a page, Netlify’s servers process technical data such as your IP address, the time, the requested file, your browser and the referring page, in server logs. This is needed to deliver and secure the site (legitimate interest, Art. 6(1)(f) GDPR). See '), ext(NETLIFY_PRIVACY, tr('Netlify’s privacy policy')), tr(' for how it handles this data and for international transfer safeguards.')),
     h('h2', {}, tr('Page statistics')),
-    h('p', {}, tr('I use Umami, a privacy-focused analytics tool that I host myself ({host}), to see which pages and tools are used. It counts page views and records the referring site, browser, operating system, device type and country. It sets no cookies, follows no one across other sites, and honours your browser’s Do Not Track setting. The legal basis is legitimate interest (Art. 6(1)(f) GDPR). You can object at any time by emailing me or by enabling Do Not Track.', { host: legal.analyticsHost })),
+    h('p', {}, tr('I use Umami, a privacy-focused analytics tool that I run on my own server, to see which pages and tools are used. It counts page views and records the referring site, browser, operating system, device type and country. It sets no cookies, follows no one across other sites, and honours your browser’s Do Not Track setting. The legal basis is legitimate interest (Art. 6(1)(f) GDPR). You can object at any time with the switch below, by enabling Do Not Track, or by emailing me.')),
+    statsSwitch(),
     h('h2', {}, tr('Currency converter')),
     h('p', {}, tr('Only this tool contacts another service. To show exchange rates it requests a public rate table from open.er-api.com ('), ext('https://www.exchangerate-api.com', 'Exchange Rate API'), tr('), which therefore sees your IP address and the base currency code. Your amounts are never sent.')),
     h('h2', {}, tr('Cookies and browser storage')),
-    h('p', {}, tr('There are no cookies. Your light or dark theme choice is kept in your browser’s local storage, and a service worker caches the app files so the site works offline. Both exist only to provide the features you use, so no consent banner is needed under the ePrivacy rules. You can clear them in your browser settings.')),
+    h('p', {}, tr('There are no cookies. Your light or dark theme choice and your page-statistics preference are kept in your browser’s local storage, and a service worker caches the app files so the site works offline. Both exist only to provide the features you use, so no consent banner is needed under the ePrivacy rules. You can clear them in your browser settings.')),
     h('h2', {}, tr('Your rights')),
     h('p', {}, tr('You have the right to access, correct or erase your data, to restrict or object to its processing, and to data portability (Articles 15 to 21 GDPR). Email '), mailto(), tr(' and I will respond promptly. You may also complain to a supervisory authority, for example '), ext(legal.authority.href, tr(legal.authority.name)), tr('. There is no automated decision-making, and you are not required to give any data to use the tools.')),
     h('h2', {}, tr('Changes')),
