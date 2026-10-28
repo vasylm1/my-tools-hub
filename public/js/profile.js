@@ -65,7 +65,7 @@ export const profile = {
     { name: 'My Tools Hub', text: 'This site: 46 private tools for writing, data, documents and images.', href: 'https://github.com/vasylm1/my-tools-hub' },
     { name: 'Markdown Reader', text: 'A free Markdown viewer and editor for Windows, macOS, Linux and the web.', href: 'https://markdown-reader-editor.netlify.app' },
     { name: 'Image2BI', text: 'Turns images into Power BI-ready assets in your browser, with Data URI optimisation and batch XLSX export.', href: 'https://custom-card-generator-1.netlify.app' },
-    { name: 'CRM', text: 'A small CRM for staying in touch with the people who matter: contacts, follow-up reminders and notes, with a web app, a native Android app and phone contact sync. Built out of curiosity.' },
+    { name: 'CRM', text: 'Small CRM, personal scale. Contacts, reminders and notes on the web and on Android, with phone contact sync.' },
     { name: 'Local Secrets MCP', text: 'A small local secrets store with an MCP server that lets AI assistants use credentials without ever seeing them. Includes a command-line tool and a web interface that only works on your own machine.' },
     { name: 'Analytics Hub', text: 'A Streamlit dashboard that brings Google Search Console and Umami together in one view of how a website performs.' },
     { name: 'Crew Expense Tracker', text: 'A browser-based tracker for shared expenses on trips and events: fair splits, live balances and a simple settlement plan. Everything stays in the browser.' },
