@@ -48,6 +48,18 @@ async function* walk(dir) {
   const readme = await readFile(path.join(pub, "..", "README.md"), 'utf8').catch(() => '');
   for (const t of TOOLS) if (!readme.includes(`| **${t.name}** |`)) fail(`README.md: tool "${t.name}" is missing (run: npm run readme)`);
 }
+// Prerendered pages (npm run prerender) must match what the registry and index.html would produce today.
+{
+  const { buildSite } = await import(pathToFileURL(path.join(pub, '..', 'scripts', 'prerender.mjs')));
+  const existingMap = await readFile(path.join(pub, 'sitemap.xml'), 'utf8').catch(() => '');
+  const { files } = await buildSite({ lastmod: existingMap.match(/<lastmod>([^<]+)</)?.[1] });
+  for (const [name, body] of files) {
+    const onDisk = await readFile(path.join(pub, name), 'utf8').catch(() => null);
+    if (onDisk !== body) fail(`public/${name} is missing or stale (run: npm run prerender)`);
+  }
+  const rewrites = await readFile(path.join(pub, '_redirects'), 'utf8').catch(() => '');
+  for (const t of TOOLS) if (!rewrites.includes(`/${t.id}  /${t.id}.html`)) fail(`_redirects: no rewrite for /${t.id}`);
+}
 // Crawler files: robots.txt must point at a sitemap whose addresses are on the canonical host.
 {
   const robots = await readFile(path.join(pub, 'robots.txt'), 'utf8').catch(() => '');
@@ -69,7 +81,7 @@ for await (const file of walk(pub)) {
   for (const m of text.matchAll(/https?:\/\/[^\s'"`)<>;,]+/g)) {
     const host = new URL(m[0]).hostname;
     const ok = m[0].includes('${') // template literal, not a fixed address
-      || ['open.er-api.com', 'ns.adobe.com', 'www.w3.org', 'purl.org', 'www.idpf.org', 'www.daisy.org', 'example.com', 'www.sitemaps.org', 'example.org', 'example.net', 'schemas.openxmlformats.org', 'github.com', 'static.vasylautomation.org', 'my-tools-hub-app.netlify.app', 'markdown-reader-editor.netlify.app', 'custom-card-generator-1.netlify.app', 'www.linkedin.com', 'www.netlify.com', 'www.exchangerate-api.com', 'uodo.gov.pl'].includes(host)
+      || ['open.er-api.com', 'ns.adobe.com', 'www.w3.org', 'purl.org', 'www.idpf.org', 'www.daisy.org', 'example.com', 'www.sitemaps.org', 'example.org', 'example.net', 'schemas.openxmlformats.org', 'github.com', 'static.vasylautomation.org', 'my-tools-hub-app.netlify.app', 'markdown-reader-editor.netlify.app', 'custom-card-generator-1.netlify.app', 'www.linkedin.com', 'www.netlify.com', 'www.exchangerate-api.com', 'uodo.gov.pl', 'schema.org'].includes(host)
       || host.endsWith('.example.com') || host === 'localhost';
     if (!ok) fail(`${rel}: unexpected external URL ${m[0]}`);
   }

@@ -12,6 +12,8 @@
     "start": "node scripts/serve.mjs",
     "test": "node --test",
     "check": "node scripts/check.mjs",
+    "prerender": "node scripts/prerender.mjs",
+    "generate": "node scripts/prerender.mjs && node scripts/update-precache.mjs && node scripts/update-readme.mjs",
     "precache": "node scripts/update-precache.mjs",
     "readme": "node scripts/update-readme.mjs"
   }

@@ -10,6 +10,7 @@ import { decodeQrImage } from '../lib/qr-decode.js';
 import { classifyQrText } from '../lib/qr-content.js';
 import { parseColor, toHex, contrastRatio, grade, level, suggestForeground, over } from '../lib/contrast.js';
 import { inspect as inspectPhoto, strip as stripPhoto } from '../lib/exif.js';
+import { clean as cleanPdf, inspect as inspectPdf, PdfError } from '../lib/pdf-meta.js';
 import { t as tr } from '../i18n.js';
 
 const NEED_IMAGE = { empty: 'Add an image to get started.' };
@@ -246,6 +247,36 @@ export const tools = {
     },
   },
 
+  'pdf-metadata-cleaner': {
+    fields: [{ id: 'file', type: 'file', label: 'PDF file', accept: '.pdf,application/pdf', hint: 'One PDF at a time, up to 150 MB. Password-protected files must be unlocked first.' }],
+    async run({ file }) {
+      if (!file) return { empty: 'Choose a PDF to see what it reveals and to remove it.' };
+      let bytes;
+      let info;
+      let result;
+      try {
+        bytes = new Uint8Array(await file.arrayBuffer());
+        info = await inspectPdf(bytes);
+        result = info.hasMetadata ? await cleanPdf(bytes) : null;
+      } catch (e) {
+        if (e instanceof PdfError) return { error: e.message };
+        throw e;
+      }
+      const sections = [];
+      if (info.fields.length) sections.push({ table: { caption: tr('What this PDF reveals'), head: [tr('Detail'), tr('Value')], rows: info.fields.map(([k, v]) => [tr(k), v]) } });
+      if (info.risks.length) sections.push({ notice: { kind: 'warn', text: 'This PDF can reveal: {list}.', values: { list: info.risks.map((r) => tr(r)).join(', ') } } });
+      else sections.push({ notice: { kind: 'ok', text: 'No metadata found. This PDF is already clean.' } });
+      sections.push({ stats: [['Pages', String(info.pages)], ['Size', formatBytes(bytes.length)], ['Clean size', result ? formatBytes(result.bytes.length) : formatBytes(bytes.length)]] });
+      if (result?.removed.length) sections.push({ notice: { kind: 'ok', text: 'Removed from the clean copy: {list}.', values: { list: result.removed.map((r) => tr(r)).join(', ') } } });
+      if (info.signed) sections.push({ notice: { kind: 'warn', text: 'This PDF has a digital signature. The cleaned copy is no longer signed.' } });
+      if (info.pdfa) sections.push({ notice: { kind: 'warn', text: 'This PDF declares PDF/A conformance. The cleaned copy no longer does, because PDF/A requires metadata.' } });
+      if (info.annotAuthors.length) sections.push({ notice: { kind: 'warn', text: 'Comments in this PDF show these names, and they were kept: {names}.', values: { names: info.annotAuthors.slice(0, 8).join(', ') } } });
+      if (result) sections.push({ downloads: [{ name: `${file.name.replace(/\.pdf$/i, '')}-clean.pdf`, data: result.bytes, mime: 'application/pdf', label: tr('Download {name}', { name: `${file.name.replace(/\.pdf$/i, '')}-clean.pdf` }) }] });
+      sections.push({ notice: 'The pages are copied unchanged, so text and images look the same. Names or dates written on the pages themselves stay, and photos placed in the PDF keep their own camera data.' });
+      return { sections };
+    },
+  },
+
   'image-resizer': {
     fields: [
       img(),
@@ -410,7 +441,7 @@ export const tools = {
       if (!colors.length) return { error: 'No visible pixels found in this image.' };
       const grid = h('div', { class: 'swatches' }, ...colors.map((k) => h('div', { class: 'swatch' }, h('i', { style: `background:${k.hex}` }), h('span', {}, k.hex.toUpperCase(), h('br'), `${Math.round(k.share * 100)}%`))));
       return {
-        node: h('div', {}, grid, h('p', { class: 'muted small-text' }, h('a', { href: '#/color-contrast-checker' }, tr('Check these colours for accessible contrast')))),
+        node: h('div', {}, grid, h('p', { class: 'muted small-text' }, h('a', { href: '/color-contrast-checker' }, tr('Check these colours for accessible contrast')))),
         text: [{ label: 'CSS variables', value: paletteToCss(colors), filename: 'palette.css', mime: 'text/css;charset=utf-8', rows: Math.min(14, colors.length + 3) }, { label: 'HEX list', value: colors.map((k) => k.hex).join(', '), rows: 2 }],
       };
     },

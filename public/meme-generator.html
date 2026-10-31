@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Meme generator · My Tools Hub</title>
+  <meta name="description" content="Add top and bottom captions to an image.">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#08090a">
+  <meta property="og:title" content="Meme generator · My Tools Hub">
+  <meta property="og:description" content="Add top and bottom captions to an image.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://my-tools-hub-app.netlify.app/meme-generator">
+  <meta property="og:image" content="https://my-tools-hub-app.netlify.app/img/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="My Tools Hub: 50 private tools that never leave your browser">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://my-tools-hub-app.netlify.app/meme-generator">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <script src="/js/theme-init.js"></script>
+  <script defer src="https://static.vasylautomation.org/script.js" data-website-id="37f9d002-6188-40fe-93e4-26936bd09f03" data-do-not-track="true"></script>
+  <link rel="stylesheet" href="/css/app.css">
+  <link rel="modulepreload" href="/js/main.js">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Meme generator","description":"Add top and bottom captions to an image.","url":"https://my-tools-hub-app.netlify.app/meme-generator","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"isPartOf":{"@type":"WebSite","name":"My Tools Hub","url":"https://my-tools-hub-app.netlify.app/"}}</script>
+</head>
+<body>
+  <a class="skip" href="#main" data-i18n="Skip to content">Skip to content</a>
+
+  <header class="topbar">
+    <div class="topbar-in">
+      <button class="icon-btn menu-btn" id="menu-btn" type="button" data-i18n-aria="Open tool list" aria-expanded="false" aria-controls="sidebar"></button>
+      <a class="brand" href="/" aria-label="My Tools Hub, home" data-i18n-aria="My Tools Hub, home">
+        <svg class="brand-mark" viewBox="0 0 64 64" width="26" height="26" aria-hidden="true"><rect width="64" height="64" rx="15" fill="currentColor"/><g fill="#fff"><rect x="14" y="14" width="16" height="16" rx="4"/><rect x="34" y="14" width="16" height="16" rx="4" opacity=".6"/><rect x="14" y="34" width="16" height="16" rx="4" opacity=".6"/><rect x="34" y="34" width="16" height="16" rx="4"/></g></svg>
+        <span class="brand-name">My Tools Hub</span>
+      </a>
+      <nav class="topnav" aria-label="Main navigation" data-i18n-aria="Main navigation">
+        <a href="/" data-nav="home" data-i18n="Home">Home</a>
+        <a href="/tools" data-nav="tools" data-i18n="Tools">Tools</a>
+        <a href="/about" data-nav="about" data-i18n="About me">About me</a>
+      </nav>
+      <div class="search" role="search">
+        <span class="search-icon" id="search-icon"></span>
+        <label class="sr-only" for="search" data-i18n="Search tools">Search tools</label>
+        <input id="search" type="search" placeholder="Search tools" data-i18n-placeholder="Search tools" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="false" aria-controls="search-results" aria-autocomplete="list">
+        <kbd id="search-kbd">Ctrl K</kbd>
+        <div class="search-results" id="search-results" role="listbox" aria-label="Search results" data-i18n-aria="Search results" hidden></div>
+      </div>
+      <label class="sr-only" for="locale-select" data-i18n="Language">Language</label>
+      <select class="locale-select" id="locale-select" aria-label="Language" data-i18n-aria="Language">
+        <option value="en">English</option>
+        <option value="pl">Polski</option>
+        <option value="de">Deutsch</option>
+        <option value="uk">Українська</option>
+        <option value="zh">简体中文</option>
+      </select>
+      <button class="icon-btn" id="theme-btn" type="button" aria-label="Switch colour theme" title="Switch colour theme" data-i18n-aria="Switch colour theme"></button>
+    </div>
+  </header>
+
+  <div class="shell">
+    <nav class="sidebar" id="sidebar" aria-label="Tools" data-i18n-aria="Tools list"></nav>
+    <div class="scrim" id="scrim" hidden></div>
+    <main id="main" tabindex="-1"><div class="wrap section pt"><h1>Meme generator</h1><p class="muted">Add top and bottom captions to an image.</p></div></main>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-in">
+      <span data-i18n="My Tools Hub. Everything runs in your browser; your files are never uploaded.">My Tools Hub. Everything runs in your browser; your files are never uploaded.</span>
+      <nav aria-label="Footer navigation" data-i18n-aria="Footer navigation"><a href="/" data-i18n="Home">Home</a><a href="/tools" data-i18n="Tools">Tools</a><a href="/about" data-i18n="About me">About me</a><a href="/privacy" data-i18n="Privacy">Privacy</a><a href="/legal" data-i18n="Legal notice">Legal notice</a></nav>
+    </div>
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <noscript><p class="noscript" data-i18n="My Tools Hub needs JavaScript to run its tools. Everything stays on your device.">My Tools Hub needs JavaScript to run its tools. Everything stays on your device.</p></noscript>
+  <script type="module" src="/js/main.js"></script>
+</body>
+</html>

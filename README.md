@@ -2,7 +2,7 @@
 
 # My Tools Hub
 
-**49 private tools that never leave your browser.**<br>
+**50 private tools that never leave your browser.**<br>
 Text, data, documents, images and QR codes. No uploads, no accounts, works offline.
 
 [**Open the live site**](https://my-tools-hub-app.netlify.app/) &nbsp;·&nbsp; [Browse the tools](#all-tools) &nbsp;·&nbsp; [Run it yourself](#run-it-yourself)
@@ -40,19 +40,19 @@ Text, data, documents, images and QR codes. No uploads, no accounts, works offli
   </tr>
   <tr>
     <td><img src="docs/screenshots/tool-photo-metadata.png" alt="Photo metadata cleaner showing camera details and a GPS position found in a photo"><br><sub><b>Photo metadata cleaner</b> shows what a photo gives away, such as location, camera and time, and strips it without re-compressing the image.</sub></td>
+    <td><img src="docs/screenshots/tool-pdf-metadata.png" alt="PDF metadata cleaner listing author, software and earlier saved versions found in a PDF"><br><sub><b>PDF metadata cleaner</b> shows the author, software, dates and earlier saved versions inside a PDF and writes a clean copy. The pages stay byte for byte the same.</sub></td>
+  </tr>
+  <tr>
     <td><img src="docs/screenshots/tool-readability.png" alt="Readability checker highlighting long sentences and passive voice"><br><sub><b>Readability checker</b> highlights long sentences and passive voice and scores how easy a text is to read.</sub></td>
-  </tr>
-  <tr>
     <td><img src="docs/screenshots/tool-seo-files.png" alt="robots.txt and sitemap generator with both files ready to download"><br><sub><b>robots.txt and sitemap generator</b> builds both files and warns about common mistakes before you publish.</sub></td>
+  </tr>
+  <tr>
     <td><img src="docs/screenshots/command-palette.png" alt="Command palette listing recent tools, favourites, pages and actions"><br><sub><b>Command palette</b> (Cmd or Ctrl + K) with recent tools, favourites, pages and actions.</sub></td>
-  </tr>
-  <tr>
     <td><img src="docs/screenshots/tool-json-formatter.png" alt="JSON formatter showing formatted output"><br><sub><b>JSON formatter</b> with exact line and column errors, key sorting and CSV export.</sub></td>
-    <td><img src="docs/screenshots/tool-resume-builder.png" alt="Resume builder with a live A4 preview"><br><sub><b>Resume builder</b> with a live A4 preview. Print or save as PDF in any alphabet.</sub></td>
   </tr>
   <tr>
+    <td><img src="docs/screenshots/tool-resume-builder.png" alt="Resume builder with a live A4 preview"><br><sub><b>Resume builder</b> with a live A4 preview. Print or save as PDF in any alphabet.</sub></td>
     <td><img src="docs/screenshots/tool-screenshot-beautifier.png" alt="Screenshot beautifier adding a gradient background and shadow"><br><sub><b>Screenshot beautifier</b> adds a background, padding, rounded corners and a shadow. This repo's own screenshots were made with it.</sub></td>
-    <td><img src="docs/screenshots/catalogue.png" alt="Catalogue of all tools with group filters"><br><sub><b>One catalogue</b> for all 49 tools, with filters and instant search.</sub></td>
   </tr>
   <tr>
     <td><img src="docs/screenshots/ukrainian.png" alt="The landing page in Ukrainian"><br><sub><b>Five languages</b>, switchable at any time. Shown here in Ukrainian.</sub></td>
@@ -126,6 +126,7 @@ The catalogue is defined in `public/js/registry.js`. The tables below are genera
 | **QR code** | Create QR codes (single or batch) in solid or gradient style, as PNG or SVG. |
 | **QR code reader** | Read a QR code from an image, screenshot or photo and see what it contains, without uploading it. |
 | **Photo metadata cleaner** | See what a photo reveals, such as location, camera and time, and remove it without re-compressing the image. |
+| **PDF metadata cleaner** | See the author, software and dates stored in a PDF and remove them, together with hidden earlier versions. |
 | **Image resizer** | Resize and compress images, or generate a complete favicon pack. |
 | **Image watermark** | Overlay a text or logo watermark with position, opacity and size. |
 | **Social cropper** | Crop images to Instagram, Facebook, LinkedIn and X presets. |
@@ -164,7 +165,8 @@ The server (`scripts/serve.mjs`) applies the headers from `netlify.toml`, includ
 Checks and tests need no `npm install`; the repository has no dependencies at all:
 
 ```sh
-npm run check          # registry <-> tool module consistency checks
+npm run generate       # per-tool pages, sitemap.xml, offline file list and README tables
+npm run check          # registry <-> tool module consistency checks, generated files up to date
 npm test               # node --test tests/
 ```
 
@@ -204,19 +206,19 @@ Or, with the Netlify CLI: `npx netlify-cli deploy --prod` from the repository ro
 
 1. Add a `T(...)` entry to `TOOLS` in `public/js/registry.js` (module, category id, kebab-case tool id, icon, name, one-sentence description, search keywords).
 2. Add a definition under the same id in `tools` in the matching `public/js/tools/<module>.js`, with its `fields`, an `example` and a `run()` function (put reusable logic in `public/js/lib/`).
-3. Run `npm run precache` (offline file list), `npm run readme` (tool tables) and `npm run check`, then `npm test`, and try it with `npm start`.
+3. Run `npm run generate` (one page per tool, `sitemap.xml`, the offline file list and the tool tables), then `npm run check` and `npm test`, and try it with `npm start`.
 
 ## Project layout
 
 ```
-public/            deployed site: index.html, css/, js/, icons/, sw.js, manifest
+public/            deployed site: index.html, one HTML page per tool (generated), css/, js/, icons/, sw.js, manifest
   js/registry.js   tool catalogue and search
   js/tools/        tool definitions by category (text, dev, data, docs, image)
   js/lib/          pure helpers (CSV, XLSX, PDF, QR, Markdown, ...)
   js/core/         shared UI: DOM helper, form renderer, runner, image utils
   js/favs.js       favourites and recently used tools (localStorage)
   js/palette.js    command palette
-scripts/           serve.mjs (local server), check.mjs (consistency checks), update-precache.mjs, update-readme.mjs
+scripts/           serve.mjs (local server), check.mjs (consistency checks), prerender.mjs, update-precache.mjs, update-readme.mjs
 tests/             node:test suites
 netlify.toml       Netlify publish directory and headers
 ```

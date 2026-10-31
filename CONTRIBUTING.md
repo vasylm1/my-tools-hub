@@ -14,7 +14,8 @@ My Tools Hub is a set of small, private tools that run entirely in the browser. 
 | Path | Purpose |
 |---|---|
 | `public/index.html`, `public/css/app.css` | App shell and all styles |
-| `public/js/main.js` | Hash router, sidebar, search, theme, lazy loading of tool modules |
+| `public/js/main.js` | Path router (`/json-formatter`, History API), sidebar, search, theme, lazy loading of tool modules |
+| `public/js/pages.js` | Titles and descriptions of the fixed pages (also used by `scripts/prerender.mjs`) |
 | `public/js/registry.js` | Catalogue of categories and tools (name, icon, description, search keywords) |
 | `public/js/tools/*.js` | Tool definitions, grouped by module (`text`, `dev`, `data`, `docs`, `image`) |
 | `public/js/lib/*.js` | Pure logic (parsers, formatters, encoders). No DOM access, so it is testable in Node |
@@ -22,7 +23,8 @@ My Tools Hub is a set of small, private tools that run entirely in the browser. 
 | `public/sw.js`, `public/manifest.webmanifest` | Offline support and PWA metadata |
 | `netlify.toml` | Publish directory and security headers (including the CSP) |
 | `scripts/serve.mjs`, `scripts/check.mjs` | Local server and consistency checks |
-| `scripts/update-precache.mjs`, `scripts/update-readme.mjs` | `npm run precache` rewrites the offline file list and the sitemap date; `npm run readme` regenerates the tool tables |
+| `scripts/prerender.mjs` | `npm run prerender` writes one static HTML page per tool and fixed page (own title, description, canonical and Open Graph tags, so search engines and link previews see them), `sitemap.xml` and Netlify's `_redirects` |
+| `scripts/update-precache.mjs`, `scripts/update-readme.mjs` | `npm run precache` rewrites the offline file list; `npm run readme` regenerates the tool tables |
 | `public/js/favs.js`, `public/js/palette.js` | Favourites and recent tools (localStorage only) and the Cmd or Ctrl + K command palette |
 | `tests/*.test.mjs` | Tests using `node:test` |
 
@@ -81,7 +83,9 @@ The CSP in `netlify.toml` is strict (`script-src 'self'`, no inline scripts, `ob
 ## Local verification
 
 ```sh
-npm run precache   # after adding or removing files in public/ (offline file list, sitemap date)
+npm run generate   # after adding a tool or changing index.html: per-tool pages, sitemap, offline file list, README tables
+npm run precache   # after adding or removing files in public/ (offline file list only)
+npm run prerender  # per-tool pages and sitemap.xml only
 npm run readme     # after adding a tool (README tables)
 npm run check      # registry <-> tool modules, unique field ids, external URLs, README and sitemap, banned patterns
 npm test           # node --test tests/

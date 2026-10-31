@@ -47,9 +47,9 @@
   --accent: #166a47;
   --accent-2: #0f5236;
   --accent-soft: rgb(22 106 71 / .1);
-  --ok: #1b8a5a;
+  --ok: #14704a;
   --ok-soft: rgb(27 138 90 / .1);
-  --warn: #9a6a00;
+  --warn: #835a00;
   --warn-soft: rgb(154 106 0 / .1);
   --danger: #c4323c;
   --danger-soft: rgb(196 50 60 / .08);
@@ -303,7 +303,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--accent); outline
 ::placeholder { color: var(--ink-3); }
 input[type=color] { width: 52px; height: 36px; padding: 3px; border: 1px solid var(--line-2); border-radius: 8px; background: var(--bg-2); cursor: pointer; }
 input[type=range] { width: 100%; height: 24px; accent-color: var(--accent); }
-input[type=file] { color: var(--ink-2); font-size: .86rem; }
+input[type=file] { color: var(--ink-2); font-size: .86rem; max-width: 100%; min-width: 0; }
 .range-wrap { display: flex; align-items: center; gap: 12px; }
 .range-out { min-width: 3.4em; text-align: right; font-variant-numeric: tabular-nums; color: var(--ink-2); font-size: .86rem; }
 .check { display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: .9rem; }

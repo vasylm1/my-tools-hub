@@ -1,4 +1,4 @@
-// App shell: hash router, views (landing, catalogue, tool, about, privacy), command palette, theme.
+// App shell: path router, views (landing, catalogue, tool, about, privacy), command palette, theme.
 import { h, $ } from './core/dom.js';
 import { icon } from './core/icons.js';
 import { mountTool } from './core/runner.js';
@@ -7,6 +7,7 @@ import { profile, legal } from './profile.js';
 import { heroWindow as buildHero } from './hero.js';
 import { favourites, recents, isFavourite, toggleFavourite, noteRecent, clearRecents, onFavsChange } from './favs.js';
 import { createPalette } from './palette.js';
+import { PAGES, HOME_DESC } from './pages.js';
 import { applyStaticTranslations, countText, initLocale, setLocale, t as tr } from './i18n.js';
 
 const main = $('#main');
@@ -63,11 +64,11 @@ sidebar.addEventListener('click', (e) => { if (e.target.closest('a')) openMenu(f
 
 /* ------------------------------------------------------------- routing */
 
+// Addresses are real paths (/json-formatter, /tools?cat=dev). Old #/ bookmarks are rewritten once at start-up.
 function parseRoute() {
-  const raw = location.hash.replace(/^#\/?/, '');
-  const [path, query = ''] = raw.split('?');
-  const id = decodeURIComponent(path);
-  const params = new URLSearchParams(query);
+  let id = '';
+  try { id = decodeURIComponent(location.pathname.replace(/^\/+|\/+$/g, '')); } catch { id = location.pathname; }
+  const params = new URLSearchParams(location.search);
   let view = 'tool';
   if (id === '') view = 'landing';
   else if (id === 'tools') view = 'tools';
@@ -75,7 +76,26 @@ function parseRoute() {
   return { id, params, view };
 }
 
-const setTitle = (t) => { document.title = t ? `${t} · ${BASE_TITLE}` : BASE_TITLE; };
+const SITE = new URL(document.querySelector('link[rel="canonical"]')?.href || location.origin).origin;
+const setMeta = (selector, attr, value) => document.querySelector(selector)?.setAttribute(attr, value);
+// Keeps the tab title and the address-related tags in step with the page, for history entries and for crawlers that run scripts.
+function setTitle(t, description) {
+  const title = t ? `${t} · ${BASE_TITLE}` : BASE_TITLE;
+  document.title = title;
+  const url = `${SITE}${location.pathname.replace(/\/+$/, '') || '/'}`;
+  setMeta('link[rel="canonical"]', 'href', url);
+  setMeta('meta[property="og:url"]', 'content', url);
+  setMeta('meta[property="og:title"]', 'content', title);
+  const desc = description || tr(HOME_DESC);
+  setMeta('meta[name="description"]', 'content', desc);
+  setMeta('meta[property="og:description"]', 'content', desc);
+}
+
+function navigate(to, { replace = false } = {}) {
+  const same = to === location.pathname + location.search;
+  history[replace || same ? 'replaceState' : 'pushState'](null, '', to);
+  return route();
+}
 
 function markNav(id) {
   document.querySelectorAll('.topnav a').forEach((a) => {
@@ -88,7 +108,7 @@ function renderSidebar(current) {
   const mine = favourites().map((id) => byId[id]);
   const groups = [...(mine.length ? [{ id: 'favourites', name: 'Favourites', fav: true }] : []), ...CATEGORIES].map((category) => {
     const links = (category.fav ? mine : TOOLS.filter((tool) => tool.cat === category.id)).map((tool) => h('a', {
-      href: `#/${tool.id}`, class: 'nav-link', 'aria-current': tool.id === current ? 'page' : null,
+      href: `/${tool.id}`, class: 'nav-link', 'aria-current': tool.id === current ? 'page' : null,
     }, icon(tool.icon, 16), h('span', {}, tr(tool.name))));
     return h('section', { class: 'nav-group' },
       h('h2', { class: 'nav-heading' }, tr(category.name)), h('div', { class: 'nav-list' }, ...links));
@@ -115,7 +135,7 @@ const favButton = (t, { text = false } = {}) => {
 };
 
 const toolCard = (t) => h('div', { class: 'tool-card-wrap' },
-  h('a', { class: 'tool-card', href: `#/${t.id}` },
+  h('a', { class: 'tool-card', href: `/${t.id}` },
     h('span', { class: 'tile' }, icon(t.icon, 18)),
     h('span', { class: 'tool-card-body' }, h('strong', {}, tr(t.name)), h('span', {}, tr(t.desc)))),
   favButton(t));
@@ -129,7 +149,7 @@ function yourTools() {
   const box = h('section', { class: 'wrap section your-tools', 'aria-label': tr('Your tools') });
   const row = (title, ids) => ids.length && h('div', { class: 'case' },
     h('div', { class: 'case-text' }, h('h3', {}, tr(title))),
-    h('div', { class: 'case-tools' }, ...ids.map((id) => h('a', { class: 'pill', href: `#/${id}` }, icon(byId[id].icon, 15), tr(byId[id].name)))));
+    h('div', { class: 'case-tools' }, ...ids.map((id) => h('a', { class: 'pill', href: `/${id}` }, icon(byId[id].icon, 15), tr(byId[id].name)))));
   const paint = () => {
     const rec = recents().slice(0, 4);
     const fav = favourites();
@@ -168,8 +188,8 @@ function renderLanding() {
         h('h1', {}, tr('Get the small jobs done. Keep your files private.')),
         h('p', { class: 'lead' }, tr('Tools for the everyday jobs that eat your afternoon: cleaning a spreadsheet, shrinking a logo, building a QR code, formatting JSON. Nothing is uploaded and nothing needs an account.')),
         h('div', { class: 'cta-row' },
-          h('a', { class: 'btn primary lg', href: '#/tools' }, tr('Open the toolbox')),
-          h('a', { class: 'btn lg', href: '#/about' }, tr('About me')),
+          h('a', { class: 'btn primary lg', href: '/tools' }, tr('Open the toolbox')),
+          h('a', { class: 'btn lg', href: '/about' }, tr('About me')),
           h('span', { class: 'hint-keys' }, tr('or press '), h('kbd', {}, isMac ? 'Cmd K' : 'Ctrl K'), tr(' to search'))),
         h('ul', { class: 'trust' }, ...trust.map((label) => h('li', {}, icon('check', 15), tr(label)))),
         heroWindow())),
@@ -178,7 +198,7 @@ function renderLanding() {
       h('div', { class: 'section-head' }, h('h2', {}, tr('Built for the jobs you actually have')), h('p', {}, tr('Pick a starting point. Each tool has a one-click example.'))),
       h('div', { class: 'cases' }, ...cases.map(([title, blurb, ids]) => h('div', { class: 'case' },
         h('div', { class: 'case-text' }, h('h3', {}, tr(title)), h('p', {}, tr(blurb))),
-        h('div', { class: 'case-tools' }, ...ids.map((id) => h('a', { class: 'pill', href: `#/${id}` }, icon(byId[id].icon, 15), tr(byId[id].name)))))))),
+        h('div', { class: 'case-tools' }, ...ids.map((id) => h('a', { class: 'pill', href: `/${id}` }, icon(byId[id].icon, 15), tr(byId[id].name)))))))),
     h('section', { class: 'wrap section' },
       h('div', { class: 'section-head' }, h('h2', {}, tr('How it works'))),
       h('ol', { class: 'steps' }, ...steps.map(([title, text], i) => h('li', {}, h('span', { class: 'step-n', 'aria-hidden': 'true' }, String(i + 1)), h('h3', {}, tr(title)), h('p', {}, tr(text)))))),
@@ -186,7 +206,7 @@ function renderLanding() {
       h('div', { class: 'principles' }, ...principles.map(([ic, title, text]) => h('div', { class: 'principle' }, icon(ic, 20), h('h2', {}, tr(title)), h('p', {}, tr(text)))))),
     h('section', { class: 'wrap section' },
       h('div', { class: 'section-head' }, h('h2', {}, tr('Everything in one place')), h('p', {}, `${countText('tool', TOOLS.length)} · ${countText('group', CATEGORIES.length)}`)),
-      h('div', { class: 'cat-list' }, ...CATEGORIES.map((c) => h('a', { class: 'cat-row', href: `#/tools?cat=${c.id}` },
+      h('div', { class: 'cat-list' }, ...CATEGORIES.map((c) => h('a', { class: 'cat-row', href: `/tools?cat=${c.id}` },
         h('span', { class: 'tile' }, icon(c.icon, 18)),
         h('span', { class: 'cat-text' }, h('strong', {}, tr(c.name)), h('span', {}, tr(c.blurb))),
         h('span', { class: 'cat-count' }, countText('tool', count(c.id))),
@@ -195,17 +215,17 @@ function renderLanding() {
       h('div', { class: 'maker' },
         portrait(),
         h('div', { class: 'maker-text' }, h('h2', {}, tr('Made by {name}', { name: profile.name })), h('p', {}, tr(profile.headline))),
-        h('a', { class: 'btn', href: '#/about' }, tr('About me')))),
+        h('a', { class: 'btn', href: '/about' }, tr('About me')))),
     h('section', { class: 'wrap section' },
       h('div', { class: 'cta-band' },
         h('div', {}, h('h2', {}, tr('Your next small job takes seconds.')), h('p', {}, tr('Open the toolbox and try any tool with its built-in example.'))),
-        h('a', { class: 'btn primary lg', href: '#/tools' }, tr('Browse all {count} tools', { count: TOOLS.length })))));
+        h('a', { class: 'btn primary lg', href: '/tools' }, tr('Browse all {count} tools', { count: TOOLS.length })))));
 }
 
 /* ----------------------------------------------------------- catalogue */
 
 function renderCatalogue(params) {
-  setTitle(tr('All tools'));
+  setTitle(tr(PAGES.tools.title), tr(PAGES.tools.desc));
   let cat = params.get('cat') || '';
   if (!CATEGORIES.some((c) => c.id === cat) && cat !== 'favourites') cat = '';
   let query = '';
@@ -241,12 +261,12 @@ async function loadModule(name) {
 async function renderTool(id) {
   const meta = byId[id];
   if (!meta) { renderNotFound(id); return; }
-  setTitle(tr(meta.name));
+  setTitle(tr(meta.name), tr(meta.desc));
   renderSidebar(id);
   const body = h('div', { class: 'tool-body' }, h('p', { class: 'muted pad' }, tr('Loading tool…')));
   main.replaceChildren(
     h('nav', { class: 'crumbs', 'aria-label': 'Breadcrumb' },
-      h('a', { href: '#/tools' }, tr('Tools')), icon('chevron', 13), h('a', { href: `#/tools?cat=${meta.cat}` }, catName(meta.cat))),
+      h('a', { href: '/tools' }, tr('Tools')), icon('chevron', 13), h('a', { href: `/tools?cat=${meta.cat}` }, catName(meta.cat))),
     h('header', { class: 'tool-head' },
       h('span', { class: 'tile lg' }, icon(meta.icon, 22)),
       h('div', {}, h('h1', { tabindex: -1 }, tr(meta.name)), h('p', {}, tr(meta.desc))),
@@ -271,7 +291,7 @@ async function renderTool(id) {
 /* ------------------------------------------------------------ about etc. */
 
 function renderAbout() {
-  setTitle(tr('About me'));
+  setTitle(tr(PAGES.about.title), tr(PAGES.about.desc));
   const p = profile;
   const mail = { label: 'Email', icon: 'mail', href: `mailto:${p.email}` };
   const links = [...p.links, mail].map((link) => h('a', {
@@ -332,7 +352,7 @@ function statsSwitch() {
 }
 
 function renderPrivacy() {
-  setTitle(tr('Privacy'));
+  setTitle(tr(PAGES.privacy.title), tr(PAGES.privacy.desc));
   main.replaceChildren(h('div', { class: 'wrap section pt' }, h('article', { class: 'prose narrow' },
     h('h1', { tabindex: -1 }, tr('Privacy')),
     h('p', { class: 'lead-sm' }, tr('The tools run in your browser, so your files and text never reach me. This page explains the little data that does exist, as required by Articles 13 and 14 of the GDPR.')),
@@ -356,7 +376,7 @@ function renderPrivacy() {
 }
 
 function renderLegal() {
-  setTitle(tr('Legal notice'));
+  setTitle(tr(PAGES.legal.title), tr(PAGES.legal.desc));
   main.replaceChildren(h('div', { class: 'wrap section pt' }, h('article', { class: 'prose narrow' },
     h('h1', { tabindex: -1 }, tr('Legal notice')),
     h('h2', {}, tr('Provider')),
@@ -374,14 +394,14 @@ function renderLegal() {
     h('p', {}, tr('I aim to meet WCAG 2.1 level AA. Every page and a sample of tools passes automated checks (axe-core) in the light and dark themes. The site works with a keyboard alone, shows a visible focus indicator, stays readable at 400% zoom without sideways scrolling, and respects the reduced-motion setting. I have not had an independent audit.')),
     h('p', {}, tr('Known limits: image previews describe their size but not their content, and the HTML viewer shows whatever HTML you give it, so its accessibility is that of your content.')),
     h('p', {}, tr('If something blocks you, please email '), mailto(), tr(' and I will fix it.')),
-    h('p', {}, h('a', { href: '#/privacy' }, tr('Read the privacy information'))))));
+    h('p', {}, h('a', { href: '/privacy' }, tr('Read the privacy information'))))));
 }
 
 function renderNotFound(id) {
   setTitle(tr('Not found'));
   main.replaceChildren(h('div', { class: 'wrap section pt' },
     h('div', { class: 'msg error' }, tr('There is no page or tool called “{id}”.', { id })),
-    h('p', {}, h('a', { class: 'btn', href: '#/tools' }, tr('Browse all tools')))));
+    h('p', {}, h('a', { class: 'btn', href: '/tools' }, tr('Browse all tools')))));
 }
 
 // First-visit notice with the statistics switch. It informs rather than asks: the counting sets no cookies.
@@ -391,7 +411,7 @@ function renderStatsNotice() {
   try { if (localStorage.getItem(NOTICE_KEY)) return; } catch { /* storage blocked: show it each visit */ }
   const close = h('button', { class: 'btn primary', type: 'button' }, tr('Got it'));
   const box = h('section', { id: 'stats-notice', class: 'notice', 'aria-label': tr('Page statistics') },
-    h('p', {}, tr('This site counts page visits with Umami, without cookies. Your files never leave your device.'), ' ', h('a', { href: '#/privacy' }, tr('Privacy'))),
+    h('p', {}, tr('This site counts page visits with Umami, without cookies. Your files never leave your device.'), ' ', h('a', { href: '/privacy' }, tr('Privacy'))),
     statsSwitch(),
     h('div', { class: 'notice-actions' }, close));
   close.addEventListener('click', () => {
@@ -416,17 +436,40 @@ async function route() {
   else await renderTool(id);
   if (view !== 'landing') $('h1', main)?.focus({ preventScroll: true });
 }
-addEventListener('hashchange', route);
+addEventListener('popstate', route);
+
+// Links stay ordinary <a href="/tool"> (open in a new tab, copy, crawl); a plain click is handled here without a page load.
+const appPaths = new Set(['', 'tools', 'about', 'privacy', 'legal', ...TOOLS.map((t) => t.id)]);
+document.addEventListener('click', (e) => {
+  if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+  const a = e.target.closest?.('a[href]');
+  if (!a || (a.target && a.target !== '_self') || a.hasAttribute('download')) return;
+  const url = new URL(a.href, location.href);
+  if (url.origin !== location.origin || url.protocol !== location.protocol) return;
+  if (url.pathname === location.pathname && url.search === location.search && url.hash) return; // in-page anchor such as the skip link
+  if (!appPaths.has(url.pathname.replace(/^\/+|\/+$/g, ''))) return;
+  e.preventDefault();
+  navigate(url.pathname + url.search);
+});
+
+// Bookmarks and shared links from the hash-route era (/#/json-formatter) open the same page at its real address.
+function migrateHash() {
+  if (!/^#\//.test(location.hash)) return false;
+  history.replaceState(null, '', location.hash.slice(1));
+  return true;
+}
+migrateHash();
+addEventListener('hashchange', () => { if (migrateHash()) route(); });
 
 /* ----------------------------------------------------- command palette */
 
 const REPO_URL = 'https://github.com/vasylm1/my-tools-hub';
 
 function paletteGroups(q) {
-  const go = (hash) => () => { location.hash = hash; };
-  const toolItem = (t) => ({ name: tr(t.name), sub: catName(t.cat), ic: t.icon, run: go(`#/${t.id}`) });
+  const go = (to) => () => navigate(to);
+  const toolItem = (t) => ({ name: tr(t.name), sub: catName(t.cat), ic: t.icon, run: go(`/${t.id}`) });
   const pages = [['', 'Home', 'grid'], ['tools', 'All tools', 'layers'], ['about', 'About me', 'user'], ['privacy', 'Privacy', 'lock'], ['legal', 'Legal notice', 'info']]
-    .map(([to, name, ic]) => ({ name: tr(name), ic, sub: tr('Page'), kw: name, run: go(`#/${to}`) }));
+    .map(([to, name, ic]) => ({ name: tr(name), ic, sub: tr('Page'), kw: name, run: go(`/${to}`) }));
   const current = parseRoute();
   const actions = [];
   if (current.view === 'tool' && byId[current.id]) {
@@ -470,8 +513,8 @@ let active = -1;
 
 function searchHits(q) {
   const pages = [['tools', 'All tools', 'layers'], ['about', 'About me', 'user'], ['privacy', 'Privacy', 'lock'], ['legal', 'Legal notice', 'info']]
-    .filter(([, name]) => q && `${name} ${tr(name)}`.toLowerCase().includes(q)).map(([to, name, ic]) => ({ to: `#/${to}`, name: tr(name), ic, sub: tr('Page') }));
-  const tools = searchTools(q, tr).map((tool) => ({ to: `#/${tool.id}`, name: tr(tool.name), ic: tool.icon, sub: catName(tool.cat) }));
+    .filter(([, name]) => q && `${name} ${tr(name)}`.toLowerCase().includes(q)).map(([to, name, ic]) => ({ to: `/${to}`, name: tr(name), ic, sub: tr('Page') }));
+  const tools = searchTools(q, tr).map((tool) => ({ to: `/${tool.id}`, name: tr(tool.name), ic: tool.icon, sub: catName(tool.cat) }));
   return [...tools, ...pages].slice(0, 8);
 }
 
@@ -511,7 +554,7 @@ searchInput.addEventListener('blur', () => setTimeout(closeSearch, 120));
 searchInput.addEventListener('keydown', (e) => {
   if (e.key === 'ArrowDown') { e.preventDefault(); if (searchList.hidden) paintSearch(); else setActive(Math.min(hits.length - 1, active + 1)); }
   else if (e.key === 'ArrowUp') { e.preventDefault(); setActive(Math.max(0, active - 1)); }
-  else if (e.key === 'Enter') { const hit = hits[active >= 0 ? active : 0]; if (hit) { e.preventDefault(); location.hash = hit.to; searchInput.value = ''; closeSearch(); searchInput.blur(); } }
+  else if (e.key === 'Enter') { const hit = hits[active >= 0 ? active : 0]; if (hit) { e.preventDefault(); navigate(hit.to); searchInput.value = ''; closeSearch(); searchInput.blur(); } }
   else if (e.key === 'Escape') { searchInput.value = ''; closeSearch(); searchInput.blur(); }
 });
 document.addEventListener('keydown', (e) => {

@@ -37,7 +37,10 @@ export function startServer(rules, listenPort = port) {
     let file = path.join(publicDir, decodeURIComponent(url));
     if (!file.startsWith(publicDir)) { res.writeHead(403).end('Forbidden'); return; }
     try {
-      if ((await stat(file)).isDirectory()) file = path.join(file, 'index.html');
+      // Like Netlify: /name is served from name.html when there is no file or folder called name.
+      const info = await stat(file).catch(() => null);
+      if (!info && path.extname(file) === '') file += '.html';
+      else if (info?.isDirectory()) file = path.join(file, 'index.html');
       const body = await readFile(file);
       const headers = { 'Content-Type': TYPES[path.extname(file)] || 'application/octet-stream' };
       for (const rule of rules) if (matches(rule.for, url)) Object.assign(headers, rule.values);

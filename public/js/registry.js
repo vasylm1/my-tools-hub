@@ -57,6 +57,7 @@ export const TOOLS = [
   T('image', 'image', 'qr-code', 'qr', 'QR code', 'Create QR codes (single or batch) in solid or gradient style, as PNG or SVG.', 'barcode url wifi'),
   T('image', 'image', 'qr-decoder', 'scan', 'QR code reader', 'Read a QR code from an image, screenshot or photo and see what it contains, without uploading it.', 'scan decode barcode wifi'),
   T('image', 'image', 'photo-metadata-cleaner', 'shield', 'Photo metadata cleaner', 'See what a photo reveals, such as location, camera and time, and remove it without re-compressing the image.', 'exif gps privacy strip jpeg png webp location remove metadata'),
+  T('image', 'image', 'pdf-metadata-cleaner', 'filepdf', 'PDF metadata cleaner', 'See the author, software and dates stored in a PDF and remove them, together with hidden earlier versions.', 'pdf privacy author properties xmp strip remove document info redact'),
   T('image', 'image', 'image-resizer', 'resize', 'Image resizer', 'Resize and compress images, or generate a complete favicon pack.', 'compress favicon ico'),
   T('image', 'image', 'image-watermark', 'droplet', 'Image watermark', 'Overlay a text or logo watermark with position, opacity and size.', 'logo stamp'),
   T('image', 'image', 'social-cropper', 'crop', 'Social cropper', 'Crop images to Instagram, Facebook, LinkedIn and X presets.', 'instagram linkedin'),
