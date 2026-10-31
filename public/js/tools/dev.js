@@ -6,6 +6,7 @@ import { validateJson, JsonError, sortKeysDeep, jsonToRows } from '../lib/json.j
 import { toCSV } from '../lib/csv.js';
 import { checkFlow } from '../lib/pa.js';
 import { formatSql } from '../lib/sql.js';
+import { buildRobots, buildSitemap, SeoError, CHANGEFREQ } from '../lib/seo-files.js';
 import { UNITS, convert, fmtNumber } from '../lib/units.js';
 import { daysBetween, ymd, workdaysBetween, addDays, zonedToInstant, formatInZone, COMMON_ZONES, allZones } from '../lib/datetime.js';
 
@@ -88,6 +89,39 @@ export const tools = {
       if (errorLine) return { sections: [res, { node: sourceView(json, errorLine, findings[0].column) }] };
       if (value !== null) return { sections: [res, { text: { label: 'Formatted JSON', value: JSON.stringify(value, null, 2), filename: 'power-automate-flow.json', mime: 'application/json', rows: 12 } }] };
       return res;
+    },
+  },
+
+  'seo-files-generator': {
+    fields: [
+      { id: 'site', type: 'text', label: 'Site address', placeholder: 'https://www.example.com', hint: 'The sitemap line in robots.txt and every page address are built from this.' },
+      { id: 'pages', type: 'textarea', label: 'Pages for the sitemap', rows: 7, placeholder: '/\n/about\n/blog/first-post', hint: 'One path or full address per line. Leave empty to list only the home page.', spellcheck: false },
+      { id: 'disallow', type: 'textarea', label: 'Paths crawlers should skip', rows: 3, placeholder: '/admin/\n/cart/', hint: 'One path per line.', half: true, spellcheck: false },
+      { id: 'allow', type: 'textarea', label: 'Exceptions inside skipped paths', rows: 3, placeholder: '/admin/help/', hint: 'Optional. One path per line.', half: true, spellcheck: false },
+      { id: 'blockAi', type: 'checkbox', label: 'Ask AI training crawlers to stay away', value: false, hint: 'Adds GPTBot, ClaudeBot, CCBot and others. Compliance is voluntary, and search engines are not affected.' },
+      { id: 'lastmod', type: 'date', label: 'Last modified', half: true, value: today(), hint: 'Optional. Use the date the pages last changed.' },
+      { id: 'changefreq', type: 'select', label: 'Change frequency', half: true, options: [['', 'Not set'], ...CHANGEFREQ.map((f) => [f, f[0].toUpperCase() + f.slice(1)])], hint: 'Google ignores this and priority, so leave them unset unless another crawler needs them.' },
+      { id: 'priority', type: 'number', label: 'Priority (0 to 1)', half: true, min: 0, max: 1, step: 0.1 },
+    ],
+    example: { site: 'https://www.example.com', pages: '/\n/about\n/blog/\n/blog/launch-notes\n/contact', disallow: '/admin/\n/cart/\n/search', allow: '/admin/help/', blockAi: true, changefreq: '', priority: '' },
+    run(v) {
+      if (!v.site.trim()) return { empty: 'Enter your site address to create the files.' };
+      try {
+        const robots = buildRobots({ site: v.site, disallow: v.disallow, allow: v.allow, blockAi: v.blockAi });
+        const sitemap = buildSitemap({ site: v.site, pages: v.pages, lastmod: v.lastmod, changefreq: v.changefreq, priority: v.priority === '' || v.priority == null ? '' : String(v.priority) });
+        const warnings = [...robots.warnings, ...sitemap.warnings];
+        return {
+          sections: [
+            ...warnings.map((w) => ({ notice: { kind: 'warn', text: w.text, values: w.values } })),
+            { notice: { kind: 'ok', text: 'Pages in the sitemap: {count}. Upload both files to the root of your site, then submit the sitemap in Google Search Console.', values: { count: sitemap.count } } },
+            { text: { label: 'robots.txt', value: robots.text, filename: 'robots.txt', mime: 'text/plain', rows: Math.min(14, robots.text.split('\n').length + 1) } },
+            { text: { label: 'sitemap.xml', value: sitemap.xml, filename: 'sitemap.xml', mime: 'application/xml', rows: Math.min(16, sitemap.xml.split('\n').length + 1) } },
+          ],
+        };
+      } catch (e) {
+        if (e instanceof SeoError) return { error: e.message, values: e.values };
+        throw e;
+      }
     },
   },
 

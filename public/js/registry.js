@@ -14,6 +14,7 @@ const T = (module, cat, id, icon, name, desc, kw = '') => ({ module, cat, id, ic
 export const TOOLS = [
   // Writing & text
   T('text', 'writing', 'copy-analyzer', 'bars', 'Copy analyzer', 'Word, character and sentence counts, reading time and Flesch readability.', 'count words characters reading time seo'),
+  T('text', 'writing', 'readability-checker', 'book', 'Readability checker', 'Highlight long sentences and passive voice, and score how easy a text is to read.', 'sentences passive voice lix grade clarity style editor plain language'),
   T('text', 'writing', 'headline-analyzer', 'heading', 'Headline analyzer', 'Score a headline on length, power words and numbers.', 'title seo score'),
   T('text', 'writing', 'hashtag-extractor', 'hash', 'Hashtag extractor', 'Pull top keywords and suggested hashtags out of any text.', 'keywords social tags'),
   T('text', 'writing', 'text-diff', 'diff', 'Text diff', 'Compare two texts and highlight what was added or removed.', 'compare difference changes'),
@@ -24,6 +25,7 @@ export const TOOLS = [
   T('dev', 'dev', 'json-formatter', 'braces', 'JSON formatter', 'Format, minify and validate JSON, or convert an array of objects to CSV.', 'prettify validate csv'),
   T('dev', 'dev', 'power-automate-checker', 'bolt', 'Power Automate JSON checker', 'Find syntax errors and structural problems in a Power Automate flow definition.', 'flow microsoft validate'),
   T('dev', 'dev', 'sql-formatter', 'database', 'SQL formatter', 'Pretty-print and standardise SQL queries.', 'query beautify'),
+  T('dev', 'dev', 'seo-files-generator', 'route', 'robots.txt and sitemap generator', 'Create a robots.txt and a sitemap.xml for your site, with warnings for common mistakes.', 'seo crawler search engine xml google sitemap robots'),
   T('dev', 'dev', 'html-viewer', 'globe', 'HTML viewer', 'Paste or open HTML and preview it safely in an isolated, responsive frame.', 'preview sandbox'),
   T('dev', 'dev', 'unit-converter', 'ruler', 'Unit converter', 'Convert length, mass, temperature, area, volume, speed, time and data units.', 'metric imperial'),
   T('dev', 'dev', 'datetime-toolkit', 'clock', 'Date & time toolkit', 'Date differences, working days between dates, and time zone conversion.', 'timezone workdays'),
@@ -54,6 +56,7 @@ export const TOOLS = [
   // Images & codes
   T('image', 'image', 'qr-code', 'qr', 'QR code', 'Create QR codes (single or batch) in solid or gradient style, as PNG or SVG.', 'barcode url wifi'),
   T('image', 'image', 'qr-decoder', 'scan', 'QR code reader', 'Read a QR code from an image, screenshot or photo and see what it contains, without uploading it.', 'scan decode barcode wifi'),
+  T('image', 'image', 'photo-metadata-cleaner', 'shield', 'Photo metadata cleaner', 'See what a photo reveals, such as location, camera and time, and remove it without re-compressing the image.', 'exif gps privacy strip jpeg png webp location remove metadata'),
   T('image', 'image', 'image-resizer', 'resize', 'Image resizer', 'Resize and compress images, or generate a complete favicon pack.', 'compress favicon ico'),
   T('image', 'image', 'image-watermark', 'droplet', 'Image watermark', 'Overlay a text or logo watermark with position, opacity and size.', 'logo stamp'),
   T('image', 'image', 'social-cropper', 'crop', 'Social cropper', 'Crop images to Instagram, Facebook, LinkedIn and X presets.', 'instagram linkedin'),

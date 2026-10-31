@@ -43,13 +43,33 @@ async function* walk(dir) {
     if (e.isDirectory()) yield* walk(p); else yield p;
   }
 }
+// Every tool is listed in the README (npm run readme regenerates the tables).
+{
+  const readme = await readFile(path.join(pub, "..", "README.md"), 'utf8').catch(() => '');
+  for (const t of TOOLS) if (!readme.includes(`| **${t.name}** |`)) fail(`README.md: tool "${t.name}" is missing (run: npm run readme)`);
+}
+// Crawler files: robots.txt must point at a sitemap whose addresses are on the canonical host.
+{
+  const robots = await readFile(path.join(pub, 'robots.txt'), 'utf8').catch(() => '');
+  const map = await readFile(path.join(pub, 'sitemap.xml'), 'utf8').catch(() => '');
+  const site = (await readFile(path.join(pub, 'index.html'), 'utf8')).match(/<link rel="canonical" href="(https?:\/\/[^/"]+)/)?.[1];
+  if (!site) fail('index.html: missing canonical link');
+  else {
+    if (!robots.includes(`Sitemap: ${site}/sitemap.xml`)) fail(`robots.txt: expected "Sitemap: ${site}/sitemap.xml"`);
+    const locs = [...map.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
+    if (!locs.length) fail('sitemap.xml: no <loc> entries');
+    for (const loc of locs) if (!loc.startsWith(`${site}/`)) fail(`sitemap.xml: ${loc} is not on ${site}`);
+    if (/#/.test(map)) fail('sitemap.xml: search engines ignore #fragments, list real addresses only');
+  }
+}
 for await (const file of walk(pub)) {
   if (!/\.(js|html|css)$/.test(file)) continue;
   const text = await readFile(file, 'utf8');
   const rel = path.relative(pub, file);
   for (const m of text.matchAll(/https?:\/\/[^\s'"`)<>;,]+/g)) {
     const host = new URL(m[0]).hostname;
-    const ok = ['open.er-api.com', 'www.w3.org', 'purl.org', 'www.idpf.org', 'www.daisy.org', 'example.com', 'example.org', 'example.net', 'schemas.openxmlformats.org', 'github.com', 'static.vasylautomation.org', 'my-tools-hub-app.netlify.app', 'markdown-reader-editor.netlify.app', 'custom-card-generator-1.netlify.app', 'www.linkedin.com', 'www.netlify.com', 'www.exchangerate-api.com', 'uodo.gov.pl'].includes(host)
+    const ok = m[0].includes('${') // template literal, not a fixed address
+      || ['open.er-api.com', 'ns.adobe.com', 'www.w3.org', 'purl.org', 'www.idpf.org', 'www.daisy.org', 'example.com', 'www.sitemaps.org', 'example.org', 'example.net', 'schemas.openxmlformats.org', 'github.com', 'static.vasylautomation.org', 'my-tools-hub-app.netlify.app', 'markdown-reader-editor.netlify.app', 'custom-card-generator-1.netlify.app', 'www.linkedin.com', 'www.netlify.com', 'www.exchangerate-api.com', 'uodo.gov.pl'].includes(host)
       || host.endsWith('.example.com') || host === 'localhost';
     if (!ok) fail(`${rel}: unexpected external URL ${m[0]}`);
   }

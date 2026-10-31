@@ -3,10 +3,18 @@ import { h } from '../core/dom.js';
 import { analyzeCopy, scoreHeadline, extractKeywords, diffTokens } from '../lib/text.js';
 import { markdownToHtml, markdownDocument } from '../lib/md.js';
 import { htmlToMarkdown } from '../lib/html2md.js';
+import { analyzeReadability } from '../lib/readability.js';
+import { t as tr } from '../i18n.js';
 
 const SAMPLE_COPY = `Great copy is clear. It respects the reader's time and says one thing well.
 
 Short sentences help. So do concrete words, active verbs and a friendly tone. Read it aloud: if you stumble, your reader will too!`;
+
+const READABILITY_SAMPLE = `Our new thermostat was designed by a small team in Warsaw. It was tested in forty offices over two winters. The results were reviewed by an independent lab.
+
+We wanted a product that anyone could install without a manual, which meant rethinking the pairing process, the mobile app, the packaging, the support articles and the default schedules so that a facilities manager with no technical background could complete the whole setup in a few minutes while standing in a corridor.
+
+We made it simple. We made it quiet. We made it cheap to run.`;
 
 const fmtMin = (m) => (m < 1 ? `${Math.max(1, Math.round(m * 60))} sec` : `${Math.round(m)} min`);
 
@@ -25,6 +33,52 @@ export const tools = {
         ],
         notice: { kind: 'info', text: 'Readability is the Flesch Reading Ease score (0–100, higher is easier). It is tuned for English; other languages are approximate.' },
         table: a.top.length ? { caption: 'Most used words', head: ['Word', 'Count'], rows: a.top } : null,
+      };
+    },
+  },
+
+  'readability-checker': {
+    fields: [
+      { id: 'text', type: 'textarea', label: 'Your text', rows: 12, placeholder: 'Paste or type your text here…', spellcheck: true },
+      { id: 'lang', type: 'select', label: 'Language', options: [['en', 'English'], ['other', 'Another language (Polish, German, …)']], hint: 'Passive voice and grade level are checked for English only.' },
+    ],
+    example: { text: READABILITY_SAMPLE, lang: 'en' },
+    run({ text, lang }) {
+      if (!text.trim()) return { empty: 'Paste some text to check how easy it is to read.' };
+      const r = analyzeReadability(text, { lang });
+      const issue = { long: 'Long sentence', 'very-long': 'Very long sentence', passive: 'Passive voice', 'same-start': 'Same opening word' };
+      const flagged = r.list.filter((s) => s.flags.length);
+      const stats = [['Words', r.words], ['Sentences', r.sentences], ['Words / sentence', r.avgSentence.toFixed(1)], ['Readability (LIX)', `${Math.round(r.lix)} · ${tr(r.lixLabel)}`]];
+      if (r.grade !== null) stats.push(['Grade level', r.grade.toFixed(1)]);
+      stats.push(['Long sentences', r.counts.long + r.counts.veryLong]);
+      if (lang === 'en') stats.push(['Passive sentences', r.counts.passive]);
+      stats.push(['Repeated openings', r.counts.sameStart]);
+      // Highlighted copy of the text: sentences keep their original spacing, passive phrases are marked inside them.
+      const view = h('div', { class: 'rd-text', lang: lang === 'en' ? 'en' : undefined });
+      let at = 0;
+      for (const s of r.list) {
+        view.append(text.slice(at, s.start));
+        const cls = s.flags.includes('very-long') ? 'rd-vlong' : s.flags.includes('long') ? 'rd-long' : '';
+        const wrap = h(cls ? 'mark' : 'span', { class: cls });
+        let from = 0;
+        for (const p of s.passive) { wrap.append(s.text.slice(from, p.start), h('u', { class: 'rd-passive' }, s.text.slice(p.start, p.end))); from = p.end; }
+        wrap.append(s.text.slice(from));
+        view.append(wrap);
+        at = s.end;
+      }
+      view.append(text.slice(at));
+      const legend = h('p', { class: 'muted small-text' },
+        h('mark', { class: 'rd-long' }, tr('Long sentence')), ' ', h('mark', { class: 'rd-vlong' }, tr('Very long sentence')), ' ', lang === 'en' && h('u', { class: 'rd-passive' }, tr('Passive voice')));
+      return {
+        sections: [
+          { stats },
+          { node: h('div', { class: 'block' }, view, legend) },
+          flagged.length ? { table: { caption: tr('Sentences worth a second look'), head: [tr('Sentence'), tr('Words'), tr('Issue')],
+            rows: flagged.map((s) => [s.text.length > 110 ? `${s.text.slice(0, 107)}…` : s.text, s.words, s.flags.map((f) => tr(issue[f])).join(', ')]) } } : {},
+          { notice: { kind: 'info', text: lang === 'en'
+            ? 'LIX combines sentence length and long words (under 30 is very easy, over 60 very hard). Sentences of 25 words or more are marked as long and 35 or more as very long.'
+            : 'LIX combines sentence length and long words and works for most European languages (under 30 is very easy, over 60 very hard). Grade level and passive voice are shown for English only.' } },
+        ],
       };
     },
   },

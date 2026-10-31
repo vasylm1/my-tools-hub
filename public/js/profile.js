@@ -62,7 +62,7 @@ export const profile = {
     { group: 'Design and web', items: ['HTML', 'CSS', 'JavaScript', 'Python', 'WordPress', 'Adobe Creative Suite', 'Canva'] },
   ],
   projects: [
-    { name: 'My Tools Hub', text: 'This site: 46 private tools for writing, data, documents and images.', href: 'https://github.com/vasylm1/my-tools-hub' },
+    { name: 'My Tools Hub', text: 'This site: 49 private tools for writing, data, documents and images.', href: 'https://github.com/vasylm1/my-tools-hub' },
     { name: 'Markdown Reader', text: 'A free Markdown viewer and editor for Windows, macOS, Linux and the web.', href: 'https://markdown-reader-editor.netlify.app' },
     { name: 'Image2BI', text: 'Turns images into Power BI-ready assets in your browser, with Data URI optimisation and batch XLSX export.', href: 'https://custom-card-generator-1.netlify.app' },
     { name: 'CRM', text: 'Small CRM, personal scale. Contacts, reminders and notes on the web and on Android, with phone contact sync.' },

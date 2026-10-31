@@ -14,7 +14,7 @@ export async function loadImageFile(file) {
     img.src = url;
     try { await img.decode(); } catch { throw new Error(`"${file.name}" could not be decoded as an image.`); }
     if (img.naturalWidth * img.naturalHeight > MAX_PIXELS) throw new Error(`"${file.name}" has more than 100 megapixels.`);
-    return { img, name: file.name, width: img.naturalWidth, height: img.naturalHeight };
+    return { img, name: file.name, width: img.naturalWidth, height: img.naturalHeight, file };
   } finally {
     // The decoded bitmap stays alive on the element; the URL is no longer needed.
     setTimeout(() => URL.revokeObjectURL(url), 0);

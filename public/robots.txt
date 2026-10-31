@@ -1,2 +1,4 @@
 User-agent: *
-Allow: /
+Disallow:
+
+Sitemap: https://my-tools-hub-app.netlify.app/sitemap.xml

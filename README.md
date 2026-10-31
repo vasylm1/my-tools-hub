@@ -2,7 +2,7 @@
 
 # My Tools Hub
 
-**46 private tools that never leave your browser.**<br>
+**49 private tools that never leave your browser.**<br>
 Text, data, documents, images and QR codes. No uploads, no accounts, works offline.
 
 [**Open the live site**](https://my-tools-hub-app.netlify.app/) &nbsp;·&nbsp; [Browse the tools](#all-tools) &nbsp;·&nbsp; [Run it yourself](#run-it-yourself)
@@ -21,6 +21,7 @@ Text, data, documents, images and QR codes. No uploads, no accounts, works offli
 - **Your files stay yours.** Everything is processed by your browser. Nothing you type, open or drop in is uploaded, so you can safely use it on contracts, customer lists and unreleased designs.
 - **Made for real jobs.** The landing page groups tools by what you are trying to do (marketing and sales, data and reporting, developers and admins, everyday documents) and shows three of them working in a live, looping preview.
 - **Fast, and works offline.** Open it once and every tool keeps working without a connection. There is no framework and no build step, so tools load on demand and open instantly.
+- **Picks up where you left off.** Star the tools you use most and the site remembers them, along with your recent ones, in your browser only. Press Cmd or Ctrl + K for a command palette that jumps to any tool, page or setting.
 - **Speaks your language.** English, Polish, German, Ukrainian and Simplified Chinese, switchable at any time.
 - **Built for everyone.** Keyboard friendly, visible focus, light and dark themes, readable at 400% zoom, and checked against WCAG 2.1 AA with automated tests.
 - **Honest about privacy.** The only outside request a tool makes is the exchange-rate lookup in the currency converter. Page statistics come from a self-hosted, cookieless Umami that never sees tool inputs.
@@ -38,12 +39,20 @@ Text, data, documents, images and QR codes. No uploads, no accounts, works offli
     <td><img src="docs/screenshots/tool-contrast-checker.png" alt="Colour contrast checker with a pass and fail table"><br><sub><b>Colour contrast checker</b> tests colours against WCAG and suggests the closest passing shade.</sub></td>
   </tr>
   <tr>
+    <td><img src="docs/screenshots/tool-photo-metadata.png" alt="Photo metadata cleaner showing camera details and a GPS position found in a photo"><br><sub><b>Photo metadata cleaner</b> shows what a photo gives away, such as location, camera and time, and strips it without re-compressing the image.</sub></td>
+    <td><img src="docs/screenshots/tool-readability.png" alt="Readability checker highlighting long sentences and passive voice"><br><sub><b>Readability checker</b> highlights long sentences and passive voice and scores how easy a text is to read.</sub></td>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/tool-seo-files.png" alt="robots.txt and sitemap generator with both files ready to download"><br><sub><b>robots.txt and sitemap generator</b> builds both files and warns about common mistakes before you publish.</sub></td>
+    <td><img src="docs/screenshots/command-palette.png" alt="Command palette listing recent tools, favourites, pages and actions"><br><sub><b>Command palette</b> (Cmd or Ctrl + K) with recent tools, favourites, pages and actions.</sub></td>
+  </tr>
+  <tr>
     <td><img src="docs/screenshots/tool-json-formatter.png" alt="JSON formatter showing formatted output"><br><sub><b>JSON formatter</b> with exact line and column errors, key sorting and CSV export.</sub></td>
     <td><img src="docs/screenshots/tool-resume-builder.png" alt="Resume builder with a live A4 preview"><br><sub><b>Resume builder</b> with a live A4 preview. Print or save as PDF in any alphabet.</sub></td>
   </tr>
   <tr>
     <td><img src="docs/screenshots/tool-screenshot-beautifier.png" alt="Screenshot beautifier adding a gradient background and shadow"><br><sub><b>Screenshot beautifier</b> adds a background, padding, rounded corners and a shadow. This repo's own screenshots were made with it.</sub></td>
-    <td><img src="docs/screenshots/catalogue.png" alt="Catalogue of all tools with group filters"><br><sub><b>One catalogue</b> for all 46 tools, with filters and instant search.</sub></td>
+    <td><img src="docs/screenshots/catalogue.png" alt="Catalogue of all tools with group filters"><br><sub><b>One catalogue</b> for all 49 tools, with filters and instant search.</sub></td>
   </tr>
   <tr>
     <td><img src="docs/screenshots/ukrainian.png" alt="The landing page in Ukrainian"><br><sub><b>Five languages</b>, switchable at any time. Shown here in Ukrainian.</sub></td>
@@ -55,13 +64,14 @@ Text, data, documents, images and QR codes. No uploads, no accounts, works offli
 
 ## All tools
 
-The catalogue is defined in `public/js/registry.js`.
+The catalogue is defined in `public/js/registry.js`. The tables below are generated from it with `npm run readme`.
 
 ### Writing & text
 
 | Tool | What it does |
 | --- | --- |
 | **Copy analyzer** | Word, character and sentence counts, reading time and Flesch readability. |
+| **Readability checker** | Highlight long sentences and passive voice, and score how easy a text is to read. |
 | **Headline analyzer** | Score a headline on length, power words and numbers. |
 | **Hashtag extractor** | Pull top keywords and suggested hashtags out of any text. |
 | **Text diff** | Compare two texts and highlight what was added or removed. |
@@ -75,6 +85,7 @@ The catalogue is defined in `public/js/registry.js`.
 | **JSON formatter** | Format, minify and validate JSON, or convert an array of objects to CSV. |
 | **Power Automate JSON checker** | Find syntax errors and structural problems in a Power Automate flow definition. |
 | **SQL formatter** | Pretty-print and standardise SQL queries. |
+| **robots.txt and sitemap generator** | Create a robots.txt and a sitemap.xml for your site, with warnings for common mistakes. |
 | **HTML viewer** | Paste or open HTML and preview it safely in an isolated, responsive frame. |
 | **Unit converter** | Convert length, mass, temperature, area, volume, speed, time and data units. |
 | **Date & time toolkit** | Date differences, working days between dates, and time zone conversion. |
@@ -102,6 +113,7 @@ The catalogue is defined in `public/js/registry.js`.
 | **Persona builder** | Build a persona / ICP one-pager and export it as HTML or PDF. |
 | **Newsletter builder** | Build a responsive HTML email newsletter with a live preview. |
 | **Sell sheet** | Build a product one-pager and export it as HTML or PDF. |
+| **Campaign link builder** | Add UTM tracking to links for Google Analytics and other tools, one at a time or from a spreadsheet, with an optional QR code. |
 | **Resume builder** | Fill a form and print a clean CV as PDF. |
 | **Cover letter** | Generate a formatted cover letter and print it as PDF. |
 | **Label sheet** | Lay labels out on a printable A4 grid. |
@@ -112,11 +124,14 @@ The catalogue is defined in `public/js/registry.js`.
 | Tool | What it does |
 | --- | --- |
 | **QR code** | Create QR codes (single or batch) in solid or gradient style, as PNG or SVG. |
+| **QR code reader** | Read a QR code from an image, screenshot or photo and see what it contains, without uploading it. |
+| **Photo metadata cleaner** | See what a photo reveals, such as location, camera and time, and remove it without re-compressing the image. |
 | **Image resizer** | Resize and compress images, or generate a complete favicon pack. |
 | **Image watermark** | Overlay a text or logo watermark with position, opacity and size. |
 | **Social cropper** | Crop images to Instagram, Facebook, LinkedIn and X presets. |
 | **Meme generator** | Add top and bottom captions to an image. |
 | **Brand palette** | Extract a dominant colour palette from an image and export it as CSS. |
+| **Colour contrast checker** | Check text and background colours against WCAG contrast rules and get a passing suggestion. |
 | **Screenshot beautifier** | Add a gradient background, padding, rounded corners and a shadow. |
 | **Browser mockup** | Wrap a screenshot in a browser-window frame. |
 | **Device mockup** | Place a screenshot into a phone or laptop frame. |
@@ -189,7 +204,7 @@ Or, with the Netlify CLI: `npx netlify-cli deploy --prod` from the repository ro
 
 1. Add a `T(...)` entry to `TOOLS` in `public/js/registry.js` (module, category id, kebab-case tool id, icon, name, one-sentence description, search keywords).
 2. Add a definition under the same id in `tools` in the matching `public/js/tools/<module>.js`, with its `fields`, an `example` and a `run()` function (put reusable logic in `public/js/lib/`).
-3. Run `npm run check` and `npm test`, then try it with `npm start`.
+3. Run `npm run precache` (offline file list), `npm run readme` (tool tables) and `npm run check`, then `npm test`, and try it with `npm start`.
 
 ## Project layout
 
@@ -199,7 +214,9 @@ public/            deployed site: index.html, css/, js/, icons/, sw.js, manifest
   js/tools/        tool definitions by category (text, dev, data, docs, image)
   js/lib/          pure helpers (CSV, XLSX, PDF, QR, Markdown, ...)
   js/core/         shared UI: DOM helper, form renderer, runner, image utils
-scripts/           serve.mjs (local server), check.mjs (consistency checks)
+  js/favs.js       favourites and recently used tools (localStorage)
+  js/palette.js    command palette
+scripts/           serve.mjs (local server), check.mjs (consistency checks), update-precache.mjs, update-readme.mjs
 tests/             node:test suites
 netlify.toml       Netlify publish directory and headers
 ```

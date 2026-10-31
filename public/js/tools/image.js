@@ -9,6 +9,7 @@ import { createZip } from '../lib/zip.js';
 import { decodeQrImage } from '../lib/qr-decode.js';
 import { classifyQrText } from '../lib/qr-content.js';
 import { parseColor, toHex, contrastRatio, grade, level, suggestForeground, over } from '../lib/contrast.js';
+import { inspect as inspectPhoto, strip as stripPhoto } from '../lib/exif.js';
 import { t as tr } from '../i18n.js';
 
 const NEED_IMAGE = { empty: 'Add an image to get started.' };
@@ -202,6 +203,46 @@ export const tools = {
         }
       }
       return { sections };
+    },
+  },
+
+  'photo-metadata-cleaner': {
+    fields: [
+      { id: 'photos', type: 'images', label: 'Photos' },
+      { id: 'keepOrientation', type: 'checkbox', label: 'Keep the rotation so photos still open upright', value: true, hint: 'Only the rotation hint stays. It does not identify anyone.' },
+    ],
+    async run({ photos, keepOrientation }) {
+      if (!photos.length) return { empty: 'Add photos to see what they reveal and to remove it.' };
+      if (photos.length > 50) return { error: 'Please use 50 photos or fewer at a time.' };
+      const rows = [];
+      const files = [];
+      let detail = null;
+      for (const it of photos) {
+        try {
+          const bytes = new Uint8Array(await it.file.arrayBuffer());
+          const info = inspectPhoto(bytes);
+          const clean = stripPhoto(bytes, { keepOrientation });
+          const ext = { jpeg: 'jpg', png: 'png', webp: 'webp' }[info.format];
+          const base = it.name.replace(/\.[a-z0-9]+$/i, '');
+          if (clean.removed.length) files.push({ name: `${base}-clean.${ext}`, data: clean.bytes, mime: `image/${info.format}` });
+          rows.push([it.name, info.format.toUpperCase(), info.location ? tr('Yes') : tr('No'), clean.removed.length ? clean.removed.map((r) => tr(r)).join(', ') : tr('Nothing to remove'), formatBytes(bytes.length), formatBytes(clean.bytes.length)]);
+          if (photos.length === 1) detail = info;
+        } catch (e) {
+          rows.push([it.name, '', '', tr(e.message), '', '']);
+        }
+      }
+      const out = { sections: [] };
+      if (detail) {
+        if (detail.fields.length) out.sections.push({ table: { caption: tr('What this photo reveals'), head: [tr('Detail'), tr('Value')], rows: detail.fields.map(([k, v]) => [tr(k), k === 'Orientation' ? tr(v) : v]) } });
+        if (detail.risks.length) out.sections.push({ notice: { kind: 'warn', text: 'This photo can reveal: {list}.', values: { list: detail.risks.map((r) => tr(r)).join(', ') } } });
+        else if (!detail.hasMetadata) out.sections.push({ notice: { kind: 'ok', text: 'No metadata found. This photo is already clean.' } });
+      }
+      const single = rows.length === 1 && rows[0][1] ? rows[0] : null;
+      if (single) out.sections.push({ stats: [['Format', single[1]], ['Location', single[2]], ['Size', single[4]], ['Clean size', single[5]], ['Removed', single[3]]] });
+      else out.sections.push({ table: { caption: tr('Result'), head: [tr('Photo'), tr('Format'), tr('Location'), tr('Removed'), tr('Size')], rows: rows.map((r) => [...r.slice(0, 4), r[5] ? `${r[4]} → ${r[5]}` : '']) } });
+      if (files.length) out.sections.push({ downloads: files.length > 1 ? files : files.map((f) => ({ ...f, label: tr('Download {name}', { name: f.name }) })) });
+      out.sections.push({ notice: 'The pixels are not re-encoded, so quality stays exactly the same. The original files are never changed or uploaded.' });
+      return out;
     },
   },
 

@@ -22,6 +22,8 @@ My Tools Hub is a set of small, private tools that run entirely in the browser. 
 | `public/sw.js`, `public/manifest.webmanifest` | Offline support and PWA metadata |
 | `netlify.toml` | Publish directory and security headers (including the CSP) |
 | `scripts/serve.mjs`, `scripts/check.mjs` | Local server and consistency checks |
+| `scripts/update-precache.mjs`, `scripts/update-readme.mjs` | `npm run precache` rewrites the offline file list and the sitemap date; `npm run readme` regenerates the tool tables |
+| `public/js/favs.js`, `public/js/palette.js` | Favourites and recent tools (localStorage only) and the Cmd or Ctrl + K command palette |
 | `tests/*.test.mjs` | Tests using `node:test` |
 
 ## Localization
@@ -79,7 +81,9 @@ The CSP in `netlify.toml` is strict (`script-src 'self'`, no inline scripts, `ob
 ## Local verification
 
 ```sh
-npm run check      # registry <-> tool modules, unique field ids, external URLs, banned patterns
+npm run precache   # after adding or removing files in public/ (offline file list, sitemap date)
+npm run readme     # after adding a tool (README tables)
+npm run check      # registry <-> tool modules, unique field ids, external URLs, README and sitemap, banned patterns
 npm test           # node --test tests/
 npm start          # serves public/ on http://localhost:8080 with the netlify.toml headers
 ```

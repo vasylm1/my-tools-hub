@@ -12,6 +12,7 @@
     "start": "node scripts/serve.mjs",
     "test": "node --test",
     "check": "node scripts/check.mjs",
-    "precache": "node scripts/update-precache.mjs"
+    "precache": "node scripts/update-precache.mjs",
+    "readme": "node scripts/update-readme.mjs"
   }
 }
