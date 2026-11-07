@@ -365,6 +365,8 @@ function renderPrivacy() {
     h('h2', {}, tr('Page statistics')),
     h('p', {}, tr('I use Umami, a privacy-focused analytics tool that I run on my own server, to see which pages and tools are used. It counts page views and records the referring site, browser, operating system, device type and country. It sets no cookies, follows no one across other sites, and honours your browser’s Do Not Track setting. The legal basis is legitimate interest (Art. 6(1)(f) GDPR). You can object at any time with the switch below, by enabling Do Not Track, or by emailing me.')),
     statsSwitch(),
+    h('h2', {}, tr('Google Search Console')),
+    h('p', {}, tr('I also use Google Search Console, a free tool from Google, to see how this site appears in Google Search: which searches lead here and how often. Google supplies these figures from its own search service. Nothing is loaded from Google when you visit this site, and the verification tag in the page only proves that I own it. The figures are aggregated and do not identify you.')),
     h('h2', {}, tr('Currency converter')),
     h('p', {}, tr('Only this tool contacts another service. To show exchange rates it requests a public rate table from open.er-api.com ('), ext('https://www.exchangerate-api.com', 'Exchange Rate API'), tr('), which therefore sees your IP address and the base currency code. Your amounts are never sent.')),
     h('h2', {}, tr('Cookies and browser storage')),
