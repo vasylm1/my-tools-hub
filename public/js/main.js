@@ -147,9 +147,9 @@ const heroWindow = () => buildHero({ tr, byId });
 // "Your tools": recently used and favourite tools, shown on the home page only once there is something to show.
 function yourTools() {
   const box = h('section', { class: 'wrap section your-tools', 'aria-label': tr('Your tools') });
-  const row = (title, ids) => ids.length && h('div', { class: 'case' },
+  const row = (title, ids) => ids.length ? h('div', { class: 'case' },
     h('div', { class: 'case-text' }, h('h3', {}, tr(title))),
-    h('div', { class: 'case-tools' }, ...ids.map((id) => h('a', { class: 'pill', href: `/${id}` }, icon(byId[id].icon, 15), tr(byId[id].name)))));
+    h('div', { class: 'case-tools' }, ...ids.map((id) => h('a', { class: 'pill', href: `/${id}` }, icon(byId[id].icon, 15), tr(byId[id].name))))) : null;
   const paint = () => {
     const rec = recents().slice(0, 4);
     const fav = favourites();
